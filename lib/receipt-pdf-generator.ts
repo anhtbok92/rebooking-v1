@@ -10,6 +10,8 @@ interface ReceiptData {
 	servicePrice: number
 	paymentMethod: string
 	status: string
+	locale?: string
+	currency?: string
 }
 
 export async function generateReceiptPDF(data: ReceiptData): Promise<Buffer> {
@@ -43,11 +45,10 @@ export async function generateReceiptPDF(data: ReceiptData): Promise<Buffer> {
 					"--disable-gpu",
 				],
 				defaultViewport: { width: 1920, height: 1080 },
-				...(executablePath && { executablePath }),
-				headless: true,
+				executablePath,
 			})
 		} else {
-			// For local development, try puppeteer-core with system Chrome/Chromium
+			// Local development - use puppeteer-core with system Chrome/Chromium
 			// If that fails, it will fall back to using @sparticuz/chromium
 			try {
 				const puppeteer = await import("puppeteer-core")
@@ -101,39 +102,25 @@ export async function generateReceiptPDF(data: ReceiptData): Promise<Buffer> {
 						"--disable-gpu",
 					],
 					defaultViewport: { width: 1920, height: 1080 },
-					...(executablePath && { executablePath }),
-					headless: true,
+					executablePath,
 				})
 			}
 		}
 
 		const page = await browser.newPage()
-
-		// Set content
-		await page.setContent(html, {
-			waitUntil: "networkidle0",
-		})
-
-		// Generate PDF
-		const pdf = await page.pdf({
+		await page.setContent(html, { waitUntil: "networkidle0" })
+		const pdfBuffer = await page.pdf({
 			format: "A4",
 			printBackground: true,
-			margin: {
-				top: "20px",
-				right: "20px",
-				bottom: "20px",
-				left: "20px",
-			},
 		})
 
-		return Buffer.from(pdf)
+		return Buffer.from(pdfBuffer)
 	} catch (error) {
 		console.error("Error generating PDF:", error)
-		throw new Error("Failed to generate PDF")
+		throw error
 	} finally {
 		if (browser) {
 			await browser.close()
 		}
 	}
 }
-

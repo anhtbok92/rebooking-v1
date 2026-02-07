@@ -1,7 +1,6 @@
-"use client"
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useBookings, useBookingStats } from "@/lib/swr"
+import { useSystemSettings } from "@/lib/swr/system-settings"
 import { useMemo, useState } from "react"
 import { toast } from "sonner"
 import { BookingFilters } from "./bookings/BookingFilters"
@@ -9,6 +8,7 @@ import { BookingStatsCards } from "./bookings/BookingStatsCards"
 import { BookingTabs } from "./bookings/BookingTabs"
 
 import { useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
 
 interface BookingsManagementProps {
 	filterByToday?: boolean
@@ -16,6 +16,8 @@ interface BookingsManagementProps {
 
 export function BookingsManagement({ filterByToday = false }: BookingsManagementProps) {
 	const t = useTranslations("Admin.bookings")
+	const locale = useLocale()
+	const { currency } = useSystemSettings()
 	const [activeTab, setActiveTab] = useState<"new" | "pending" | "completed" | "all">("new")
 	const [newPage, setNewPage] = useState(1)
 	const [pendingPage, setPendingPage] = useState(1)
@@ -137,7 +139,7 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 	// Handle download receipt
 	const handleDownloadReceipt = async (bookingId: string) => {
 		try {
-			const response = await fetch(`/api/v1/bookings/${bookingId}/receipt?format=pdf`)
+			const response = await fetch(`/api/v1/bookings/${bookingId}/receipt?format=pdf&locale=${locale}&currency=${currency}`)
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({ error: t("messages.receiptError") }))
 				throw new Error(errorData.error || t("messages.receiptError"))
@@ -228,6 +230,7 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 						onPendingPageChange={setPendingPage}
 						onCompletedPageChange={setCompletedPage}
 						onAllPageChange={setAllPage}
+						currency={currency}
 					/>
 				</CardContent>
 			</Card>

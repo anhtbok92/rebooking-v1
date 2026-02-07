@@ -41,6 +41,7 @@ interface BookingTabsProps {
 	onPendingPageChange: (page: number) => void
 	onCompletedPageChange: (page: number) => void
 	onAllPageChange: (page: number) => void
+	currency?: string
 }
 
 import { useTranslations } from "next-intl"
@@ -65,6 +66,7 @@ export function BookingTabs({
 	onPendingPageChange,
 	onCompletedPageChange,
 	onAllPageChange,
+	currency,
 }: BookingTabsProps) {
 	const t = useTranslations("Admin.bookings")
 	const renderBookings = (bookings: Booking[], showConfirmButton = false) => {
@@ -90,6 +92,7 @@ export function BookingTabs({
 						onDownloadReceipt={onDownloadReceipt}
 						onDelete={onDelete}
 						showConfirmButton={showConfirmButton}
+						currency={currency}
 					/>
 				))}
 			</div>

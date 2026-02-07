@@ -36,6 +36,7 @@ interface BookingCardProps {
 	onDownloadReceipt: (bookingId: string) => void
 	onDelete: (bookingId: string) => void
 	showConfirmButton?: boolean
+	currency?: string
 }
 
 import { useTranslations } from "next-intl"
@@ -47,6 +48,7 @@ export function BookingCard({
 	onDownloadReceipt,
 	onDelete,
 	showConfirmButton = false,
+	currency = "USD",
 }: BookingCardProps) {
 	const t = useTranslations("Admin.bookings.card")
 	const tStats = useTranslations("Admin.stats")
@@ -96,6 +98,21 @@ export function BookingCard({
 		}
 	}
 
+	// Format currency
+	const formatCurrency = (amount: number) => {
+		if (currency === "VND") {
+			return `${amount.toLocaleString('vi-VN')} đ`
+		}
+		return `$${amount.toLocaleString()}`
+	}
+
+	// Translate payment method
+	const getPaymentMethodLabel = (method: string | null | undefined) => {
+		if (!method) return "N/A"
+		const tPayment = useTranslations("Admin.bookings.payment")
+		return method === "cash" ? tPayment("cash") : tPayment("card")
+	}
+
 	const userEmail = booking.user?.email || booking.email || null
 
 	return (
@@ -141,7 +158,7 @@ export function BookingCard({
 					<div className="flex flex-col items-end gap-2">
 						<div className="flex items-center gap-2">
 							<DollarSign className="w-5 h-5" />
-							<span className="text-lg font-semibold">${booking.service.price.toLocaleString()}</span>
+							<span className="text-lg font-semibold">{formatCurrency(booking.service.price)}</span>
 						</div>
 						{getStatusBadge(booking.status)}
 					</div>
@@ -161,7 +178,7 @@ export function BookingCard({
 								<SelectItem value="CANCELLED">{tStats("cancelled")}</SelectItem>
 							</SelectContent>
 						</Select>
-						<Badge variant="outline">{booking.paymentMethod || "N/A"}</Badge>
+						<Badge variant="outline">{getPaymentMethodLabel(booking.paymentMethod)}</Badge>
 					</div>
 					<div className="flex gap-2">
 						{showConfirmButton && booking.status === "PENDING" && (
@@ -203,4 +220,3 @@ export function BookingCard({
 		</Card>
 	)
 }
-

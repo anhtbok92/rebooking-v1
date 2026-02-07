@@ -16,6 +16,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 		const { id } = await params
 		const { searchParams } = new URL(request.url)
 		const format = searchParams.get("format") || "pdf" // Default to PDF
+		const locale = searchParams.get("locale") || "en" // Get locale from query params
+		const currency = searchParams.get("currency") || "USD" // Get currency from query params
 
 		const booking = await prisma.booking.findUnique({
 			where: { id },
@@ -50,6 +52,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 			servicePrice: booking.service.price,
 			paymentMethod: booking.paymentMethod,
 			status: booking.status,
+			locale: locale, // Pass locale
+			currency: currency, // Pass currency
 		}
 
 		// Generate PDF or HTML based on format parameter

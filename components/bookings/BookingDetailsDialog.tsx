@@ -1,47 +1,42 @@
-"use client"
-
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, DollarSign, Mail, Phone, User, Download, Image as ImageIcon } from "lucide-react"
-
-interface Booking {
-	id: string
-	service: {
-		id: string
-		name: string
-		price: number
-	}
-	userName: string
-	phone: string
-	email?: string | null
-	date: string
-	time: string
-	status: string
-	paymentMethod: string
-	user?: {
-		id: string
-		name: string | null
-		email: string
-		phone: string | null
-	} | null
-	photos?: Array<{ url: string }>
-	createdAt?: string
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Calendar, Clock, DollarSign, Download, Mail, Phone, User } from "lucide-react"
+import { formatBookingDateTime } from "@/lib/utils"
+import { useTranslations } from "next-intl"
+import { useLocale } from "next-intl"
+import { useSystemSettings } from "@/lib/swr/system-settings"
 
 interface BookingDetailsDialogProps {
-	booking: Booking
-	open: boolean
-	onOpenChange: (open: boolean) => void
-	userRole?: string
+	booking: {
+		id: string
+		service: { name: string; price: number }
+		userName: string
+		phone: string
+		email?: string | null
+		date: string
+		time: string
+		status: string
+		paymentMethod?: string | null
+		createdAt?: string | null
+	}
+	isOpen: boolean
+	onClose: () => void
 }
 
-import { useTranslations, useLocale } from "next-intl"
-
-export function BookingDetailsDialog({ booking, open, onOpenChange, userRole }: BookingDetailsDialogProps) {
-	const t = useTranslations("Admin.calendar.details")
+export function BookingDetailsDialog({ booking, isOpen, onClose }: BookingDetailsDialogProps) {
+	const t = useTranslations("Admin.bookings")
 	const tStats = useTranslations("Admin.stats")
 	const locale = useLocale()
+	const { currency } = useSystemSettings()
+
 	const getStatusBadge = (status: string) => {
 		switch (status) {
 			case "CONFIRMED":
@@ -58,7 +53,7 @@ export function BookingDetailsDialog({ booking, open, onOpenChange, userRole }: 
 
 	const handleDownloadReceipt = async () => {
 		try {
-			const response = await fetch(`/api/v1/bookings/${booking.id}/receipt?format=pdf`)
+			const response = await fetch(`/api/v1/bookings/${booking.id}/receipt?format=pdf&locale=${locale}&currency=${currency}`)
 			if (!response.ok) {
 				throw new Error("Failed to download receipt")
 			}
@@ -76,117 +71,81 @@ export function BookingDetailsDialog({ booking, open, onOpenChange, userRole }: 
 		}
 	}
 
-	const userEmail = booking.user?.email || booking.email || null
-	const userPhone = booking.user?.phone || booking.phone || null
+	// Format currency
+	const formatCurrency = (amount: number) => {
+		if (currency === "VND") {
+			return `${amount.toLocaleString('vi-VN')} đ`
+		}
+		return `$${amount.toLocaleString()}`
+	}
+
+	// Translate payment method
+	const getPaymentMethodLabel = (method: string | null | undefined) => {
+		if (!method) return "N/A"
+		const tPayment = useTranslations("Admin.bookings.payment")
+		return method === "cash" ? tPayment("cash") : tPayment("card")
+	}
 
 	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+		<Dialog open={isOpen} onOpenChange={onClose}>
+			<DialogContent className="max-w-2xl">
 				<DialogHeader>
-					<DialogTitle>{t("title")}</DialogTitle>
-					<DialogDescription>{t("description")}</DialogDescription>
+					<DialogTitle>{booking.service.name}</DialogTitle>
+					<DialogDescription>
+						{formatBookingDateTime(booking.date, booking.time)}
+					</DialogDescription>
 				</DialogHeader>
-
-				<div className="space-y-4 mt-4">
-					{/* Service Info */}
-					<div className="border-b pb-4">
-						<h3 className="font-semibold text-lg mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-							{booking.service.name}
-						</h3>
-						<div className="flex items-center gap-2">
-							<DollarSign className="w-4 h-4 text-muted-foreground" />
-							<span className="text-lg font-bold text-primary">${booking.service.price.toLocaleString()}</span>
-						</div>
-					</div>
-
-					{/* Customer Info */}
-					<div className="border-b pb-4 space-y-2">
-						<h3 className="font-semibold mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-							{t("customerInfo")}
-						</h3>
-						<div className="space-y-2">
-							<div className="flex items-center gap-2">
-								<User className="w-4 h-4 text-muted-foreground" />
-								<span>{booking.userName}</span>
+				<div className="grid gap-6">
+					<Card>
+						<CardHeader>
+							<CardTitle>Booking Details</CardTitle>
+						</CardHeader>
+						<CardContent className="space-y-4">
+							<div className="flex items-center gap-3">
+								<User className="w-5 h-5 text-muted-foreground" />
+								<span className="font-medium">{booking.userName}</span>
 							</div>
-							{userEmail && (
-								<div className="flex items-center gap-2">
-									<Mail className="w-4 h-4 text-muted-foreground" />
-									<span>{userEmail}</span>
+							{booking.email && (
+								<div className="flex items-center gap-3">
+									<Mail className="w-5 h-5 text-muted-foreground" />
+									<span>{booking.email}</span>
 								</div>
 							)}
-							{userPhone && (
-								<div className="flex items-center gap-2">
-									<Phone className="w-4 h-4 text-muted-foreground" />
-									<span>{userPhone}</span>
-								</div>
-							)}
-						</div>
-					</div>
-
-					{/* Booking Details */}
-					<div className="border-b pb-4 space-y-2">
-						<h3 className="font-semibold mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-							{t("bookingInfo")}
-						</h3>
-						<div className="space-y-2">
-							<div className="flex items-center gap-2">
-								<Calendar className="w-4 h-4 text-muted-foreground" />
-								<span>{new Date(booking.date).toLocaleDateString(locale === "vi" ? "vi-VN" : "en-US", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
+							<div className="flex items-center gap-3">
+								<Phone className="w-5 h-5 text-muted-foreground" />
+								<span>{booking.phone}</span>
 							</div>
-							<div className="flex items-center gap-2">
-								<Clock className="w-4 h-4 text-muted-foreground" />
+							<div className="flex items-center gap-3">
+								<Calendar className="w-5 h-5 text-muted-foreground" />
+								<span>{new Date(booking.date).toLocaleDateString()}</span>
+							</div>
+							<div className="flex items-center gap-3">
+								<Clock className="w-5 h-5 text-muted-foreground" />
 								<span>{booking.time}</span>
 							</div>
-							<div className="flex items-center gap-2">
-								<span className="font-medium">{t("status")}:</span>
+							<div className="flex items-center gap-3">
+								<DollarSign className="w-5 h-5 text-muted-foreground" />
+								<span className="font-semibold">{formatCurrency(booking.service.price)}</span>
+							</div>
+							<div className="flex items-center gap-3">
+								<span className="text-muted-foreground">Payment Method:</span>
+								<Badge variant="outline">{getPaymentMethodLabel(booking.paymentMethod)}</Badge>
+							</div>
+							<div className="flex items-center gap-3">
+								<span className="text-muted-foreground">Status:</span>
 								{getStatusBadge(booking.status)}
 							</div>
-							<div className="flex items-center gap-2">
-								<span className="font-medium">{t("paymentMethod")}:</span>
-								<span className="capitalize">{booking.paymentMethod}</span>
-							</div>
-							{booking.createdAt && (
-								<div className="text-sm text-muted-foreground">
-									{useTranslations("Admin.bookings.card")("created")}: {new Date(booking.createdAt).toLocaleString()}
-								</div>
-							)}
-						</div>
-					</div>
-
-					{/* Photos */}
-					{booking.photos && booking.photos.length > 0 && (
-						<div className="border-b pb-4">
-							<h3 className="font-semibold mb-2 flex items-center gap-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-								<ImageIcon className="w-4 h-4" />
-								{t("photos")} ({booking.photos.length})
-							</h3>
-							<div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-								{booking.photos.map((photo, index) => (
-									<img
-										key={index}
-										src={photo.url}
-										alt={`Booking photo ${index + 1}`}
-										className="w-full h-24 object-cover rounded-lg border"
-									/>
-								))}
-							</div>
-						</div>
-					)}
-
-					{/* Actions */}
-					<div className="flex gap-2 justify-end pt-4">
+						</CardContent>
+					</Card>
+					<div className="flex justify-end gap-3">
 						<Button variant="outline" onClick={handleDownloadReceipt}>
 							<Download className="w-4 h-4 mr-2" />
-							{t("downloadReceipt")}
+							{t("card.receipt")}
 						</Button>
-						<Button variant="outline" onClick={() => onOpenChange(false)}>
-							{t("close")}
-						</Button>
+						<Button onClick={onClose}>Close</Button>
 					</div>
 				</div>
 			</DialogContent>
 		</Dialog>
 	)
 }
-

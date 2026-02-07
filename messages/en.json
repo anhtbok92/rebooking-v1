@@ -199,27 +199,25 @@
         "bookings": {
             "title": "Booking Management",
             "description": "View and manage customer appointments",
-            "customer": "Customer",
-            "service": "Service",
-            "date": "Date",
-            "time": "Time",
-            "status": "Status",
-            "actions": "Actions",
-            "tabs": {
-                "new": "New",
-                "pending": "Pending",
-                "completed": "Completed",
-                "all": "All Bookings"
-            },
             "card": {
-                "noBookings": "No bookings found for this category",
+                "noBookings": "No bookings found",
                 "created": "Created",
                 "confirm": "Confirm",
                 "receipt": "Receipt",
                 "delete": "Delete",
                 "deleteConfirmTitle": "Are you absolutely sure?",
-                "deleteConfirmDescription": "This action cannot be undone. This will permanently delete the booking from our servers.",
+                "deleteConfirmDescription": "This action cannot be undone. This will permanently delete the booking.",
                 "cancel": "Cancel"
+            },
+            "payment": {
+                "cash": "Cash",
+                "card": "Card"
+            },
+            "tabs": {
+                "new": "New",
+                "pending": "Pending",
+                "completed": "Completed",
+                "all": "All Bookings"
             },
             "messages": {
                 "statusSuccess": "Booking status updated successfully",

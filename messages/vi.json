@@ -199,27 +199,25 @@
         "bookings": {
             "title": "Quản lý đặt lịch",
             "description": "Xem và quản lý các cuộc hẹn của khách hàng",
-            "customer": "Khách hàng",
-            "service": "Dịch vụ",
-            "date": "Ngày",
-            "time": "Giờ",
-            "status": "Trạng thái",
-            "actions": "Thao tác",
-            "tabs": {
-                "new": "Mới",
-                "pending": "Đang chờ",
-                "completed": "Đã hoàn thành",
-                "all": "Tất cả đặt lịch"
-            },
             "card": {
-                "noBookings": "Không tìm thấy lịch đặt nào trong danh mục này",
+                "noBookings": "Không tìm thấy đặt lịch nào",
                 "created": "Đã tạo",
                 "confirm": "Xác nhận",
                 "receipt": "Hóa đơn",
                 "delete": "Xóa",
                 "deleteConfirmTitle": "Bạn có chắc chắn không?",
-                "deleteConfirmDescription": "Hành động này không thể hoàn tác. Lịch đặt này sẽ bị xóa vĩnh viễn khỏi máy chủ.",
+                "deleteConfirmDescription": "Hành động này không thể hoàn tác. Điều này sẽ xóa vĩnh viễn đặt lịch.",
                 "cancel": "Hủy"
+            },
+            "payment": {
+                "cash": "Tiền mặt",
+                "card": "Thẻ"
+            },
+            "tabs": {
+                "new": "Mới",
+                "pending": "Đang chờ",
+                "completed": "Đã hoàn thành",
+                "all": "Tất cả đặt lịch"
             },
             "messages": {
                 "statusSuccess": "Cập nhật trạng thái đặt lịch thành công",
