@@ -3,13 +3,12 @@
 import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { X, ShoppingCart, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useBookingForm } from '@/components/SimpleBookingForm/useBookingForm'
 import { ServiceSelection } from '@/components/SimpleBookingForm/ServiceSelection'
 import { CalendarCard } from '@/components/SimpleBookingForm/CalendarCard'
 import { TimeSelection } from '@/components/SimpleBookingForm/TimeSelection'
 import { PhotoUpload } from '@/components/SimpleBookingForm/PhotoUpload'
-import { CartSummary } from '@/components/SimpleBookingForm/CartSummary'
 import { useCart } from '@/hooks/use-redux-cart'
 import { toast } from 'sonner'
 
@@ -21,7 +20,6 @@ interface MobileBookingProps {
 
 export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBookingProps) {
   const [step, setStep] = useState(1)
-  const [isCartOpen, setIsCartOpen] = useState(false)
   
   const form = useBookingForm(initialServiceId)
   const {
@@ -60,19 +58,6 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
     }
   }, [cartCount, isInit])
 
-  // Open cart when item added
-  useEffect(() => {
-    if (!isInit && prevCartCount !== null && cartCount > prevCartCount && cartCount > 0) {
-      setIsCartOpen(true)
-    }
-    setPrevCartCount(cartCount)
-  }, [cartCount, isInit, prevCartCount])
-
-  // Close cart when empty
-  useEffect(() => {
-    if (cartCount === 0) setIsCartOpen(false)
-  }, [cartCount])
-
   // Auto add to cart when all selected
   useEffect(() => {
     if (selectedService && selectedDate && selectedTime) {
@@ -101,7 +86,6 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
   useEffect(() => {
     if (!open) {
       setStep(1)
-      setIsCartOpen(false)
     }
   }, [open])
 
@@ -258,46 +242,6 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* Cart Button */}
-      {cartCount > 0 && (
-        <button
-          onClick={() => setIsCartOpen(true)}
-          className="fixed bottom-20 right-4 z-50 w-14 h-14 bg-primary rounded-full shadow-lg flex items-center justify-center"
-        >
-          <ShoppingCart className="w-6 h-6 text-slate-900" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
-            {cartCount}
-          </span>
-        </button>
-      )}
-
-      {/* Cart Sidebar */}
-      {isCartOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={() => setIsCartOpen(false)}
-          />
-          <div className="fixed top-0 right-0 h-full w-full max-w-[430px] bg-white dark:bg-slate-900 shadow-2xl z-50 transform transition-transform duration-300">
-            <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
-              <div className="flex items-center gap-2">
-                <ShoppingCart className="w-5 h-5 text-primary" />
-                <h2 className="text-lg font-bold">Giỏ hàng ({cartCount})</h2>
-              </div>
-              <button
-                onClick={() => setIsCartOpen(false)}
-                className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="h-[calc(100vh-80px)] overflow-y-auto p-4">
-              <CartSummary onClose={() => setIsCartOpen(false)} />
-            </div>
-          </div>
-        </>
-      )}
     </>
   )
 }
