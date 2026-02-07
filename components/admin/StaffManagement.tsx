@@ -35,6 +35,7 @@ interface StaffManagementProps {
 import { useTranslations } from "next-intl"
 
 export function StaffManagement({ onStaffAdded }: StaffManagementProps) {
+	const tCommon = useTranslations("Common")
 	const t = useTranslations("Admin.staff")
 	const [isOpen, setIsOpen] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -174,8 +175,8 @@ export function StaffManagement({ onStaffAdded }: StaffManagementProps) {
 				</div>
 			</CardHeader>
 			<CardContent>
-				{!staff ? (
-					<div className="text-center py-8">Loading...</div>
+				{!response ? (
+					<div className="text-center py-8">{tCommon("loading")}</div>
 				) : staff.length === 0 ? (
 					<div className="text-center py-8 text-muted-foreground">{t("noStaff")}</div>
 				) : (
@@ -189,7 +190,7 @@ export function StaffManagement({ onStaffAdded }: StaffManagementProps) {
 										<p className="text-sm text-muted-foreground">{member.phone}</p>
 									</div>
 									<div className="flex items-center gap-2">
-										<Badge>{member.role}</Badge>
+										<Badge>{tCommon(`roles.${member.role}` as any)}</Badge>
 										<AlertDialog>
 											<AlertDialogTrigger asChild>
 												<Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">

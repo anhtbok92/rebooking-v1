@@ -16,7 +16,8 @@
         "signOut": "Đăng xuất",
         "title": "Quản lý Spa Cao Cấp",
         "startBooking": "Bắt đầu đặt lịch",
-        "testAccount": "Thử nghiệm với tài khoản Demo"
+        "testAccount": "Thử nghiệm với tài khoản Demo",
+        "loading": "Đang tải..."
     },
     "Hero": {
         "title": "Trải Nghiệm Spa Cao Cấp",
@@ -101,7 +102,10 @@
             "cancelledDesc": "Khách hàng hoặc hệ thống đã hủy"
         },
         "charts": {
-            "revenue": "Doanh thu theo thời gian",
+            "revenue": "Doanh thu",
+            "revenueTitle": "Doanh thu & Đặt lịch",
+            "revenueDesc": "Tần suất doanh thu và đặt lịch trong 6 tháng qua",
+            "bookings": "Đặt lịch",
             "popularity": "Dịch vụ phổ biến",
             "popularTitle": "Dịch vụ phổ biến",
             "popularDesc": "Các liệu trình được đặt nhiều nhất trong tháng này",
@@ -126,17 +130,55 @@
             "status": "Trạng thái",
             "actions": "Thao tác",
             "edit": "Sửa",
-            "delete": "Xóa"
+            "delete": "Xóa",
+            "onlySuperAdmin": "Chỉ Quản trị viên cấp cao mới có quyền thay đổi vai trò người dùng",
+            "cannotChangeOwn": "Bạn không thể tự thay đổi vai trò của chính mình",
+            "roleUpdateSuccess": "Cập nhật vai trò người dùng thành công",
+            "roleUpdateError": "Không thể cập nhật vai trò người dùng",
+            "noPermission": "Bạn không có quyền quản lý người dùng. Trang này chỉ có thể xem.",
+            "searchPlaceholder": "Tìm kiếm theo tên, email hoặc số điện thoại...",
+            "sortBy": "Sắp xếp theo",
+            "sortNameAsc": "Tên (A-Z)",
+            "sortNameDesc": "Tên (Z-A)",
+            "sortDateDesc": "Đăng ký mới nhất",
+            "sortDateAsc": "Đăng ký cũ nhất",
+            "filterByRole": "Lọc theo vai trò",
+            "allRoles": "Tất cả vai trò",
+            "reset": "Đặt lại bộ lọc",
+            "you": "(Bạn)",
+            "pagination": "Đang hiển thị {page} trên {pages} ({total} người dùng)",
+            "prev": "Trước",
+            "next": "Tiếp theo"
         },
         "services": {
             "title": "Quản lý dịch vụ",
             "description": "Thêm, sửa và quản lý các dịch vụ spa hiện có",
             "add": "Thêm dịch vụ",
-            "name": "Tên dịch vụ",
-            "price": "Giá",
-            "duration": "Thời lượng (phút)",
-            "category": "Danh mục",
-            "status": "Trạng thái"
+            "addSuccess": "Thêm dịch vụ thành công",
+            "addError": "Không thể thêm dịch vụ",
+            "updateSuccess": "Cập nhật dịch vụ thành công",
+            "updateError": "Không thể cập nhật dịch vụ",
+            "deleteSuccess": "Xóa dịch vụ thành công",
+            "deleteError": "Không thể xóa dịch vụ",
+            "sortBy": "Sắp xếp theo",
+            "sortNameAsc": "Tên (A-Z)",
+            "sortNameDesc": "Tên (Z-A)",
+            "sortPriceAsc": "Giá (Thấp-Cao)",
+            "sortPriceDesc": "Giá (Cao-Thấp)",
+            "addService": "Thêm dịch vụ",
+            "addNewService": "Thêm dịch vụ mới",
+            "createDescription": "Thêm một liệu trình mới vào danh mục dịch vụ của spa",
+            "serviceName": "Tên dịch vụ",
+            "price": "Giá dịch vụ",
+            "adding": "Đang thêm...",
+            "editService": "Sửa dịch vụ",
+            "updateDescription": "Cập nhật thông tin chi tiết của dịch vụ spa",
+            "saving": "Đang lưu...",
+            "saveChanges": "Lưu thay đổi",
+            "edit": "Sửa",
+            "delete": "Xóa",
+            "deleteConfirmTitle": "Bạn có chắc chắn không?",
+            "deleteConfirmDescription": "Hành động này không thể hoàn tác. Dịch vụ này sẽ bị xóa vĩnh viễn khỏi danh mục của chúng tôi."
         },
         "bookings": {
             "title": "Quản lý đặt lịch",
@@ -170,6 +212,14 @@
                 "deleteError": "Không thể xóa đặt lịch",
                 "receiptSuccess": "Đã tải hóa đơn thành công",
                 "receiptError": "Không thể tạo hóa đơn"
+            },
+            "filters": {
+                "sortBy": "Sắp xếp theo",
+                "sortDateDesc": "Mới nhất",
+                "sortDateAsc": "Cũ nhất",
+                "sortPriceDesc": "Giá: Cao nhất",
+                "sortPriceAsc": "Giá: Thấp nhất",
+                "reset": "Đặt lại"
             }
         },
         "calendar": {
@@ -208,7 +258,17 @@
         },
         "analytics": {
             "title": "Phân tích toàn diện",
-            "description": "Các chỉ số hiệu suất kinh doanh chi tiết"
+            "description": "Các chỉ số hiệu suất kinh doanh chi tiết",
+            "kpi": {
+                "totalCustomers": "Tổng khách hàng",
+                "uniqueCustomers": "Khách hàng hoạt động",
+                "returningCustomers": "Khách hàng quay lại",
+                "retentionRate": "Tỷ lệ quay lại: {percent}%",
+                "avgBooking": "Giá trị đặt lịch TB",
+                "perBooking": "Trung bình mỗi đơn",
+                "completionRate": "Tỷ lệ hoàn thành",
+                "completed": "Đã hoàn thành {count} lượt"
+            }
         },
         "referrals": {
             "title": "Quản lý Giới thiệu & Tiếp thị liên kết",
@@ -216,12 +276,81 @@
             "stats": {
                 "total": "Tổng số lượt giới thiệu",
                 "active": "Giới thiệu đang hoạt động",
-                "points": "Điểm đã thưởng"
+                "points": "Điểm đã thưởng",
+                "totalCodes": "Tổng số mã giới thiệu",
+                "totalReferrals": "Tổng lượt giới thiệu thành công",
+                "totalPoints": "Tổng điểm đã trao tặng",
+                "activeAffiliates": "Đối tác đang hoạt động"
+            },
+            "actions": {
+                "generateAll": "Tạo mã cho tất cả",
+                "refresh": "Làm mới danh sách",
+                "generating": "Đang tạo...",
+                "viewDetails": "Xem chi tiết",
+                "copy": "Đã sao chép mã vào bộ nhớ tạm",
+                "generateSuccess": "Đã tạo mã giới thiệu cho tất cả người dùng",
+                "generateError": "Không thể tạo mã giới thiệu"
+            },
+            "list": {
+                "title": "Mạng lưới Tiếp thị",
+                "description": "Tìm kiếm và quản lý mã giới thiệu của người dùng",
+                "noCodes": "Không tìm thấy mã giới thiệu nào trong hệ thống",
+                "referralsCount": "{count} lượt giới thiệu",
+                "ptsPerReferral": "{count} điểm/lượt",
+                "totalPts": "tổng {count} điểm",
+                "userPts": "{count} điểm người dùng",
+                "created": "Đã tạo: {date}"
+            },
+            "details": {
+                "title": "Thông tin chi tiết Giới thiệu",
+                "description": "Dữ liệu hiệu suất chi tiết cho mã giới thiệu này",
+                "loadError": "Không thể tải chi tiết giới thiệu",
+                "updateSuccess": "Đã cập nhật số điểm mỗi lượt giới thiệu",
+                "updateError": "Không thể cập nhật số điểm",
+                "pointsAwarded": "Điểm đã trao tặng",
+                "totalRewards": "Tổng số phần thưởng",
+                "codeInfo": "Thông tin mã",
+                "referralCode": "Mã giới thiệu",
+                "pointsPerReferral": "Điểm mỗi lượt giới thiệu",
+                "edit": "Sửa",
+                "codeOwner": "Chủ sở hữu mã",
+                "ownerInfo": "{name} ({email}) - Điểm hiện tại: {points}",
+                "referralsByUser": "Người dùng được giới thiệu",
+                "referralsByUserDesc": "Danh sách người dùng đã sử dụng mã này",
+                "referredCount": "{count} lượt giới thiệu",
+                "referredPoints": "tổng {count} điểm",
+                "firstLast": "Đầu: {first} • Cuối: {last}",
+                "recentRewards": "Lịch sử phần thưởng gần đây",
+                "recentRewardsDesc": "5 phần thưởng cuối cùng được tạo từ mã này",
+                "editTitle": "Cập nhật Thưởng Giới thiệu",
+                "editDesc": "Thay đổi số điểm được thưởng cho mỗi lượt giới thiệu mới",
+                "cancel": "Hủy",
+                "update": "Cập nhật"
             }
         },
         "staff": {
             "title": "Quản lý nhân viên",
-            "description": "Quản lý kỹ thuật viên và phân công nhân viên"
+            "description": "Quản lý kỹ thuật viên và phân công nhiệm vụ",
+            "addSuccess": "Thêm nhân viên thành công",
+            "addError": "Không thể thêm nhân viên",
+            "removeSuccess": "Đã xóa nhân viên thành công",
+            "removeError": "Không thể xóa nhân viên",
+            "addStaff": "Thêm nhân viên",
+            "addNewStaff": "Thêm nhân viên mới",
+            "createDescription": "Tạo tài khoản mới cho nhân viên",
+            "fullName": "Họ và tên",
+            "email": "Địa chỉ Email",
+            "phone": "Số điện thoại",
+            "password": "Mật khẩu",
+            "adding": "Đang thêm...",
+            "noStaff": "Không tìm thấy nhân viên nào",
+            "deleteTitle": "Xóa nhân viên",
+            "deleteConfirm": "Bạn có chắc chắn muốn xóa {name} khỏi danh sách nhân viên?",
+            "cancel": "Hủy",
+            "delete": "Xóa",
+            "pagination": "Đang hiển thị {page} trên {pages} ({total} nhân viên)",
+            "prev": "Trước",
+            "next": "Tiếp theo"
         },
         "discounts": {
             "title": "Quản lý Giảm giá & Khuyến mãi",

@@ -16,7 +16,8 @@
         "signOut": "Sign Out",
         "title": "Premium Spa Management",
         "startBooking": "Start Booking",
-        "testAccount": "Test with Demo Account"
+        "testAccount": "Test with Demo Account",
+        "loading": "Loading..."
     },
     "Hero": {
         "title": "Premium Spa Experience",
@@ -101,7 +102,10 @@
             "cancelledDesc": "Customer or system cancelled"
         },
         "charts": {
-            "revenue": "Revenue over time",
+            "revenue": "Revenue",
+            "revenueTitle": "Revenue & Bookings",
+            "revenueDesc": "Revenue and booking frequency for the last 6 months",
+            "bookings": "Bookings",
             "popularity": "Service Popularity",
             "popularTitle": "Popular Services",
             "popularDesc": "Most booked treatments this month",
@@ -126,17 +130,55 @@
             "status": "Status",
             "actions": "Actions",
             "edit": "Edit",
-            "delete": "Delete"
+            "delete": "Delete",
+            "onlySuperAdmin": "Only Super Admins can change user roles",
+            "cannotChangeOwn": "You cannot change your own role",
+            "roleUpdateSuccess": "User role updated successfully",
+            "roleUpdateError": "Failed to update user role",
+            "noPermission": "You do not have permission to manage users. This page is view-only.",
+            "searchPlaceholder": "Search by name, email or phone...",
+            "sortBy": "Sort by",
+            "sortNameAsc": "Name (A-Z)",
+            "sortNameDesc": "Name (Z-A)",
+            "sortDateDesc": "Newest Registered",
+            "sortDateAsc": "Oldest Registered",
+            "filterByRole": "Filter by role",
+            "allRoles": "All Roles",
+            "reset": "Reset Filters",
+            "you": "(You)",
+            "pagination": "Showing {page} of {pages} ({total} users)",
+            "prev": "Previous",
+            "next": "Next"
         },
         "services": {
             "title": "Service Management",
             "description": "Add, edit and manage available spa services",
             "add": "Add Service",
-            "name": "Service Name",
+            "addSuccess": "Service added successfully",
+            "addError": "Failed to add service",
+            "updateSuccess": "Service updated successfully",
+            "updateError": "Failed to update service",
+            "deleteSuccess": "Service deleted successfully",
+            "deleteError": "Failed to delete service",
+            "sortBy": "Sort by",
+            "sortNameAsc": "Name (A-Z)",
+            "sortNameDesc": "Name (Z-A)",
+            "sortPriceAsc": "Price (Low-High)",
+            "sortPriceDesc": "Price (High-Low)",
+            "addService": "Add Service",
+            "addNewService": "Add New Service",
+            "createDescription": "Add a new treatment to your spa service menu",
+            "serviceName": "Service Name",
             "price": "Price",
-            "duration": "Duration (min)",
-            "category": "Category",
-            "status": "Status"
+            "adding": "Adding...",
+            "editService": "Edit Service",
+            "updateDescription": "Update the details of your spa service",
+            "saving": "Saving...",
+            "saveChanges": "Save Changes",
+            "edit": "Edit",
+            "delete": "Delete",
+            "deleteConfirmTitle": "Are you absolutely sure?",
+            "deleteConfirmDescription": "This action cannot be undone. This will permanently delete the service from our catalog."
         },
         "bookings": {
             "title": "Booking Management",
@@ -170,6 +212,14 @@
                 "deleteError": "Failed to delete booking",
                 "receiptSuccess": "Receipt downloaded successfully",
                 "receiptError": "Failed to generate receipt"
+            },
+            "filters": {
+                "sortBy": "Sort by",
+                "sortDateDesc": "Newest first",
+                "sortDateAsc": "Oldest first",
+                "sortPriceDesc": "Price: Highest",
+                "sortPriceAsc": "Price: Lowest",
+                "reset": "Reset"
             }
         },
         "calendar": {
@@ -208,7 +258,17 @@
         },
         "analytics": {
             "title": "Comprehensive Analytics",
-            "description": "Detailed business performance metrics"
+            "description": "Detailed business performance metrics",
+            "kpi": {
+                "totalCustomers": "Total Customers",
+                "uniqueCustomers": "Unique active clients",
+                "returningCustomers": "Returning Customers",
+                "retentionRate": "{percent}% retention rate",
+                "avgBooking": "Avg. Booking Value",
+                "perBooking": "Average per booking",
+                "completionRate": "Completion Rate",
+                "completed": "{count} treatments finished"
+            }
         },
         "referrals": {
             "title": "Referral & Affiliate Management",
@@ -216,12 +276,81 @@
             "stats": {
                 "total": "Total Referrals",
                 "active": "Active Referrals",
-                "points": "Points Awarded"
+                "points": "Points Awarded",
+                "totalCodes": "Total Referral Codes",
+                "totalReferrals": "Total Successful Referrals",
+                "totalPoints": "Total Points Awarded",
+                "activeAffiliates": "Active Affiliates"
+            },
+            "actions": {
+                "generateAll": "Generate All Codes",
+                "refresh": "Refresh List",
+                "generating": "Generating...",
+                "viewDetails": "View Details",
+                "copy": "Code copied to clipboard",
+                "generateSuccess": "Referral codes generated for all users",
+                "generateError": "Failed to generate referral codes"
+            },
+            "list": {
+                "title": "Affiliate Networks",
+                "description": "Search and manage user referral codes",
+                "noCodes": "No referral codes found in the system",
+                "referralsCount": "{count} referrals",
+                "ptsPerReferral": "{count} pts/ref",
+                "totalPts": "{count} total pts",
+                "userPts": "{count} user pts",
+                "created": "Created: {date}"
+            },
+            "details": {
+                "title": "Referral Insights",
+                "description": "In-depth performance data for this referral code",
+                "loadError": "Failed to load referral details",
+                "updateSuccess": "Points per referral updated",
+                "updateError": "Failed to update points",
+                "pointsAwarded": "Points Awarded",
+                "totalRewards": "Total Rewards",
+                "codeInfo": "Code Information",
+                "referralCode": "Referral Code",
+                "pointsPerReferral": "Points Per Referral",
+                "edit": "Edit",
+                "codeOwner": "Code Owner",
+                "ownerInfo": "{name} ({email}) - Current points: {points}",
+                "referralsByUser": "Referrals by User",
+                "referralsByUserDesc": "List of users who used this code",
+                "referredCount": "{count} referral(s)",
+                "referredPoints": "{count} points total",
+                "firstLast": "First: {first} • Last: {last}",
+                "recentRewards": "Recent Reward History",
+                "recentRewardsDesc": "Last 5 rewards generated by this code",
+                "editTitle": "Update Referral Reward",
+                "editDesc": "Modify how many points are awarded for each new referral",
+                "cancel": "Cancel",
+                "update": "Update"
             }
         },
         "staff": {
             "title": "Staff Management",
-            "description": "Manage technicians and employee assignments"
+            "description": "Manage technicians and employee assignments",
+            "addSuccess": "Staff member added successfully",
+            "addError": "Failed to add staff member",
+            "removeSuccess": "Staff member removed successfully",
+            "removeError": "Failed to remove staff member",
+            "addStaff": "Add Staff",
+            "addNewStaff": "Add New Staff Member",
+            "createDescription": "Create a new account for a staff member",
+            "fullName": "Full Name",
+            "email": "Email Address",
+            "phone": "Phone Number",
+            "password": "Password",
+            "adding": "Adding...",
+            "noStaff": "No staff members found",
+            "deleteTitle": "Remove Staff Member",
+            "deleteConfirm": "Are you sure you want to remove {name} from the staff list?",
+            "cancel": "Cancel",
+            "delete": "Delete",
+            "pagination": "Showing {page} of {pages} ({total} members)",
+            "prev": "Previous",
+            "next": "Next"
         },
         "discounts": {
             "title": "Discount & Promo Management",

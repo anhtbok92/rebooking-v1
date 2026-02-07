@@ -59,13 +59,13 @@ export function UserManagement() {
 
 			if (!response.ok) {
 				const error = await response.json()
-				throw new Error(error.error || "Failed to update role")
+				throw new Error(error.error || t("roleUpdateError"))
 			}
 
 			toast.success(t("roleUpdateSuccess"))
 			mutate()
 		} catch (error) {
-			toast.error(error instanceof Error ? error.message : "Failed to update user role")
+			toast.error(error instanceof Error ? error.message : t("roleUpdateError"))
 		} finally {
 			setUpdatingId(null)
 		}
@@ -139,10 +139,10 @@ export function UserManagement() {
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="ALL">{t("allRoles")}</SelectItem>
-							<SelectItem value="CLIENT">{getRoleLabel("CLIENT")}</SelectItem>
-							<SelectItem value="STAFF">{getRoleLabel("STAFF")}</SelectItem>
-							<SelectItem value="ADMIN">{getRoleLabel("ADMIN")}</SelectItem>
-							<SelectItem value="SUPER_ADMIN">{getRoleLabel("SUPER_ADMIN")}</SelectItem>
+							<SelectItem value="CLIENT">{tCommon("roles.CLIENT")}</SelectItem>
+							<SelectItem value="STAFF">{tCommon("roles.STAFF")}</SelectItem>
+							<SelectItem value="ADMIN">{tCommon("roles.ADMIN")}</SelectItem>
+							<SelectItem value="SUPER_ADMIN">{tCommon("roles.SUPER_ADMIN")}</SelectItem>
 						</SelectContent>
 					</Select>
 					<Button variant="outline" onClick={handleReset}>
@@ -174,10 +174,10 @@ export function UserManagement() {
 											<SelectValue />
 										</SelectTrigger>
 										<SelectContent>
-											<SelectItem value="CLIENT">{getRoleLabel("CLIENT")}</SelectItem>
-											<SelectItem value="STAFF">{getRoleLabel("STAFF")}</SelectItem>
-											<SelectItem value="ADMIN">{getRoleLabel("ADMIN")}</SelectItem>
-											<SelectItem value="SUPER_ADMIN">{getRoleLabel("SUPER_ADMIN")}</SelectItem>
+											<SelectItem value="CLIENT">{tCommon("roles.CLIENT")}</SelectItem>
+											<SelectItem value="STAFF">{tCommon("roles.STAFF")}</SelectItem>
+											<SelectItem value="ADMIN">{tCommon("roles.ADMIN")}</SelectItem>
+											<SelectItem value="SUPER_ADMIN">{tCommon("roles.SUPER_ADMIN")}</SelectItem>
 										</SelectContent>
 									</Select>
 									{user.id === currentUserId && <span className="text-xs text-muted-foreground">{t("you")}</span>}

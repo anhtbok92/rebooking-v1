@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl"
 
 export function RecentActivity() {
 	const t = useTranslations("Admin.activity")
+	const tStats = useTranslations("Admin.stats")
 	const { data: response } = useBookings({ limit: 1000 })
 
 	const bookings = response?.bookings || []
@@ -66,7 +67,7 @@ export function RecentActivity() {
 									<div className="flex items-start justify-between gap-2 mb-1">
 										<p className="font-medium text-sm truncate">{booking.userName}</p>
 										<Badge variant={getStatusColor(booking.status)} className="text-xs">
-											{booking.status}
+											{tStats(booking.status.toLowerCase() as any)}
 										</Badge>
 									</div>
 									<p className="text-sm text-muted-foreground mb-2">{booking.service.name}</p>
