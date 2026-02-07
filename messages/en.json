@@ -93,9 +93,12 @@
             "todayBookingsDesc": "Appointments scheduled for today",
             "monthlyRevenue": "Monthly Revenue",
             "monthlyRevenueDesc": "Revenue from {count} appointments this month",
+            "new": "New",
+            "newDesc": "New unprocessed bookings",
             "pending": "Pending",
             "pendingDesc": "Awaiting confirmation",
             "confirmed": "Confirmed",
+            "confirmedDesc": "Confirmed and awaiting treatment",
             "completed": "Completed",
             "completedDesc": "Finished treatments",
             "cancelled": "Cancelled",
@@ -267,7 +270,22 @@
                 "avgBooking": "Avg. Booking Value",
                 "perBooking": "Average per booking",
                 "completionRate": "Completion Rate",
-                "completed": "{count} treatments finished"
+                "completed": "{count} treatments finished",
+                "totalRevenue": "Total Revenue",
+                "growth": "{percent}% growth vs last month",
+                "cancellationRate": "Cancellation Rate"
+            },
+            "charts": {
+                "revenueTrend": "Revenue Trend",
+                "revenueTrendDesc": "Monthly revenue over the last 12 months",
+                "statusDistribution": "Status Distribution",
+                "statusDistributionDesc": "Ratio of booking statuses",
+                "topServices": "Top Services",
+                "topServicesDesc": "10 highest revenue services",
+                "dailyTrend": "Daily Trend",
+                "dailyTrendDesc": "Booking count over the last 30 days",
+                "customerGrowth": "Customer Growth",
+                "customerGrowthDesc": "Unique customers over the last 6 months"
             }
         },
         "referrals": {
@@ -355,15 +373,36 @@
         "discounts": {
             "title": "Discount & Promo Management",
             "description": "Create and manage discount codes for services",
-            "create": "Create Discount",
-            "code": "Code",
-            "type": "Type",
-            "value": "Value",
-            "minSpend": "Min Spend",
-            "maxUses": "Max Uses",
-            "status": "Status",
-            "percentage": "Percentage",
-            "fixed": "Fixed Amount",
+            "refresh": "Refresh",
+            "listTitle": "Discount Codes List",
+            "listDesc": "Manage your existing promo codes and track their performance",
+            "noCodes": "No discount codes created yet",
+            "create": {
+                "button": "Create Discount",
+                "title": "Create New Discount",
+                "desc": "Add a new promotional program for your services",
+                "code": "Discount Code",
+                "type": "Discount Type",
+                "value": "Discount Value",
+                "percentage": "Percentage (%)",
+                "fixed": "Fixed Amount ($)",
+                "valueHintPercent": "Value between 1 and 100",
+                "valueHintFixed": "Specific discount amount",
+                "minAmount": "Minimum Spend",
+                "maxUses": "Maximum Uses",
+                "expiresInDays": "Expires in (days)",
+                "expirationHint": "Leave empty for no time limit",
+                "cancel": "Cancel"
+            },
+            "edit": {
+                "title": "Edit Discount Code",
+                "desc": "Update information for code {code}",
+                "expiresAt": "Expiration Date",
+                "clear": "Clear",
+                "active": "Currently Active",
+                "cancel": "Cancel",
+                "update": "Update"
+            },
             "card": {
                 "active": "Active",
                 "inactive": "Inactive",
@@ -375,7 +414,8 @@
                 "expires": "Expires: {date}",
                 "created": "Created: {date}",
                 "viewDetails": "View Details",
-                "edit": "Edit"
+                "edit": "Edit",
+                "delete": "Delete"
             },
             "usage": {
                 "title": "Discount Code Usage Details",
@@ -514,6 +554,8 @@
         }
     },
     "Search": {
+        "title": "Global Search",
+        "description": "Search for bookings, services, users and promo codes",
         "trigger": "Search...",
         "placeholder": "Search bookings, services, users...",
         "empty": "Type at least 2 characters to search",

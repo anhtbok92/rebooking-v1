@@ -278,7 +278,25 @@ export function ComprehensiveAnalytics() {
 										cx="50%"
 										cy="50%"
 										labelLine={false}
-										label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+										label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, name }) => {
+											const RADIAN = Math.PI / 180
+											const radius = outerRadius * 1.15
+											const x = cx + radius * Math.cos(-midAngle * RADIAN)
+											const y = cy + radius * Math.sin(-midAngle * RADIAN)
+
+											return (
+												<text
+													x={x}
+													y={y}
+													fill="#888888"
+													textAnchor={x > cx ? "start" : "end"}
+													dominantBaseline="central"
+													fontSize={10}
+												>
+													{`${name}: ${(percent * 100).toFixed(0)}%`}
+												</text>
+											)
+										}}
 										outerRadius={100}
 										fill="#8884d8"
 										dataKey="value"
@@ -288,7 +306,7 @@ export function ComprehensiveAnalytics() {
 										))}
 									</Pie>
 									<Tooltip />
-									<Legend />
+									<Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
 								</PieChart>
 							</ResponsiveContainer>
 						</div>

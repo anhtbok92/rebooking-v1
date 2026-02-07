@@ -213,7 +213,7 @@ export function DiscountManagement() {
 				},
 			},
 			cancel: {
-				label: t("discounts.create.cancel"),
+				label: t("create.cancel"),
 				onClick: () => { },
 			},
 		})

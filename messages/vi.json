@@ -93,9 +93,12 @@
             "todayBookingsDesc": "Các cuộc hẹn đã lên lịch cho hôm nay",
             "monthlyRevenue": "Doanh thu tháng",
             "monthlyRevenueDesc": "Doanh thu từ {count} cuộc hẹn trong tháng này",
+            "new": "Mới",
+            "newDesc": "Đặt lịch mới chưa xử lý",
             "pending": "Đang chờ",
             "pendingDesc": "Chờ xác nhận",
             "confirmed": "Đã xác nhận",
+            "confirmedDesc": "Đã xác nhận và chờ thực hiện",
             "completed": "Đã hoàn thành",
             "completedDesc": "Các liệu trình đã xong",
             "cancelled": "Đã hủy",
@@ -267,7 +270,22 @@
                 "avgBooking": "Giá trị đặt lịch TB",
                 "perBooking": "Trung bình mỗi đơn",
                 "completionRate": "Tỷ lệ hoàn thành",
-                "completed": "Đã hoàn thành {count} lượt"
+                "completed": "Đã hoàn thành {count} lượt",
+                "totalRevenue": "Tổng doanh thu",
+                "growth": "{percent}% so với tháng trước",
+                "cancellationRate": "Tỷ lệ hủy"
+            },
+            "charts": {
+                "revenueTrend": "Xu hướng doanh thu",
+                "revenueTrendDesc": "Doanh thu hàng tháng trong 12 tháng qua",
+                "statusDistribution": "Phân bổ trạng thái",
+                "statusDistributionDesc": "Tỷ lệ các trạng thái đặt lịch",
+                "topServices": "Dịch vụ hàng đầu",
+                "topServicesDesc": "10 dịch vụ có doanh thu cao nhất",
+                "dailyTrend": "Xu hướng hàng ngày",
+                "dailyTrendDesc": "Số lượt đặt lịch trong 30 ngày qua",
+                "customerGrowth": "Tăng trưởng khách hàng",
+                "customerGrowthDesc": "Số lượng khách hàng duy nhất trong 6 tháng qua"
             }
         },
         "referrals": {
@@ -355,15 +373,36 @@
         "discounts": {
             "title": "Quản lý Giảm giá & Khuyến mãi",
             "description": "Tạo và quản lý các mã giảm giá cho dịch vụ",
-            "create": "Tạo giảm giá",
-            "code": "Mã",
-            "type": "Loại",
-            "value": "Giá trị",
-            "minSpend": "Chi tiêu tối thiểu",
-            "maxUses": "Lượt dùng tối đa",
-            "status": "Trạng thái",
-            "percentage": "Phần trăm",
-            "fixed": "Số tiền cố định",
+            "refresh": "Làm mới",
+            "listTitle": "Danh sách mã giảm giá",
+            "listDesc": "Quản lý các mã khuyến mãi hiện có và theo dõi hiệu suất của chúng",
+            "noCodes": "Chưa có mã giảm giá nào được tạo",
+            "create": {
+                "button": "Tạo giảm giá",
+                "title": "Tạo mã giảm giá mới",
+                "desc": "Thêm một chương trình khuyến mãi mới cho các dịch vụ của bạn",
+                "code": "Mã giảm giá",
+                "type": "Loại giảm giá",
+                "value": "Giá trị giảm",
+                "percentage": "Phần trăm (%)",
+                "fixed": "Số tiền cố định ($)",
+                "valueHintPercent": "Giá trị từ 1 đến 100",
+                "valueHintFixed": "Số tiền giảm cụ thể",
+                "minAmount": "Chi tiêu tối thiểu",
+                "maxUses": "Số lần sử dụng tối đa",
+                "expiresInDays": "Hết hạn sau (ngày)",
+                "expirationHint": "Để trống nếu không giới hạn thời gian",
+                "cancel": "Hủy"
+            },
+            "edit": {
+                "title": "Chỉnh sửa mã giảm giá",
+                "desc": "Cập nhật thông tin cho mã {code}",
+                "expiresAt": "Ngày hết hạn",
+                "clear": "Xóa",
+                "active": "Đang kích hoạt",
+                "cancel": "Quay lại",
+                "update": "Cập nhật"
+            },
             "card": {
                 "active": "Hoạt động",
                 "inactive": "Ngừng hoạt động",
@@ -375,7 +414,8 @@
                 "expires": "Hết hạn: {date}",
                 "created": "Ngày tạo: {date}",
                 "viewDetails": "Xem chi tiết",
-                "edit": "Sửa"
+                "edit": "Sửa",
+                "delete": "Xóa"
             },
             "usage": {
                 "title": "Chi tiết sử dụng mã giảm giá",
@@ -514,6 +554,8 @@
         }
     },
     "Search": {
+        "title": "Tìm kiếm toàn hệ thống",
+        "description": "Tìm kiếm nhanh đặt lịch, dịch vụ, người dùng và mã khuyến mãi",
         "trigger": "Tìm kiếm...",
         "placeholder": "Tìm kiếm đặt lịch, dịch vụ, người dùng...",
         "empty": "Nhập ít nhất 2 ký tự để tìm kiếm",
