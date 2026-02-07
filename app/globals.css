@@ -124,3 +124,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for mobile layout */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bg-background-light {
+  background-color: #F8F9FA;
+}
+
+.dark .bg-background-dark {
+  background-color: #111827;
+}
+
+.bg-primary {
+  background-color: #EAB308;
+}
+
+.text-primary {
+  color: #EAB308;
+}

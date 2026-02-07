@@ -239,8 +239,17 @@ export default function CheckoutPage() {
 				})
 
 				if (!res.ok) {
-					const { error } = await res.json()
-					throw new Error(error ?? "Failed to create bookings")
+					const data = await res.json()
+					const error = data.error ?? "Failed to create bookings"
+					
+					// Handle rate limit error specifically
+					if (res.status === 429) {
+						const retryAfter = data.retryAfter || 0
+						const minutes = Math.ceil(retryAfter / 60)
+						throw new Error(`${error}. Vui lòng thử lại sau ${minutes} phút.`)
+					}
+					
+					throw new Error(error)
 				}
 
 				toast.success(t('bookingConfirmed'), {

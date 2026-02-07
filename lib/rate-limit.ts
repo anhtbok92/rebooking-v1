@@ -102,7 +102,7 @@ export const checkoutRateLimit = rateLimit({
 
 export const bookingRateLimit = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	maxRequests: 20, // 20 booking attempts per 15 minutes
+	maxRequests: process.env.NODE_ENV === 'development' ? 100 : 20, // 100 for dev, 20 for production
 	message: "Too many booking attempts, please try again later",
 })
 

@@ -50,6 +50,9 @@ export default async function RootLayout({
 
 	return (
 		<html lang={locale} suppressHydrationWarning>
+			<head>
+				<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+			</head>
 			<body className={`font-sans ${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<SessionProvider>
