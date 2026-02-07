@@ -87,7 +87,7 @@ export function TimeSelection({
 											: `${slot.time} (Available)`
 								}
 								className={cn(
-									"relative flex items-center gap-2 sm:gap-3 justify-between py-3 px-4 sm:p-3 rounded-xl border transition-all duration-200 text-base sm:text-md font-medium",
+									"relative flex items-center gap-1.5 sm:gap-2 justify-between py-3 px-3 rounded-xl border transition-all duration-200 text-base sm:text-md font-medium",
 									"bg-card",
 									borderHighlight,
 									"min-h-[3rem] sm:min-h-[3.5rem]",
@@ -95,7 +95,8 @@ export function TimeSelection({
 									(!slot.available || disabled) && "opacity-60 cursor-not-allowed",
 									isSelected && "ring-2 ring-primary",
 									"w-full",
-									"whitespace-nowrap" // Prevent text wrapping
+									"whitespace-nowrap",
+									"overflow-hidden"
 								)}
 								tabIndex={slot.available && !disabled ? 0 : -1}
 								onMouseEnter={() => setHoveredIdx(index)}
@@ -108,7 +109,7 @@ export function TimeSelection({
 							>
 								<span
 									className={cn(
-										"flex-1 text-left font-semibold text-sm",
+										"flex-1 text-left font-semibold text-xs sm:text-sm",
 										slot.available
 											? isSelected
 												? "text-primary"
@@ -122,10 +123,10 @@ export function TimeSelection({
 									{slot.time}
 								</span>
 								{slot.available && isSelected && (
-									<CheckCircle className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" aria-label="Selected" />
+									<CheckCircle className="ml-1 w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary flex-shrink-0" aria-label="Selected" />
 								)}
 								{!slot.available && (
-									<XCircle className={cn("ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0", slot.isBooked ? "text-destructive" : "text-muted-foreground")} />
+									<XCircle className={cn("ml-1 w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0", slot.isBooked ? "text-destructive" : "text-muted-foreground")} />
 								)}
 								{/* Tooltip description, on hover/focus of unavailable slots */}
 								{!slot.available && hoveredIdx === index && (
