@@ -82,6 +82,7 @@
             "staff": "Staff",
             "users": "Users",
             "timeSlots": "Time Slots",
+            "settings": "Settings",
             "copyright": "© {year} Reebooking. All rights reserved."
         },
         "stats": {
@@ -181,6 +182,7 @@
             "saveChanges": "Save Changes",
             "edit": "Edit",
             "delete": "Delete",
+            "cancel": "Cancel",
             "deleteConfirmTitle": "Are you absolutely sure?",
             "deleteConfirmDescription": "This action cannot be undone. This will permanently delete the service from our catalog."
         },
@@ -287,6 +289,24 @@
                 "dailyTrendDesc": "Booking count over the last 30 days",
                 "customerGrowth": "Customer Growth",
                 "customerGrowthDesc": "Unique customers over the last 6 months"
+            }
+        },
+        "settings": {
+            "title": "System Settings",
+            "loading": "Loading...",
+            "save": "Save Settings",
+            "saving": "Saving...",
+            "saveSuccess": "Settings saved successfully",
+            "saveError": "Failed to save settings",
+            "general": {
+                "title": "General Settings",
+                "description": "Manage basic system configurations"
+            },
+            "currency": {
+                "label": "Currency",
+                "description": "Select the currency to display throughout the system",
+                "vnd": "Vietnamese Dong (đ)",
+                "usd": "US Dollar ($)"
             }
         },
         "referrals": {

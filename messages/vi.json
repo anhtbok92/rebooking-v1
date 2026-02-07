@@ -82,6 +82,7 @@
             "staff": "Nhân viên",
             "users": "Người dùng",
             "timeSlots": "Khung giờ",
+            "settings": "Cài đặt",
             "copyright": "© {year} Reebooking. Bảo lưu mọi quyền."
         },
         "stats": {
@@ -181,6 +182,7 @@
             "saveChanges": "Lưu thay đổi",
             "edit": "Sửa",
             "delete": "Xóa",
+            "cancel": "Hủy",
             "deleteConfirmTitle": "Bạn có chắc chắn không?",
             "deleteConfirmDescription": "Hành động này không thể hoàn tác. Dịch vụ này sẽ bị xóa vĩnh viễn khỏi danh mục của chúng tôi."
         },
@@ -287,6 +289,24 @@
                 "dailyTrendDesc": "Số lượt đặt lịch trong 30 ngày qua",
                 "customerGrowth": "Tăng trưởng khách hàng",
                 "customerGrowthDesc": "Số lượng khách hàng duy nhất trong 6 tháng qua"
+            }
+        },
+        "settings": {
+            "title": "Cài đặt hệ thống",
+            "loading": "Đang tải...",
+            "save": "Lưu cài đặt",
+            "saving": "Đang lưu...",
+            "saveSuccess": "Đã lưu cài đặt thành công",
+            "saveError": "Không thể lưu cài đặt",
+            "general": {
+                "title": "Cài đặt chung",
+                "description": "Quản lý các cấu hình cơ bản của hệ thống"
+            },
+            "currency": {
+                "label": "Đơn vị tiền tệ",
+                "description": "Chọn đơn vị tiền tệ hiển thị trong toàn bộ hệ thống",
+                "vnd": "Đồng Việt Nam (đ)",
+                "usd": "Đô la Mỹ ($)"
             }
         },
         "referrals": {

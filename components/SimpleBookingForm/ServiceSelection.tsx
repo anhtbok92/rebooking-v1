@@ -145,10 +145,11 @@ export function ServiceSelection({ services, selectedService, setSelectedService
 											/>
 										</div>
 									</div>
-									<div className="text-right">
+									<div className="text-right flex items-center gap-1">
 										<span className="font-bold text-primary text-lg" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-											${service.price.toLocaleString()}
+											{service.price.toLocaleString("vi-VN")}
 										</span>
+										<span className="text-sm text-muted-foreground">đ</span>
 									</div>
 								</div>
 							</button>

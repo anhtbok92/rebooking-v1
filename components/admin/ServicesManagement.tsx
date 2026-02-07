@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useServices, type Service } from "@/lib/swr"
-import { DollarSign, Plus, Trash2, Edit2 } from "lucide-react"
+import { Plus, Trash2, Edit2 } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -55,6 +55,21 @@ export function ServicesManagement() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [serviceToDelete, setServiceToDelete] = useState<string | null>(null)
 
+  // Helper functions for price formatting
+  const parsePrice = (formattedValue: string): number => {
+    return parseInt(formattedValue.replace(/\./g, "").replace(/,/g, "") || "0")
+  }
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>, setter: (value: string) => void) => {
+    const rawValue = e.target.value.replace(/\D/g, "")
+    if (rawValue === "") {
+      setter("")
+      return
+    }
+    const formatted = new Intl.NumberFormat("vi-VN").format(parseInt(rawValue))
+    setter(formatted)
+  }
+
   const services = response?.services || []
   const pagination = response?.pagination
 
@@ -70,7 +85,7 @@ export function ServicesManagement() {
         },
         body: JSON.stringify({
           name: newServiceName,
-          price: Number.parseInt(newServicePrice),
+          price: parsePrice(newServicePrice),
         }),
       })
 
@@ -108,7 +123,7 @@ export function ServicesManagement() {
         },
         body: JSON.stringify({
           name: editName,
-          price: Number.parseInt(editPrice),
+          price: parsePrice(editPrice),
         }),
       })
 
@@ -137,7 +152,7 @@ export function ServicesManagement() {
   const openEditDialog = (service: Service) => {
     setEditingService(service)
     setEditName(service.name)
-    setEditPrice(service.price.toString())
+    setEditPrice(new Intl.NumberFormat("vi-VN").format(service.price))
     setIsEditOpen(true)
   }
 
@@ -217,12 +232,11 @@ export function ServicesManagement() {
                   <Label htmlFor="servicePrice">{t("price")}</Label>
                   <Input
                     id="servicePrice"
-                    type="number"
-                    placeholder="e.g., 50"
+                    type="text"
+                    placeholder="e.g., 50.000"
                     value={newServicePrice}
-                    onChange={(e) => setNewServicePrice(e.target.value)}
+                    onChange={(e) => handlePriceChange(e, setNewServicePrice)}
                     required
-                    min="0"
                   />
                 </div>
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
@@ -255,12 +269,11 @@ export function ServicesManagement() {
               <Label htmlFor="editServicePrice">{t("price")}</Label>
               <Input
                 id="editServicePrice"
-                type="number"
-                placeholder="e.g., 50"
+                type="text"
+                placeholder="e.g., 50.000"
                 value={editPrice}
-                onChange={(e) => setEditPrice(e.target.value)}
+                onChange={(e) => handlePriceChange(e, setEditPrice)}
                 required
-                min="0"
               />
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
@@ -276,9 +289,9 @@ export function ServicesManagement() {
             <CardHeader>
               <CardTitle className="text-lg">{service.name}</CardTitle>
               <CardDescription>
-                <div className="flex items-center gap-2 text-lg font-semibold text-foreground mt-2">
-                  <DollarSign className="w-5 h-5" />
-                  {service.price.toLocaleString()}
+                <div className="flex items-center gap-1 text-lg font-semibold text-foreground mt-2">
+                  <span>{service.price.toLocaleString("vi-VN")}</span>
+                  <span className="text-sm text-muted-foreground">đ</span>
                 </div>
               </CardDescription>
             </CardHeader>

@@ -18,6 +18,7 @@ import { StaffManagement } from "./StaffManagement"
 import { StatsOverview } from "./StatsOverview"
 import { UserManagement } from "./UserManagement"
 import { TimeSlotManagement } from "./TimeSlotManagement"
+import { SettingsManagement } from "./SettingsManagement"
 
 const SIDEBAR_TABS = [
 	{
@@ -74,6 +75,11 @@ const SIDEBAR_TABS = [
 		key: "analytics",
 		label: "Analytics",
 		icon: TrendingUp,
+	},
+	{
+		key: "settings",
+		label: "Settings",
+		icon: Settings,
 	},
 ]
 
@@ -149,6 +155,7 @@ export function SuperAdminDashboard() {
 					{activeTab === "ratings" && <RatingsManagement />}
 					{activeTab === "referrals" && <ReferralManagement />}
 					{activeTab === "analytics" && <ComprehensiveAnalytics />}
+					{activeTab === "settings" && <SettingsManagement />}
 				</div>
 			</div>
 		</LayoutAdmin>

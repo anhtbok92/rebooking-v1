@@ -106,7 +106,7 @@ export function TimeSelection({
 							>
 								<span
 									className={cn(
-										"flex-1 text-left font-semibold truncate",
+										"flex-1 text-left font-semibold text-sm",
 										slot.available
 											? isSelected
 												? "text-primary"
@@ -119,35 +119,24 @@ export function TimeSelection({
 								>
 									{slot.time}
 								</span>
-								{/* Right-side icon/badge */}
 								{slot.available && isSelected && (
 									<CheckCircle className="ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" aria-label="Selected" />
 								)}
 								{!slot.available && (
-									<span
-										className={cn(
-											"flex items-center gap-1 ml-1 sm:ml-2 text-xs px-2 py-1 rounded-full border font-bold",
-											slot.isBooked
-												? "bg-destructive/10 border-destructive text-destructive"
-												: "bg-muted border-border text-muted-foreground"
-										)}
-									>
-										<XCircle className={cn("w-3.5 h-3.5 sm:w-4 sm:h-4", slot.isBooked ? "text-destructive" : "text-muted-foreground")} />
-										{slot.isBooked ? "Booked" : "Unavailable"}
-									</span>
+									<XCircle className={cn("ml-1 sm:ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0", slot.isBooked ? "text-destructive" : "text-muted-foreground")} />
 								)}
-								{/* Tooltip description, on hover/focus of unavailable slots, only on larger screens */}
+								{/* Tooltip description, on hover/focus of unavailable slots */}
 								{!slot.available && hoveredIdx === index && (
 									<span
 										id={`tooltip-${index}`}
 										role="tooltip"
 										className={cn(
-											"hidden sm:block absolute z-20 left-1/2 -translate-x-1/2 -top-8 sm:-top-10 whitespace-nowrap px-3 py-1.5 rounded-md shadow-xl text-xs",
-											"bg-popover text-popover-foreground",
+											"absolute z-20 left-1/2 -translate-x-1/2 -top-8 sm:-top-10 whitespace-nowrap px-3 py-1.5 rounded-md shadow-xl text-xs",
+											"bg-popover text-popover-foreground border border-border",
 											"transition-opacity duration-200 opacity-100"
 										)}
 									>
-										{slot.isBooked ? "This slot is fully booked." : "This time has passed."}
+										{slot.isBooked ? "Đã được đặt" : "Đã qua giờ"}
 									</span>
 								)}
 							</button>
