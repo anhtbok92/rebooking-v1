@@ -16,6 +16,7 @@ import type { CartItem } from "@/store/cartSlice"
 import { Edit2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 
 type Service = {
 	id: string
@@ -43,6 +44,24 @@ const defaultTimeSlots: TimeSlot[] = [
 	{ time: "3:00 PM", available: true },
 	{ time: "4:30 PM", available: true },
 ]
+
+// Fetch dynamic time slots from API
+const fetchTimeSlots = async () => {
+	try {
+		const response = await fetch("/api/v1/time-slots")
+		if (response.ok) {
+			const slots = await response.json()
+			return slots.map((slot: any) => ({
+				time: slot.time,
+				available: true
+			}))
+		}
+	} catch (error) {
+		console.error("Failed to fetch time slots:", error)
+	}
+	// Fallback to default slots if API fails
+	return defaultTimeSlots
+}
 
 const generateCalendarDays = (month: number, year: number) => {
 	const days: (number | null)[] = []
@@ -72,6 +91,7 @@ interface EditCartItemDialogProps {
 }
 
 export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) {
+	const t = useTranslations("Booking.edit")
 	const [isOpen, setIsOpen] = useState(false)
 	const [services, setServices] = useState<Service[]>([])
 	const [selectedService, setSelectedService] = useState<string>(item.serviceId)
@@ -84,6 +104,7 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 	const [bookingCounts, setBookingCounts] = useState<BookingCount>({})
 	const [isLoadingTimeSlots, setIsLoadingTimeSlots] = useState(false)
 	const [isSaving, setIsSaving] = useState(false)
+	const [isLoadingServices, setIsLoadingServices] = useState(true)
 
 	const today = new Date()
 	const todayYear = today.getFullYear()
@@ -91,6 +112,32 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 	const todayDay = today.getDate()
 	const calendarDays = generateCalendarDays(currentMonth, currentYear)
 	const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+	useEffect(() => {
+		const loadServices = async () => {
+			setIsLoadingServices(true)
+			try {
+				const response = await fetch("/api/v1/services")
+				if (response.ok) {
+					const data = await response.json()
+					setServices(data.services || [])
+				}
+			} catch (error) {
+				toast.error("Failed to load services")
+			} finally {
+				setIsLoadingServices(false)
+			}
+		}
+		loadServices()
+	}, [])
+
+	useEffect(() => {
+		const loadTimeSlots = async () => {
+			const slots = await fetchTimeSlots()
+			setTimeSlots(slots)
+		}
+		loadTimeSlots()
+	}, [])
 
 	// Initialize date from item
 	useEffect(() => {
@@ -104,20 +151,6 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 			setSelectedDate(itemDay)
 		}
 	}, [item.date])
-
-	useEffect(() => {
-		const fetchServices = async () => {
-			try {
-				const response = await fetch("/api/v1/services?limit=1000")
-				if (!response.ok) throw new Error("Failed to fetch services")
-				const data = await response.json()
-				setServices(data.services || [])
-			} catch (err) {
-				toast.error("Failed to load services")
-			}
-		}
-		fetchServices()
-	}, [])
 
 	useEffect(() => {
 		const fetchBookingCounts = async () => {
@@ -251,7 +284,7 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 			</DialogTrigger>
 			<DialogContent className="max-h-[90vh] overflow-y-auto p-4 sm:p-6">
 				<DialogHeader>
-					<DialogTitle>Edit Cart Item</DialogTitle>
+					<DialogTitle>{t("title")}</DialogTitle>
 				</DialogHeader>
 				<div className="space-y-6 py-4">
 					{/* Service Selection */}
@@ -261,6 +294,7 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 							services={services}
 							selectedService={selectedService}
 							setSelectedService={setSelectedService}
+							isLoading={isLoadingServices}
 						/>
 					</div>
 

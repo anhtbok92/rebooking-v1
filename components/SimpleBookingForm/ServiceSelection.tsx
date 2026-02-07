@@ -23,7 +23,12 @@ interface ServiceSelectionProps {
 	isLoading?: boolean
 }
 
-export function ServiceSelection({ services, selectedService, setSelectedService, isLoading = false }: ServiceSelectionProps) {
+export function ServiceSelection({
+	services,
+	selectedService,
+	setSelectedService,
+	isLoading = false,
+}: ServiceSelectionProps) {
 	const { isFavorite, addFavorite, removeFavorite } = useFavorites()
 	const { data: session } = useSession()
 	const [ratingDialogOpen, setRatingDialogOpen] = useState(false)

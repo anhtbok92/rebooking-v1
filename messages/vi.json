@@ -52,6 +52,9 @@
             "checkout": "Tiến hành thanh toán",
             "addMore": "Thêm dịch vụ khác",
             "removed": "{service} đã được xóa khỏi giỏ hàng"
+        },
+        "edit": {
+            "title": "Chỉnh sửa mục trong giỏ hàng"
         }
     },
     "HowItWorks": {

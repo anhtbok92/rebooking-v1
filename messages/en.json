@@ -52,6 +52,9 @@
             "checkout": "Proceed to Checkout",
             "addMore": "Add More Services",
             "removed": "{service} has been removed from cart"
+        },
+        "edit": {
+            "title": "Edit Cart Item"
         }
     },
     "HowItWorks": {
