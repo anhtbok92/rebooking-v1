@@ -3,12 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useBookings } from "@/lib/swr"
 import { Star, TrendingUp, UserCheck, Users } from "lucide-react"
-
 import { useTranslations } from "next-intl"
+import { useSystemSettings } from "@/lib/swr/system-settings"
+import { formatCurrency } from "@/lib/utils"
 
 export function CustomerAnalytics() {
 	const { data: response } = useBookings({ limit: 1000 })
 	const t = useTranslations("Admin.analytics")
+	const { currency } = useSystemSettings()
 
 	const bookings = response?.bookings || []
 
@@ -65,7 +67,7 @@ export function CustomerAnalytics() {
 					<Star className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">${avgBookingValue.toFixed(0)}</div>
+					<div className="text-2xl font-bold">{formatCurrency(avgBookingValue, currency)}</div>
 					<p className="text-xs text-muted-foreground">{t("kpi.perBooking")}</p>
 				</CardContent>
 			</Card>

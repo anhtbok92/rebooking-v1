@@ -4,11 +4,13 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useBookings } from "@/lib/swr"
 import { DollarSign, TrendingUp } from "lucide-react"
-
 import { useTranslations } from "next-intl"
+import { useSystemSettings } from "@/lib/swr/system-settings"
+import { formatCurrency } from "@/lib/utils"
 
 export function PopularServices() {
 	const t = useTranslations("Admin.charts")
+	const { currency } = useSystemSettings()
 	const { data: response } = useBookings({ limit: 1000 })
 
 	const bookings = response?.bookings || []
@@ -63,8 +65,7 @@ export function PopularServices() {
 								</div>
 								<div className="text-right">
 									<div className="flex items-center gap-1 font-semibold">
-										<DollarSign className="w-4 h-4" />
-										{service.revenue.toLocaleString()}
+										{formatCurrency(service.revenue, currency)}
 									</div>
 									<p className="text-xs text-muted-foreground">{t("totalRevenue")}</p>
 								</div>

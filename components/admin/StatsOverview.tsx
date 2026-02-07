@@ -3,11 +3,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useBookings, useBookingStats } from "@/lib/swr"
 import { Calendar, CheckCircle2, DollarSign, TrendingUp, Users, XCircle } from "lucide-react"
-
 import { useTranslations } from "next-intl"
+import { useSystemSettings } from "@/lib/swr/system-settings"
+import { formatCurrency } from "@/lib/utils"
 
 export function StatsOverview() {
 	const t = useTranslations("Admin.stats")
+	const { currency } = useSystemSettings()
 	const { data: response } = useBookings({ limit: 1000 })
 	const { data: stats } = useBookingStats()
 
@@ -52,7 +54,7 @@ export function StatsOverview() {
 					<DollarSign className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
-					<div className="text-2xl font-bold">${monthlyRevenue.toLocaleString()}</div>
+					<div className="text-2xl font-bold">{formatCurrency(monthlyRevenue, currency)}</div>
 					<p className="text-xs text-muted-foreground">
 						{t("monthlyRevenueDesc", { count: thisMonth.length })}
 					</p>

@@ -30,6 +30,8 @@ const COLORS = {
 }
 
 import { useTranslations, useLocale } from "next-intl"
+import { useSystemSettings } from "@/lib/swr/system-settings"
+import { formatCurrency } from "@/lib/utils"
 
 export function ComprehensiveAnalytics() {
 	const { data: response } = useBookings({ limit: 1000 })
@@ -37,6 +39,7 @@ export function ComprehensiveAnalytics() {
 	const t = useTranslations("Admin.analytics")
 	const tStats = useTranslations("Admin.stats")
 	const locale = useLocale()
+	const { currency } = useSystemSettings()
 
 	const bookings = response?.bookings || []
 
@@ -164,7 +167,7 @@ export function ComprehensiveAnalytics() {
 						<DollarSign className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
+						<div className="text-2xl font-bold">{formatCurrency(totalRevenue, currency)}</div>
 						<div className="flex items-center gap-1 text-xs mt-1">
 							{revenueGrowth >= 0 ? (
 								<TrendingUp className="h-3 w-3 text-green-600" />
@@ -184,7 +187,7 @@ export function ComprehensiveAnalytics() {
 						<DollarSign className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">${avgBookingValue.toFixed(0)}</div>
+						<div className="text-2xl font-bold">{formatCurrency(avgBookingValue, currency)}</div>
 						<p className="text-xs text-muted-foreground mt-1">{t("kpi.perBooking")}</p>
 					</CardContent>
 				</Card>
@@ -238,10 +241,18 @@ export function ComprehensiveAnalytics() {
 									/>
 									<YAxis
 										tick={{ fontSize: 12, fill: "#64748b" }}
-										tickFormatter={(value) => `$${value / 1000}k`}
+										tickFormatter={(value) => {
+											// Format with K/M suffixes
+											if (value >= 1000000) {
+												return `${(value / 1000000).toFixed(1)}M`;
+											} else if (value >= 1000) {
+												return `${(value / 1000).toFixed(1)}K`;
+											}
+											return value.toString();
+										}}
 									/>
 									<Tooltip
-										formatter={(value: number) => `$${value.toLocaleString()}`}
+										formatter={(value: number) => formatCurrency(value, currency)}
 										contentStyle={{
 											background: "#fff",
 											border: "1px solid #e5e7eb",

@@ -21,10 +21,13 @@ import {
 } from "recharts";
 
 import { useTranslations, useLocale } from "next-intl";
+import { useSystemSettings } from "@/lib/swr/system-settings";
+import { formatCurrency, getCurrencySymbol } from "@/lib/utils";
 
 export function RevenueChart() {
 	const t = useTranslations("Admin.charts");
 	const locale = useLocale();
+	const { currency } = useSystemSettings();
 	const { data: response } = useBookings({ limit: 1000 });
 
 	const bookings = response?.bookings || [];
@@ -75,7 +78,7 @@ export function RevenueChart() {
 						<BarChart
 							data={monthlyData}
 							barCategoryGap={18}
-							margin={{ top: 24, right: 24, left: 10, bottom: 36 }}
+							margin={{ top: 24, right: 24, left: 20, bottom: 36 }}
 						>
 							<CartesianGrid
 								strokeDasharray="6 4"
@@ -94,13 +97,22 @@ export function RevenueChart() {
 								tick={{ fontSize: 13, fill: "#94a3b8", fontFamily: "inherit" }}
 								axisLine={false}
 								tickLine={false}
-								width={60}
+								width={80}
+								tickFormatter={(value) => {
+									// Format large numbers with K/M suffixes
+									if (value >= 1000000) {
+										return `${(value / 1000000).toFixed(1)}M`;
+									} else if (value >= 1000) {
+										return `${(value / 1000).toFixed(1)}K`;
+									}
+									return value.toString();
+								}}
 								label={
 									<Label
 										value={t("revenue")}
 										angle={-90}
 										position="left"
-										offset={-14}
+										offset={-20}
 										style={{
 											textAnchor: "middle",
 											fill: revenueColor,
@@ -123,7 +135,7 @@ export function RevenueChart() {
 										value={t("bookings")}
 										angle={90}
 										position="right"
-										offset={-15}
+										offset={-20}
 										style={{
 											textAnchor: "middle",
 											fill: bookingsColor,
@@ -149,7 +161,7 @@ export function RevenueChart() {
 								}}
 								formatter={(value, name) => {
 									if (name === "revenue") {
-										return [`$${Number(value).toLocaleString()}`, t("revenue")];
+										return [formatCurrency(Number(value), currency), t("revenue")];
 									}
 									if (name === "bookings") {
 										return [value, t("bookings")];
