@@ -81,6 +81,7 @@
             "referrals": "Giới thiệu",
             "staff": "Nhân viên",
             "users": "Người dùng",
+            "timeSlots": "Khung giờ",
             "copyright": "© {year} Reebooking. Bảo lưu mọi quyền."
         },
         "stats": {
@@ -297,7 +298,7 @@
                 "points": "Điểm đã thưởng",
                 "totalCodes": "Tổng số mã giới thiệu",
                 "totalReferrals": "Tổng lượt giới thiệu thành công",
-                "totalPoints": "Tổng điểm đã trao tặng",
+                "totalPoints": "Tổng điểm giới thiệu",
                 "activeAffiliates": "Đối tác đang hoạt động"
             },
             "actions": {
@@ -451,6 +452,25 @@
                 "deleteError": "Không thể xóa mã",
                 "usageLoadError": "Không thể tải chi tiết sử dụng"
             }
+        },
+        "timeSlots": {
+            "title": "Quản lý Khung giờ",
+            "description": "Cấu hình các khung giờ đặt lịch",
+            "add": "Thêm khung giờ",
+            "time": "Thời gian (vd: 8:30 AM)",
+            "order": "Thứ tự",
+            "active": "Kích hoạt",
+            "actions": "Thao tác",
+            "edit": "Sửa",
+            "delete": "Xóa",
+            "save": "Lưu",
+            "cancel": "Hủy",
+            "confirmDelete": "Bạn có chắc chắn muốn xóa khung giờ này?",
+            "deleteSuccess": "Đã xóa khung giờ",
+            "updateSuccess": "Đã cập nhật khung giờ",
+            "createSuccess": "Đã tạo khung giờ",
+            "error": "Đã xảy ra lỗi",
+            "empty": "Chưa có khung giờ nào"
         },
         "ratings": {
             "title": "Quản lý đánh giá dịch vụ",

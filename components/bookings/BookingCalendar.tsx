@@ -67,14 +67,32 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 		t("weekdays.4"), t("weekdays.5"), t("weekdays.6")
 	]
 
-	const timeSlots = [
-		"8:30 AM",
-		"10:00 AM",
-		"11:30 AM",
-		"1:30 PM",
-		"3:00 PM",
-		"4:30 PM",
-	]
+	const [timeSlots, setTimeSlots] = useState<string[]>([])
+
+	useEffect(() => {
+		const fetchTimeSlots = async () => {
+			try {
+				const res = await fetch("/api/v1/time-slots")
+				if (res.ok) {
+					const data = await res.json()
+					// data is array of { time: string, available: boolean } or similar from public API?
+					// Let's check public API response structure.
+					// Step 246 shows /api/v1/time-slots returns array of { time: string, available: boolean }? 
+					// NO, Step 246 shows creating /api/v1/time-slots. Let's check content.
+					// View file /app/api/v1/time-slots/route.ts in step 246 showed:
+					// const slots = await prisma.timeSlot.findMany({ where: { isActive: true }, orderBy: { order: "asc" } })
+					// return NextResponse.json(slots)
+					// So it returns TimeSlot objects: { id, time, isActive, order }.
+					if (Array.isArray(data)) {
+						setTimeSlots(data.map((slot: any) => slot.time))
+					}
+				}
+			} catch (error) {
+				console.error("Failed to fetch time slots:", error)
+			}
+		}
+		fetchTimeSlots()
+	}, [])
 
 	const generateCalendarDays = (month: number, year: number) => {
 		const days: (number | null)[] = []

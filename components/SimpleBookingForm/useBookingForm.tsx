@@ -39,9 +39,33 @@ export const useBookingForm = (initialServiceId?: string) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const [timeSlots, setTimeSlots] = useState(defaultTimeSlots)
+	const [configTimeSlots, setConfigTimeSlots] = useState<TimeSlot[]>(defaultTimeSlots)
 	const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1)
 	const [currentYear, setCurrentYear] = useState(today.getFullYear())
 	const [isLoadingTimeSlots, setIsLoadingTimeSlots] = useState(false)
+
+	useEffect(() => {
+		const fetchSlots = async () => {
+			try {
+				const res = await fetch("/api/v1/time-slots")
+				if (res.ok) {
+					const data = await res.json()
+					if (Array.isArray(data) && data.length > 0) {
+						const mapped = data.map((s: any) => ({
+							time: s.time,
+							available: true
+						}))
+						setConfigTimeSlots(mapped)
+						// Update current time slots if no date selected yet, just to reflect config
+						setTimeSlots(prev => prev === defaultTimeSlots ? mapped : prev)
+					}
+				}
+			} catch (err) {
+				console.error("Failed to load time slots", err)
+			}
+		}
+		fetchSlots()
+	}, [])
 
 	const { data: servicesData, error: servicesError, isLoading: isLoadingServices } = useServices({ limit: 1000 })
 	const services = servicesData?.services || []
@@ -84,7 +108,7 @@ export const useBookingForm = (initialServiceId?: string) => {
 
 	useEffect(() => {
 		if (!selectedDate || !selectedService) {
-			setTimeSlots(defaultTimeSlots.map(ts => ({ ...ts, isBooked: false })))
+			setTimeSlots(configTimeSlots.map(ts => ({ ...ts, isBooked: false })))
 			setIsLoadingTimeSlots(false)
 			return
 		}
@@ -94,9 +118,15 @@ export const useBookingForm = (initialServiceId?: string) => {
 			const isToday = selectedDate === todayDay && currentMonth === todayMonth && currentYear === todayYear
 			const selectedDateTime = new Date(currentYear, currentMonth - 1, selectedDate)
 			const now = new Date()
-			const slots = defaultTimeSlots.map(slot => {
+			const slots = configTimeSlots.map(slot => {
 				const isBooked = booked.includes(slot.time)
-				const slotTime = parseTimeToDate(slot.time, selectedDateTime)
+				let slotTime
+				try {
+					slotTime = parseTimeToDate(slot.time, selectedDateTime)
+				} catch (e) {
+					slotTime = new Date(selectedDateTime) // Fallback if parse fails
+				}
+
 				if (isBooked) return { ...slot, available: false, isBooked: true }
 				if (isToday && slotTime <= now) return { ...slot, available: false, isBooked: false }
 				return { ...slot, available: true, isBooked: false }
@@ -107,7 +137,7 @@ export const useBookingForm = (initialServiceId?: string) => {
 				|| (isToday && selectedTime && parseTimeToDate(selectedTime, selectedDateTime) <= now)
 			) setSelectedTime("")
 		}
-	}, [dateBookingsData, selectedDate, selectedService, currentMonth, currentYear, selectedTime, todayDay, todayMonth, todayYear, isLoadingDateBookings])
+	}, [dateBookingsData, selectedDate, selectedService, currentMonth, currentYear, selectedTime, todayDay, todayMonth, todayYear, isLoadingDateBookings, configTimeSlots])
 
 	const selectedServiceData = selectedService ? services.find(s => s.id === selectedService) : undefined
 	const totalPrice = selectedServiceData?.price || 0

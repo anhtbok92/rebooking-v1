@@ -178,7 +178,10 @@ export function ProfileForm() {
 								<Input
 									id="role"
 									type="text"
-									value={profile?.role ? tr(profile.role as any) : (session?.user ? tr((session.user as any).role as any) : "")}
+									value={(() => {
+										const role = profile?.role || (session?.user as any)?.role
+										return role ? tr(role as any) : ""
+									})()}
 									disabled
 									className="mt-2 bg-muted"
 									placeholder="Loading..."

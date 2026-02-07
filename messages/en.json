@@ -81,6 +81,7 @@
             "referrals": "Referrals",
             "staff": "Staff",
             "users": "Users",
+            "timeSlots": "Time Slots",
             "copyright": "© {year} Reebooking. All rights reserved."
         },
         "stats": {
@@ -345,6 +346,25 @@
                 "cancel": "Cancel",
                 "update": "Update"
             }
+        },
+        "timeSlots": {
+            "title": "Time Slot Management",
+            "description": "Configure available booking time slots",
+            "add": "Add Slot",
+            "time": "Time (e.g. 8:30 AM)",
+            "order": "Order",
+            "active": "Active",
+            "actions": "Actions",
+            "edit": "Edit",
+            "delete": "Delete",
+            "save": "Save",
+            "cancel": "Cancel",
+            "confirmDelete": "Are you sure you want to delete this slot?",
+            "deleteSuccess": "Time slot deleted",
+            "updateSuccess": "Time slot updated",
+            "createSuccess": "Time slot created",
+            "error": "An error occurred",
+            "empty": "No time slots found"
         },
         "staff": {
             "title": "Staff Management",
