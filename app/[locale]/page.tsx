@@ -1,5 +1,5 @@
-import { HowItWorksSection } from "@/components/landing/HowItWorksSection"
-import { SimpleFooter } from "@/components/landing/SimpleFooter"
+// import { HowItWorksSection } from "@/components/landing/HowItWorksSection"
+// import { SimpleFooter } from "@/components/landing/SimpleFooter"
 import LayoutAdmin from "@/components/layout/landing"
 import { SimpleBookingForm } from '@/components/SimpleBookingForm'
 
@@ -8,8 +8,8 @@ export default function Home() {
 		<LayoutAdmin>
 			<div className="min-h-screen bg-background">
 				<SimpleBookingForm />
-				<HowItWorksSection />
-				<SimpleFooter />
+				{/* <HowItWorksSection /> */}
+				{/* <SimpleFooter /> */}
 			</div>
 		</LayoutAdmin>
 	)
