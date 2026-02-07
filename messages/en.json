@@ -268,6 +268,17 @@
                 "4": "Thu",
                 "5": "Fri",
                 "6": "Sat"
+            },
+            "details": {
+                "title": "Booking Details",
+                "description": "Detailed information about the booking",
+                "customerInfo": "Customer Information",
+                "bookingInfo": "Booking Information",
+                "status": "Status",
+                "paymentMethod": "Payment Method",
+                "photos": "Photos",
+                "downloadReceipt": "Download Receipt",
+                "close": "Close"
             }
         },
         "analytics": {
@@ -749,7 +760,37 @@
         "error": "Error",
         "invalidCoupon": "Invalid Coupon",
         "couponApplied": "Coupon Applied!",
-        "saved": "Saved ${amount}",
-        "failedToApply": "Failed to apply coupon"
+        "saved": "Saved {amount}",
+        "failedToApply": "Failed to apply coupon",
+        "myself": "Myself",
+        "myselfDescription": "Book an appointment for yourself.",
+        "someoneElse": "Someone Else",
+        "someoneElseDescription": "Book for a family member or friend.",
+        "bookingInfo": "Booking Information",
+        "guestCheckoutDescription": "You can complete your booking without creating an account. If you provide an email, we'll create an account for you automatically so you can track your bookings later.",
+        "fullName": "Full Name",
+        "phoneNumber": "Phone Number",
+        "orderSummary": "Order Summary",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "processing": "Processing...",
+        "creatingBooking": "Creating Booking...",
+        "payWithCard": "Pay with Card",
+        "completeBooking": "Complete Booking",
+        "backToCart": "Back to Cart",
+        "youSaved": "You saved",
+        "removeDiscount": "Remove discount",
+        "enterDiscountCode": "Enter your discount/promo code",
+        "apply": "Apply",
+        "applyDiscountCode": "Apply discount code",
+        "discountCodeNote": "Only one code per order. Double-check your code before applying.",
+        "paymentMethod": "Payment Method",
+        "cashPayment": "Cash Payment",
+        "cardPayment": "Card Payment",
+        "referralCodeOpt": "Referral Code (Optional)",
+        "enterReferralCode": "Enter referral code to earn rewards",
+        "referralCodePlaceholder": "ABC123",
+        "referralCodeDescription": "If you were referred by someone, enter their code here to earn rewards"
     }
 }

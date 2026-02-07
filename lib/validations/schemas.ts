@@ -173,7 +173,7 @@ export const bulkBookingSchema = z.object({
 	paymentMethod: z.enum(["cash", "mobile"], {
 		errorMap: () => ({ message: "Invalid payment method" }),
 	}),
-	userId: z.string().uuid().optional(),
+	userId: z.string().min(1).max(36).optional(), // Changed from z.string().uuid().optional() to accept both UUID and simple IDs
 	email: z.string().email("Invalid email format").optional(),
 	bookingFor: z.enum(["self", "other"]).optional(),
 	discountCode: z.string().optional(),

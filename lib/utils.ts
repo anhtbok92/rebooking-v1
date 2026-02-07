@@ -55,3 +55,37 @@ export function formatBookingDate(date: string | Date): string {
     return String(date)
   }
 }
+
+/**
+ * Get the currency symbol based on the currency code
+ * @param currencyCode Currency code (e.g., 'VND', 'USD')
+ * @returns Currency symbol (e.g., 'đ', '$')
+ */
+export function getCurrencySymbol(currencyCode: string): string {
+  switch (currencyCode.toUpperCase()) {
+    case 'VND':
+      return 'đ';
+    case 'USD':
+      return '$';
+    default:
+      return '$'; // Default to USD symbol
+  }
+}
+
+/**
+ * Format currency amount with proper symbol placement based on locale
+ * @param amount The numeric amount to format
+ * @param currencyCode Currency code (e.g., 'VND', 'USD')
+ * @returns Formatted currency string with symbol in correct position
+ */
+export function formatCurrency(amount: number, currencyCode: string): string {
+  const currencySymbol = getCurrencySymbol(currencyCode);
+  
+  // For Vietnamese Dong (VND), the symbol comes after the amount
+  if (currencyCode.toUpperCase() === 'VND') {
+    return `${amount.toLocaleString()}${currencySymbol}`;
+  }
+  
+  // For other currencies (like USD), the symbol comes before the amount
+  return `${currencySymbol}${amount.toLocaleString()}`;
+}

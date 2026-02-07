@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { CheckCircle2, Loader2, X, Sparkles } from "lucide-react";
 import { useRef } from "react";
+import { useTranslations } from 'next-intl';
+import { useSystemSettings } from "@/lib/swr/system-settings";
+import { getCurrencySymbol, formatCurrency } from "@/lib/utils";
 
 interface DiscountCodeInputProps {
   couponCode: string;
@@ -23,6 +26,8 @@ export function DiscountCodeInput({
   onApply,
   onRemove,
 }: DiscountCodeInputProps) {
+  const t = useTranslations('Checkout');
+  const { currency } = useSystemSettings();
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -34,7 +39,7 @@ export function DiscountCodeInput({
             className="text-lg font-semibold text-card-foreground"
             style={{ fontFamily: "var(--font-space-grotesk)" }}
           >
-            Discount Code
+            {t('discountCode')}
           </h3>
         </div>
         {appliedDiscount ? (
@@ -44,7 +49,7 @@ export function DiscountCodeInput({
               <div>
                 <p className="font-semibold text-green-900 dark:text-green-100 text-base">{appliedDiscount.code}</p>
                 <p className="text-sm text-green-700 dark:text-green-300">
-                  You saved <span className="font-semibold">${appliedDiscount.amount.toLocaleString()}</span>
+                  {t('youSaved')} <span className="font-semibold">{formatCurrency(appliedDiscount.amount, currency)}</span>
                 </p>
               </div>
             </div>
@@ -52,7 +57,7 @@ export function DiscountCodeInput({
               type="button"
               variant="ghost"
               size="icon"
-              aria-label="Remove discount"
+              aria-label={t('removeDiscount')}
               onClick={onRemove}
               className="text-gray-500 hover:text-red-600 dark:hover:text-red-400"
               tabIndex={0}
@@ -74,7 +79,7 @@ export function DiscountCodeInput({
             <div className="flex-1 relative">
               <Input
                 ref={inputRef}
-                placeholder="Enter your discount/promo code"
+                placeholder={t('enterDiscountCode')}
                 value={couponCode}
                 maxLength={32}
                 autoFocus={false}
@@ -94,7 +99,7 @@ export function DiscountCodeInput({
                     inputRef.current?.focus();
                   }
                 }}
-                aria-label="Discount code"
+                aria-label={t('discountCode')}
                 disabled={isApplying}
               />
             </div>
@@ -104,19 +109,19 @@ export function DiscountCodeInput({
               disabled={isApplying || !couponCode.trim()}
               className="shrink-0 h-10 px-6 font-semibold text-sm"
               style={{ fontFamily: "var(--font-space-grotesk)" }}
-              aria-label="Apply discount code"
+              aria-label={t('applyDiscountCode')}
             >
               {isApplying ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                "Apply"
+                t('apply')
               )}
             </Button>
           </form>
         )}
         {!appliedDiscount && (
           <p className="mt-3 text-xs text-muted-foreground">
-            Only one code per order. Double-check your code before applying.
+            {t('discountCodeNote')}
           </p>
         )}
       </CardContent>

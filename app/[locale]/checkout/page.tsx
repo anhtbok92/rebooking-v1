@@ -17,8 +17,13 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { useTranslations } from 'next-intl';
+import { useSystemSettings } from "@/lib/swr/system-settings";
+import { getCurrencySymbol, formatCurrency } from "@/lib/utils";
 
 export default function CheckoutPage() {
+	const t = useTranslations('Checkout');
+	const { currency } = useSystemSettings();
 	const { cart, clearCart, cartTotal } = useCart()
 	const router = useRouter()
 	const { data: session } = useSession()
@@ -71,7 +76,7 @@ export default function CheckoutPage() {
 	const handleSignIn = async (e: React.FormEvent) => {
 		e.preventDefault()
 		if (!signInEmail.trim() || !signInPassword.trim()) {
-			toast.error("Please enter email and password")
+			toast.error(t('pleaseEnterCredentials'))
 			return
 		}
 
@@ -84,17 +89,17 @@ export default function CheckoutPage() {
 			})
 
 			if (result?.error) {
-				toast.error("Invalid email or password")
+				toast.error(t('invalidCredentials'))
 				return
 			}
 
-			toast.success("Signed in successfully!")
+			toast.success(t('signInSuccess'))
 			// Refresh to update session
 			setTimeout(() => {
 				window.location.reload()
 			}, 500)
 		} catch (error) {
-			toast.error("Something went wrong")
+			toast.error(t('signInError'))
 		} finally {
 			setIsSigningIn(false)
 		}
@@ -107,13 +112,13 @@ export default function CheckoutPage() {
 				<div className="text-center">
 					<ShoppingCart className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
 					<h1 className="text-2xl font-bold text-card-foreground mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-						Your cart is empty
+						{t('emptyCart')}
 					</h1>
 					<p className="text-muted-foreground mb-6" style={{ fontFamily: "var(--font-dm-sans)" }}>
-						Add services to your cart before checking out
+						{t('emptyCartDescription')}
 					</p>
 					<Link href="/">
-						<Button>Back to Booking</Button>
+						<Button>{t('backToBooking')}</Button>
 					</Link>
 				</div>
 			</div>
@@ -144,7 +149,7 @@ export default function CheckoutPage() {
 			const data = await res.json()
 
 			if (!res.ok) {
-				toast.error("Invalid Coupon", { description: data.error })
+				toast.error(t('invalidCoupon'), { description: data.error })
 				return
 			}
 
@@ -154,13 +159,13 @@ export default function CheckoutPage() {
 				finalTotal: data.finalTotal,
 			})
 
-			toast.success("Coupon Applied!", {
-				description: `Saved $${data.discountAmount}`,
+			toast.success(t('couponApplied'), {
+				description: t('saved', { amount: formatCurrency(data.discountAmount, currency) }),
 			})
 
 			setCouponCode("")
 		} catch (err) {
-			toast.error("Error", { description: "Failed to apply coupon" })
+			toast.error(t('error'), { description: t('failedToApply') })
 		} finally {
 			setIsApplying(false)
 		}
@@ -169,15 +174,15 @@ export default function CheckoutPage() {
 	// Handle checkout
 	const handleCheckout = async () => {
 		if (!isFormValid()) {
-			toast.error("Missing Information", {
-				description: "Please fill in all required fields",
+			toast.error(t('missingInfo'), {
+				description: t('fillAllFields'),
 			})
 			return
 		}
 
 		if (paymentMethod === "stripe" && !session?.user) {
-			toast.error("Login Required", {
-				description: "Please log in to proceed with Stripe payment",
+			toast.error(t('loginRequired'), {
+				description: t('loginForStripe'),
 			})
 			router.push("/signin")
 			return
@@ -227,7 +232,7 @@ export default function CheckoutPage() {
 						phone,
 						email: email || session?.user?.email,
 						paymentMethod: "cash",
-						userId: session?.user?.id ?? null,
+						...(session?.user?.id && { userId: session.user.id }),
 						bookingFor,
 						referralCode: referralCode.trim() || undefined,
 					}),
@@ -238,16 +243,16 @@ export default function CheckoutPage() {
 					throw new Error(error ?? "Failed to create bookings")
 				}
 
-				toast.success("Bookings Confirmed!", {
-					description: "All bookings confirmed! Check your WhatsApp for details.",
+				toast.success(t('bookingConfirmed'), {
+					description: t('bookingConfirmedDescription'),
 				})
 
 				await clearCart()
 				router.push("/")
 			}
 		} catch (err) {
-			toast.error("Error", {
-				description: err instanceof Error ? err.message : "An error occurred",
+			toast.error(t('error'), {
+				description: err instanceof Error ? err.message : t('signInError'),
 			})
 		} finally {
 			setIsSubmitting(false)
@@ -261,10 +266,10 @@ export default function CheckoutPage() {
 				<div className="mb-8">
 					<Link href="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-4">
 						<ArrowLeft className="w-4 h-4" />
-						<span style={{ fontFamily: "var(--font-dm-sans)" }}>Back to Booking</span>
+						<span style={{ fontFamily: "var(--font-dm-sans)" }}>{t('backToBooking')}</span>
 					</Link>
 					<h1 className="text-3xl font-bold text-card-foreground" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-						Checkout
+						{t('title')}
 					</h1>
 				</div>
 
@@ -277,11 +282,11 @@ export default function CheckoutPage() {
 								<TabsList className="grid w-full grid-cols-2 mb-3">
 									<TabsTrigger value="signin" className="flex items-center gap-2">
 										<LogIn className="w-4 h-4" />
-										Sign In
+										{t('signIn')}
 									</TabsTrigger>
 									<TabsTrigger value="guest" className="flex items-center gap-2">
 										<UserCircle className="w-4 h-4" />
-										Guest Checkout
+										{t('guestCheckout')}
 									</TabsTrigger>
 								</TabsList>
 
@@ -291,16 +296,16 @@ export default function CheckoutPage() {
 										<CardHeader>
 											<CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
 												<User className="w-5 h-5 text-primary" />
-												Sign In to Your Account
+												{t('signInTitle')}
 											</CardTitle>
 											<CardDescription style={{ fontFamily: "var(--font-dm-sans)" }}>
-												Sign in to access your account and benefits
+												{t('signInDescription')}
 											</CardDescription>
 										</CardHeader>
 										<CardContent>
 											<form onSubmit={handleSignIn} className="space-y-4">
 												<div>
-													<Label htmlFor="checkout-email">Email</Label>
+													<Label htmlFor="checkout-email">{t('email')}</Label>
 													<Input
 														id="checkout-email"
 														type="email"
@@ -311,7 +316,7 @@ export default function CheckoutPage() {
 													/>
 												</div>
 												<div>
-													<Label htmlFor="checkout-password">Password</Label>
+													<Label htmlFor="checkout-password">{t('password')}</Label>
 													<Input
 														id="checkout-password"
 														type="password"
@@ -323,16 +328,16 @@ export default function CheckoutPage() {
 												</div>
 												<div className="flex items-center justify-between">
 													<Link href="/auth/forgot-password" className="text-sm text-primary hover:underline" style={{ fontFamily: "var(--font-dm-sans)" }}>
-														Forgot password?
+														{t('forgotPassword')}
 													</Link>
 												</div>
 												<Button type="submit" className="w-full" disabled={isSigningIn} style={{ fontFamily: "var(--font-space-grotesk)" }}>
-													{isSigningIn ? "Signing in..." : "Sign In"}
+													{isSigningIn ? t('signingIn') : t('signIn')}
 												</Button>
 											</form>
 											<div className="mt-4 pt-4 border-t border-border">
 												<p className="text-xs text-muted-foreground text-center" style={{ fontFamily: "var(--font-dm-sans)" }}>
-													Don&apos;t have an account? <Link href="/signup" className="text-primary hover:underline">Sign up here</Link>
+													{t('noAccount')} <Link href="/signup" className="text-primary hover:underline">{t('signUpHere')}</Link>
 												</p>
 											</div>
 										</CardContent>
