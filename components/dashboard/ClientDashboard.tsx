@@ -34,14 +34,14 @@ export function ClientDashboard() {
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					<Card>
 						<CardHeader>
-							<CardTitle>Welcome to Your Dashboard</CardTitle>
+							<CardTitle>{t("card.title")}</CardTitle>
 							<CardDescription>
-								This is your personal dashboard where you can manage your bookings and preferences.
+								{t("card.description")}
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<p className="text-sm text-muted-foreground">
-								You can view your upcoming appointments, past bookings, and manage your account settings here.
+								{t("card.content")}
 							</p>
 						</CardContent>
 					</Card>
