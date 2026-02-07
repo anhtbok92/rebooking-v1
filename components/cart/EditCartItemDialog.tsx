@@ -92,6 +92,7 @@ interface EditCartItemDialogProps {
 
 export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) {
 	const t = useTranslations("Booking.edit")
+	const tCart = useTranslations("Booking.cart")
 	const [isOpen, setIsOpen] = useState(false)
 	const [services, setServices] = useState<Service[]>([])
 	const [selectedService, setSelectedService] = useState<string>(item.serviceId)
@@ -289,7 +290,7 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 				<div className="space-y-6 py-4">
 					{/* Service Selection */}
 					<div>
-						<h3 className="text-lg font-semibold mb-3">Service</h3>
+						<h3 className="text-lg font-semibold mb-3">{t("service")}</h3>
 						<ServiceSelection
 							services={services}
 							selectedService={selectedService}
@@ -298,49 +299,52 @@ export function EditCartItemDialog({ item, onUpdate }: EditCartItemDialogProps) 
 						/>
 					</div>
 
-					{/* Date Selection */}
-						<div>
-							<h3 className="text-lg font-semibold mb-3">Date</h3>
-							<CalendarCard
-								currentMonth={currentMonth}
-								currentYear={currentYear}
-								handlePreviousMonth={handlePreviousMonth}
-								handleNextMonth={handleNextMonth}
-								calendarDays={calendarDays}
-								weekDays={weekDays}
-								selectedDate={selectedDate}
-								setSelectedDate={setSelectedDate}
-								bookingCounts={bookingCounts}
-								selectedService={selectedService}
-								disabledDates={
-									selectedService
-										? Object.keys(bookingCounts)
-											.filter((day) => bookingCounts[Number(day)] >= 6)
-											.map(Number)
-										: []
-								}
-							/>
-						</div>
+					{/* Calendar */}
+					<div>
+						<h3 className="text-lg font-semibold mb-3">{t("option")}</h3>
+						<CalendarCard
+							currentMonth={currentMonth}
+							currentYear={currentYear}
+							calendarDays={calendarDays}
+							weekDays={weekDays}
+							selectedDate={selectedDate}
+							setSelectedDate={setSelectedDate}
+							handlePreviousMonth={handlePreviousMonth}
+							handleNextMonth={handleNextMonth}
+							bookingCounts={bookingCounts}
+							selectedService={selectedService}
+							disabledDates={
+								selectedService
+									? Object.keys(bookingCounts)
+										.filter((day) => bookingCounts[Number(day)] >= 6)
+										.map(Number)
+									: []
+							}
+						/>
+					</div>
 
-						{/* Time Selection */}
-						<div>
-							<h3 className="text-lg font-semibold mb-3">Time</h3>
-							<TimeSelection
-								timeSlots={timeSlots}
-								selectedTime={selectedTime}
-								setSelectedTime={setSelectedTime}
-								isLoading={isLoadingTimeSlots}
-								disabled={!selectedService || !selectedDate}
-							/>
-						</div>
+					{/* Time Selection */}
+					<div>
+						<h3 className="text-lg font-semibold mb-3">{t("option")}</h3>
+						<TimeSelection
+							timeSlots={timeSlots}
+							selectedTime={selectedTime}
+							setSelectedTime={setSelectedTime}
+							isLoading={isLoadingTimeSlots}
+							disabled={!selectedDate}
+						/>
+					</div>
 
 					{/* Photo Upload */}
-					{selectedService && selectedDate && (
-						<div>
-							<h3 className="text-lg font-semibold mb-3">Photos (Optional)</h3>
-							<PhotoUpload photos={photos} setPhotos={setPhotos} />
-						</div>
-					)}
+					<div>
+						<h3 className="text-lg font-semibold mb-3">{t("photo")}</h3>
+						<PhotoUpload photos={photos} setPhotos={setPhotos} />
+						{photos.length > 0 && (
+							<p className="text-sm text-muted-foreground mt-2">
+								{t("photosAttached", { count: photos.length })}
+							</p>
+						)}
+					</div>
 
 					{/* Action Buttons */}
 					<div className="flex gap-3 justify-end pt-4 border-t">

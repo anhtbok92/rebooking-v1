@@ -54,7 +54,12 @@
             "removed": "{service} has been removed from cart"
         },
         "edit": {
-            "title": "Edit Cart Item"
+            "title": "Edit Cart Item",
+            "service": "Service",
+            "photo": "Photo",
+            "option": "Option",
+            "photosAttached": "{count} {count, plural, one {photo} other {photos}} attached",
+            "noPhotos": "No photos attached"
         }
     },
     "HowItWorks": {

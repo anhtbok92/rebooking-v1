@@ -54,7 +54,12 @@
             "removed": "{service} đã được xóa khỏi giỏ hàng"
         },
         "edit": {
-            "title": "Chỉnh sửa mục trong giỏ hàng"
+            "title": "Chỉnh sửa mục trong giỏ hàng",
+            "service": "Dịch vụ",
+            "photo": "Ảnh",
+            "option": "Tùy chọn",
+            "photosAttached": "{count} {count, plural, one {ảnh} other {ảnh}} đính kèm",
+            "noPhotos": "Không có ảnh đính kèm"
         }
     },
     "HowItWorks": {

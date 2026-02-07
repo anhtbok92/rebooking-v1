@@ -34,7 +34,8 @@ export function TimeSelection({
 					"grid gap-3 sm:gap-4 w-full",
 					timeSlots.length > 8
 						? "grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-						: "grid-cols-1 xs:grid-cols-2"
+						: "grid-cols-1 xs:grid-cols-2",
+					"auto-rows-fr" // Make all rows the same height
 				)}
 			>
 				{isLoading ? (
@@ -93,7 +94,8 @@ export function TimeSelection({
 									slot.available && !isSelected && !disabled && "cursor-pointer",
 									(!slot.available || disabled) && "opacity-60 cursor-not-allowed",
 									isSelected && "ring-2 ring-primary",
-									"w-full"
+									"w-full",
+									"whitespace-nowrap" // Prevent text wrapping
 								)}
 								tabIndex={slot.available && !disabled ? 0 : -1}
 								onMouseEnter={() => setHoveredIdx(index)}
