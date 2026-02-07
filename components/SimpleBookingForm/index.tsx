@@ -173,7 +173,7 @@ function SimpleBookingFormContent() {
 							<div className="flex items-center gap-2">
 								<ShoppingCart className="w-5 h-5 text-primary" />
 								<h2 className="text-lg font-bold text-card-foreground" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-									{t("cart")} {cartCount > 0 && `(${cartCount})`}
+									{t("cart.title")} {cartCount > 0 && `(${cartCount})`}
 								</h2>
 							</div>
 							<Button variant="ghost" size="icon" onClick={() => setIsCartOpen(false)} className="h-8 w-8" aria-label="Close cart">

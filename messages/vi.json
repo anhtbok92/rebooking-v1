@@ -43,7 +43,15 @@
         "step4": "Thông Tin Thêm",
         "allBooked": "Tất cả các khung giờ cho ngày này đã được đặt đầy. Vui lòng chọn ngày khác.",
         "optional": "(tùy chọn)",
-        "cart": "Giỏ hàng đặt lịch của bạn"
+        "cart": {
+            "title": "Giỏ hàng đặt lịch của bạn",
+            "empty": "Giỏ hàng trống",
+            "emptyDescription": "Chọn dịch vụ, ngày & giờ để thêm vào giỏ",
+            "total": "Tổng cộng:",
+            "checkout": "Tiến hành thanh toán",
+            "addMore": "Thêm dịch vụ khác",
+            "removed": "{service} đã được xóa khỏi giỏ hàng"
+        }
     },
     "HowItWorks": {
         "title": "Cách thức hoạt động",
@@ -712,5 +720,36 @@
             "prefsSuccess": "Đã lưu tùy chọn thành công",
             "prefsError": "Không thể lưu tùy chọn"
         }
+    },
+    "Checkout": {
+        "title": "Thanh toán",
+        "backToBooking": "Quay lại đặt lịch",
+        "emptyCart": "Giỏ hàng trống",
+        "emptyCartDescription": "Thêm dịch vụ vào giỏ hàng trước khi thanh toán",
+        "signIn": "Đăng nhập",
+        "guestCheckout": "Thanh toán khách",
+        "signInTitle": "Đăng nhập vào tài khoản",
+        "signInDescription": "Đăng nhập để truy cập tài khoản và quyền lợi của bạn",
+        "email": "Email",
+        "password": "Mật khẩu",
+        "forgotPassword": "Quên mật khẩu?",
+        "signingIn": "Đang đăng nhập...",
+        "noAccount": "Chưa có tài khoản?",
+        "signUpHere": "Đăng ký tại đây",
+        "invalidCredentials": "Email hoặc mật khẩu không đúng",
+        "signInSuccess": "Đăng nhập thành công!",
+        "signInError": "Đã xảy ra lỗi",
+        "pleaseEnterCredentials": "Vui lòng nhập email và mật khẩu",
+        "missingInfo": "Thiếu thông tin",
+        "fillAllFields": "Vui lòng điền đầy đủ các trường bắt buộc",
+        "loginRequired": "Yêu cầu đăng nhập",
+        "loginForStripe": "Vui lòng đăng nhập để thanh toán qua Stripe",
+        "bookingConfirmed": "Đã xác nhận đặt lịch!",
+        "bookingConfirmedDescription": "Tất cả đặt lịch đã được xác nhận! Kiểm tra WhatsApp để biết chi tiết.",
+        "error": "Lỗi",
+        "invalidCoupon": "Mã giảm giá không hợp lệ",
+        "couponApplied": "Đã áp dụng mã giảm giá!",
+        "saved": "Tiết kiệm {amount} đ",
+        "failedToApply": "Không thể áp dụng mã giảm giá"
     }
 }

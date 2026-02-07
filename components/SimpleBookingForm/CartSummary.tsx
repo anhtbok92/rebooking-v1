@@ -8,6 +8,7 @@ import { Brush, Droplet, Footprints, Hand, Palette, Plus, ShoppingCart, Trash2 }
 import Link from "next/link"
 import { toast } from "sonner"
 import { EditCartItemDialog } from "@/components/cart/EditCartItemDialog"
+import { useTranslations } from "next-intl"
 
 // Helper function to get service icon based on service name
 function getServiceIcon(serviceName: string) {
@@ -25,10 +26,11 @@ interface CartSummaryProps {
 
 export function CartSummary({ onClose }: CartSummaryProps) {
 	const { cart, removeFromCart, cartTotal, cartCount, updateCartItem } = useCart()
+	const t = useTranslations("Booking.cart")
 
 	const handleRemoveFromCart = (itemId: string, serviceName: string) => {
 		removeFromCart(itemId)
-		toast.success(`${serviceName} has been removed from cart`)
+		toast.success(t("removed", { service: serviceName }))
 	}
 
 
@@ -37,10 +39,10 @@ export function CartSummary({ onClose }: CartSummaryProps) {
 			<div className="flex flex-col items-center justify-center h-full min-h-[400px] text-center">
 				<ShoppingCart className="w-16 h-16 text-muted-foreground mb-4 opacity-50" />
 				<p className="text-muted-foreground text-lg mb-2" style={{ fontFamily: "var(--font-dm-sans)" }}>
-					Your cart is empty
+					{t("empty")}
 				</p>
 				<p className="text-sm text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
-					Select service, date & time to add items
+					{t("emptyDescription")}
 				</p>
 			</div>
 		)
@@ -68,7 +70,10 @@ export function CartSummary({ onClose }: CartSummaryProps) {
 								</div>
 							</div>
 							<div className="flex items-center gap-2 flex-shrink-0">
-								<span className="font-bold text-primary text-sm">${item.price}</span>
+								<div className="flex items-center gap-1">
+									<span className="font-bold text-primary text-sm">{item.price.toLocaleString("vi-VN")}</span>
+									<span className="text-xs text-muted-foreground">đ</span>
+								</div>
 								<div className="flex items-center gap-1">
 									<EditCartItemDialog item={item} onUpdate={updateCartItem} />
 									<button
@@ -87,22 +92,25 @@ export function CartSummary({ onClose }: CartSummaryProps) {
 			<div className="border-t border-border pt-4 space-y-3 mt-auto">
 				<div className="flex justify-between items-center mb-4">
 					<span className="text-lg font-semibold text-card-foreground" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-						Total:
+						{t("total")}
 					</span>
-					<span className="text-2xl font-bold text-primary" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-						${cartTotal.toLocaleString()}
-					</span>
+					<div className="flex items-center gap-1">
+						<span className="text-2xl font-bold text-primary" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+							{cartTotal.toLocaleString("vi-VN")}
+						</span>
+						<span className="text-sm text-muted-foreground">đ</span>
+					</div>
 				</div>
 
 				<Link href="/checkout" className="block">
 					<Button className="w-full" size="lg">
-						Proceed to Checkout
+						{t("checkout")}
 					</Button>
 				</Link>
 
-				<Button 
-					variant="outline" 
-					className="w-full" 
+				<Button
+					variant="outline"
+					className="w-full"
 					size="sm"
 					onClick={() => {
 						// Close sidebar when clicking "Add More Services"
@@ -112,7 +120,7 @@ export function CartSummary({ onClose }: CartSummaryProps) {
 					}}
 				>
 					<Plus className="w-4 h-4 mr-2" />
-					Add More Services
+					{t("addMore")}
 				</Button>
 			</div>
 		</div>

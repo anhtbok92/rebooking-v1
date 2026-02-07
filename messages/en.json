@@ -43,7 +43,15 @@
         "step4": "Additional Info",
         "allBooked": "All time slots for this day are fully booked. Please select another date.",
         "optional": "(optional)",
-        "cart": "Your Booking Cart"
+        "cart": {
+            "title": "Your Booking Cart",
+            "empty": "Your cart is empty",
+            "emptyDescription": "Select service, date & time to add items",
+            "total": "Total:",
+            "checkout": "Proceed to Checkout",
+            "addMore": "Add More Services",
+            "removed": "{service} has been removed from cart"
+        }
     },
     "HowItWorks": {
         "title": "How it works",
@@ -712,5 +720,36 @@
             "prefsSuccess": "Preferences saved successfully",
             "prefsError": "Failed to save preferences"
         }
+    },
+    "Checkout": {
+        "title": "Checkout",
+        "backToBooking": "Back to Booking",
+        "emptyCart": "Your cart is empty",
+        "emptyCartDescription": "Add services to your cart before checking out",
+        "signIn": "Sign In",
+        "guestCheckout": "Guest Checkout",
+        "signInTitle": "Sign In to Your Account",
+        "signInDescription": "Sign in to access your account and benefits",
+        "email": "Email",
+        "password": "Password",
+        "forgotPassword": "Forgot password?",
+        "signingIn": "Signing in...",
+        "noAccount": "Don't have an account?",
+        "signUpHere": "Sign up here",
+        "invalidCredentials": "Invalid email or password",
+        "signInSuccess": "Signed in successfully!",
+        "signInError": "Something went wrong",
+        "pleaseEnterCredentials": "Please enter email and password",
+        "missingInfo": "Missing Information",
+        "fillAllFields": "Please fill in all required fields",
+        "loginRequired": "Login Required",
+        "loginForStripe": "Please log in to proceed with Stripe payment",
+        "bookingConfirmed": "Bookings Confirmed!",
+        "bookingConfirmedDescription": "All bookings confirmed! Check your WhatsApp for details.",
+        "error": "Error",
+        "invalidCoupon": "Invalid Coupon",
+        "couponApplied": "Coupon Applied!",
+        "saved": "Saved ${amount}",
+        "failedToApply": "Failed to apply coupon"
     }
 }
