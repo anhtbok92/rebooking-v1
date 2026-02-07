@@ -63,8 +63,8 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
 		}
 
-		// STAFF only
-		if (path.startsWith("/staff") && role !== "STAFF") {
+		// STAFF and DOCTOR
+		if (path.startsWith("/staff") && (!role || !["STAFF", "DOCTOR"].includes(role))) {
 			return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url))
 		}
 	}

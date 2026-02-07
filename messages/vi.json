@@ -4,6 +4,7 @@
             "SUPER_ADMIN": "Quản trị cấp cao",
             "ADMIN": "Bản quản trị",
             "STAFF": "Nhân viên",
+            "DOCTOR": "Bác sĩ",
             "CLIENT": "Khách hàng",
             "undefined": "Vai trò không xác định"
         },

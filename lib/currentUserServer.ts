@@ -2,7 +2,7 @@ import { getAuthSession } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { normalizeRole } from './rbac'
 
-type UserRole = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "CLIENT"
+type UserRole = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "DOCTOR" | "CLIENT"
 
 export interface CurrentUserServer {
 	id: string
@@ -12,6 +12,7 @@ export interface CurrentUserServer {
 	isSuperAdmin: boolean
 	isAdmin: boolean
 	isStaff: boolean
+	isDoctor: boolean
 	isClient: boolean
 	[key: string]: any
 }
@@ -34,6 +35,7 @@ export default async function currentUserServer(): Promise<CurrentUserServer | n
 		isSuperAdmin: role === "SUPER_ADMIN",
 		isAdmin: role === "ADMIN",
 		isStaff: role === "STAFF",
+		isDoctor: role === "DOCTOR",
 		isClient: role === "CLIENT",
 	}
 }

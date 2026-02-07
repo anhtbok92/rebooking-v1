@@ -9,6 +9,7 @@ export interface User {
 	email: string
 	role: string
 	phone: string
+	image?: string | null
 	createdAt: string
 }
 
@@ -61,5 +62,24 @@ export function useStaff(params?: {
 	const url = `/api/v1/admin/users?${queryParams.toString()}`
 	
 	return useSWR<UsersResponse>(url, fetcher)
+}
+
+/**
+ * Hook to fetch doctors (public endpoint - no auth required)
+ */
+export function useDoctors(params?: {
+	page?: number
+	limit?: number
+	search?: string
+}) {
+	const queryParams = new URLSearchParams()
+	
+	if (params?.page) queryParams.append("page", params.page.toString())
+	if (params?.limit) queryParams.append("limit", params.limit.toString())
+	if (params?.search) queryParams.append("search", params.search)
+	
+	const url = `/api/v1/doctors?${queryParams.toString()}`
+	
+	return useSWR<{ doctors: User[], pagination: { total: number, page: number, limit: number, pages: number } }>(url, fetcher)
 }
 

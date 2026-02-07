@@ -1,7 +1,7 @@
 import { getEmailTemplate } from "../email-service"
 
 export function getAdminCreatedEmail(name: string, email: string, role: string, tempPassword: string) {
-	const roleDisplay = role === "SUPER_ADMIN" ? "Super Admin" : role === "ADMIN" ? "Admin" : "Staff"
+	const roleDisplay = role === "SUPER_ADMIN" ? "Super Admin" : role === "ADMIN" ? "Admin" : role === "DOCTOR" ? "Bác sĩ" : "Staff"
 	
 	const content = `
 		<p>Hello <strong>${name}</strong>,</p>
@@ -33,6 +33,7 @@ export function getAdminCreatedEmail(name: string, email: string, role: string, 
 			<li>View customer analytics</li>
 			<li>${role === "SUPER_ADMIN" ? "Manage users and staff accounts" : ""}</li>
 			<li>${role === "SUPER_ADMIN" || role === "ADMIN" ? "Create and manage discount codes" : ""}</li>
+			<li>${role === "DOCTOR" ? "View patient information" : ""}</li>
 			<li>Access reports and statistics</li>
 		</ul>
 	`
@@ -45,6 +46,7 @@ export function getRoleChangedEmail(name: string, newRole: string, oldRole: stri
 			case "SUPER_ADMIN": return "Super Admin"
 			case "ADMIN": return "Admin"
 			case "STAFF": return "Staff"
+			case "DOCTOR": return "Bác sĩ"
 			default: return "Client"
 		}
 	}

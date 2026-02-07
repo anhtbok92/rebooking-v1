@@ -136,7 +136,7 @@ export const updateDiscountSchema = createDiscountSchema.partial()
 // User schemas
 export const getUserQuerySchema = z.object({
 	search: z.string().optional(),
-	role: z.enum(["CLIENT", "STAFF", "ADMIN", "SUPER_ADMIN"]).optional(),
+	role: z.enum(["CLIENT", "STAFF", "DOCTOR", "ADMIN", "SUPER_ADMIN"]).optional(),
 	page: z.coerce.number().int().positive().default(1),
 	limit: z.coerce.number().int().positive().max(100).default(10),
 	sortBy: z.enum(["name", "email", "createdAt", "role"]).default("createdAt"),
@@ -189,7 +189,7 @@ export const registerUserSchema = z.object({
 	password: z.string().min(6, "Password must be at least 6 characters").max(100, "Password is too long"),
 	name: z.string().min(1, "Name is required").max(255, "Name is too long"),
 	phone: z.string().regex(phoneRegex, "Invalid phone number format").max(20, "Phone number is too long").optional(),
-	role: z.enum(["CLIENT", "STAFF", "ADMIN", "SUPER_ADMIN"]).default("CLIENT"),
+	role: z.enum(["CLIENT", "STAFF", "DOCTOR", "ADMIN", "SUPER_ADMIN"]).default("CLIENT"),
 	referralCode: z.string().optional(),
 })
 
@@ -198,7 +198,7 @@ export const updateUserSchema = z.object({
 	name: z.string().min(1).max(255).optional(),
 	phone: z.string().regex(phoneRegex).max(20).optional(),
 	email: z.string().email().optional(),
-	role: z.enum(["CLIENT", "STAFF", "ADMIN", "SUPER_ADMIN"]).optional(),
+	role: z.enum(["CLIENT", "STAFF", "DOCTOR", "ADMIN", "SUPER_ADMIN"]).optional(),
 })
 
 // Password reset schemas

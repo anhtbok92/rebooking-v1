@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
 				],
 			}
 
-			// Admin can only see their own account and clients/staff
+			// Admin can only see their own account and clients/staff/doctors
 			// Super admin can see everyone
 			let userWhere: any = searchConditions
 			if (userRole === "ADMIN") {
@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
 						{
 							OR: [
 								{ id: (session?.user as any)?.id }, // Admin's own account
-								{ role: { in: ["CLIENT", "STAFF"] } }, // Clients and staff
+								{ role: { in: ["CLIENT", "STAFF", "DOCTOR"] } }, // Clients, staff, and doctors
 							],
 						},
 					],
@@ -166,7 +166,7 @@ export async function GET(req: NextRequest) {
 				title: b.service.name,
 				subtitle: `${b.userName} • ${new Date(b.date).toLocaleDateString()} at ${b.time}`,
 				status: b.status,
-				url: userRole && (userRole.includes("ADMIN") || userRole === "SUPER_ADMIN" || userRole === "STAFF")
+				url: userRole && (userRole.includes("ADMIN") || userRole === "SUPER_ADMIN" || userRole === "STAFF" || userRole === "DOCTOR")
 					? `/admin/bookings`
 					: `/dashboard`,
 			})),

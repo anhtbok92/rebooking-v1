@@ -141,6 +141,7 @@ export function UserManagement() {
 							<SelectItem value="ALL">{t("allRoles")}</SelectItem>
 							<SelectItem value="CLIENT">{tCommon("roles.CLIENT")}</SelectItem>
 							<SelectItem value="STAFF">{tCommon("roles.STAFF")}</SelectItem>
+							<SelectItem value="DOCTOR">{tCommon("roles.DOCTOR")}</SelectItem>
 							<SelectItem value="ADMIN">{tCommon("roles.ADMIN")}</SelectItem>
 							<SelectItem value="SUPER_ADMIN">{tCommon("roles.SUPER_ADMIN")}</SelectItem>
 						</SelectContent>
@@ -176,6 +177,7 @@ export function UserManagement() {
 										<SelectContent>
 											<SelectItem value="CLIENT">{tCommon("roles.CLIENT")}</SelectItem>
 											<SelectItem value="STAFF">{tCommon("roles.STAFF")}</SelectItem>
+											<SelectItem value="DOCTOR">{tCommon("roles.DOCTOR")}</SelectItem>
 											<SelectItem value="ADMIN">{tCommon("roles.ADMIN")}</SelectItem>
 											<SelectItem value="SUPER_ADMIN">{tCommon("roles.SUPER_ADMIN")}</SelectItem>
 										</SelectContent>

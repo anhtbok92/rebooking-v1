@@ -143,9 +143,10 @@ export async function POST(req: NextRequest) {
 
 		// Send admin created email
 		try {
+			const roleLabel = newUserRole === "SUPER_ADMIN" ? "Super Admin" : newUserRole === "ADMIN" ? "Admin" : newUserRole === "DOCTOR" ? "Doctor" : "Staff"
 			await sendEmail({
 				to: email,
-				subject: `Welcome ${newUserRole === "SUPER_ADMIN" ? "Super Admin" : newUserRole === "ADMIN" ? "Admin" : "Staff"} - Account Created`,
+				subject: `Welcome ${roleLabel} - Account Created`,
 				html: getAdminCreatedEmail(name, email, newUserRole, password),
 			})
 		} catch (emailError) {

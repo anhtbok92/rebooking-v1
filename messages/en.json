@@ -4,6 +4,7 @@
             "SUPER_ADMIN": "Super Admin",
             "ADMIN": "Admin",
             "STAFF": "Staff",
+            "DOCTOR": "Doctor",
             "CLIENT": "Client",
             "undefined": "Unknown Role"
         },

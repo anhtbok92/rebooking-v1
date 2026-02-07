@@ -35,8 +35,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 		const userRole = (session.user as any).role
 		const userId = (session.user as any).id
 
-		// Allow access if user is admin, super admin, staff, or owns the booking
-		const hasAccess = ["ADMIN", "SUPER_ADMIN", "STAFF"].includes(userRole) || booking.userId === userId
+		// Allow access if user is admin, super admin, staff, doctor, or owns the booking
+		const hasAccess = ["ADMIN", "SUPER_ADMIN", "STAFF", "DOCTOR"].includes(userRole) || booking.userId === userId
 		
 		if (!hasAccess) {
 			return NextResponse.json({ error: "Forbidden" }, { status: 403 })

@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react"
 import { normalizeRole } from './rbac'
 
-type UserRole = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "CLIENT"
+type UserRole = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "DOCTOR" | "CLIENT"
 
 interface SessionUser {
   name?: string | null
@@ -15,6 +15,7 @@ export interface CurrentUser extends SessionUser {
   isSuperAdmin: boolean
   isAdmin: boolean
   isStaff: boolean
+  isDoctor: boolean
   isClient: boolean
 }
 
@@ -34,6 +35,7 @@ export default function currentUserClient(): CurrentUser | null {
     isSuperAdmin: role === "SUPER_ADMIN",
     isAdmin: role === "ADMIN",
     isStaff: role === "STAFF",
+    isDoctor: role === "DOCTOR",
     isClient: role === "CLIENT",
   }
 }

@@ -8,7 +8,13 @@ import { MobileBooking } from './MobileBooking'
 import { useServices, useUserBookings } from '@/lib/swr'
 import { useState, useMemo } from 'react'
 
-export default function HomePage() {
+export default function HomePage({ 
+  onNavigateToAppointments,
+  onNavigateToDoctors
+}: { 
+  onNavigateToAppointments?: () => void
+  onNavigateToDoctors?: () => void
+}) {
   const { data: session, status } = useSession()
   const isLoading = status === 'loading'
   const isAuthenticated = status === 'authenticated'
@@ -121,7 +127,13 @@ export default function HomePage() {
             shadowColor="shadow-blue-500/30"
             onClick={() => handleBookService()}
           />
-          <QuickAction icon={Stethoscope} label="Nha sĩ" color="bg-purple-500" shadowColor="shadow-purple-500/30" />
+          <QuickAction 
+            icon={Stethoscope} 
+            label="Bác sĩ" 
+            color="bg-purple-500" 
+            shadowColor="shadow-purple-500/30"
+            onClick={onNavigateToDoctors}
+          />
           <QuickAction icon={Newspaper} label="Tin tức" color="bg-pink-500" shadowColor="shadow-pink-500/30" />
           <QuickAction icon={FolderOpen} label="Hồ sơ" color="bg-emerald-500" shadowColor="shadow-emerald-500/30" />
           <QuickAction icon={Wallet} label="Ví tiền" color="bg-orange-500" shadowColor="shadow-orange-500/30" />
@@ -130,7 +142,10 @@ export default function HomePage() {
 
       {/* Upcoming Appointments */}
       <section className="mt-8 px-6">
-        <SectionHeader title="Lịch Hẹn Sắp Tới" />
+        <SectionHeader 
+          title="Lịch Hẹn Sắp Tới" 
+          onViewAll={onNavigateToAppointments}
+        />
         
         {!isAuthenticated ? (
           <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 text-center">
@@ -166,12 +181,12 @@ export default function HomePage() {
                 TH{new Date(nextBooking.date).getMonth() + 1}
               </span>
             </div>
-            <div className="flex-1">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-slate-800 dark:text-slate-100">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between mb-2 gap-2">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-slate-100 line-clamp-2 flex-1 leading-snug">
                   {nextBooking.service.name}
                 </h3>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
+                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase whitespace-nowrap flex-shrink-0 self-start ${
                   nextBooking.status === 'CONFIRMED' 
                     ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
                     : 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'
@@ -333,16 +348,21 @@ function QuickAction({ icon: Icon, label, color, shadowColor, onClick }: any) {
   )
 }
 
-function SectionHeader({ title, subtitle }: { title: string; subtitle?: string }) {
+function SectionHeader({ title, subtitle, onViewAll }: { title: string; subtitle?: string; onViewAll?: () => void }) {
   return (
     <div className="flex items-center justify-between mb-4">
       <div>
         <h2 className="font-bold text-lg">{title}</h2>
         {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>}
       </div>
-      <button className="text-primary font-semibold text-sm flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1.5 rounded-full">
-        Xem tất cả <ChevronRight className="w-4 h-4" />
-      </button>
+      {onViewAll && (
+        <button 
+          onClick={onViewAll}
+          className="text-primary font-semibold text-sm flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/20 px-3 py-1.5 rounded-full"
+        >
+          Xem tất cả <ChevronRight className="w-4 h-4" />
+        </button>
+      )}
     </div>
   )
 }

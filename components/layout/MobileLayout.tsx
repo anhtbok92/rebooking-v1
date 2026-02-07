@@ -7,6 +7,7 @@ import MessagesPage from '@/components/home/MessagesPage'
 import AppointmentsPage from '@/components/home/AppointmentsPage'
 import CTVPage from '@/components/home/CTVPage'
 import ProfilePage from '@/components/home/ProfilePage'
+import DoctorsPage from '@/components/home/DoctorsPage'
 
 export default function MobileLayout() {
   const [activeTab, setActiveTab] = useState('home')
@@ -22,7 +23,12 @@ export default function MobileLayout() {
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
-        return <HomePage />
+        return (
+          <HomePage 
+            onNavigateToAppointments={() => setActiveTab('appointments')}
+            onNavigateToDoctors={() => setActiveTab('doctors')}
+          />
+        )
       case 'messages':
         return <MessagesPage />
       case 'appointments':
@@ -31,8 +37,15 @@ export default function MobileLayout() {
         return <CTVPage />
       case 'profile':
         return <ProfilePage />
+      case 'doctors':
+        return <DoctorsPage onBack={() => setActiveTab('home')} />
       default:
-        return <HomePage />
+        return (
+          <HomePage 
+            onNavigateToAppointments={() => setActiveTab('appointments')}
+            onNavigateToDoctors={() => setActiveTab('doctors')}
+          />
+        )
     }
   }
 
