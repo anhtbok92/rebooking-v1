@@ -113,9 +113,6 @@ export function AdminDashboard() {
 							</button>
 						))}
 					</nav>
-					<div className="py-3 px-4 border-t border-border text-xs text-muted-foreground">
-						<span>&copy; {t("copyright", { year: new Date().getFullYear() })}</span>
-					</div>
 				</aside>
 				{/* Content */}
 				<main className="flex-1  space-y-5">
