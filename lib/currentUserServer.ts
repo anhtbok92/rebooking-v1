@@ -1,0 +1,39 @@
+import { getAuthSession } from "@/lib/auth"
+import { prisma } from "@/lib/prisma"
+import { normalizeRole } from './rbac'
+
+type UserRole = "SUPER_ADMIN" | "ADMIN" | "STAFF" | "CLIENT"
+
+export interface CurrentUserServer {
+	id: string
+	name?: string | null
+	email?: string | null
+	role: UserRole
+	isSuperAdmin: boolean
+	isAdmin: boolean
+	isStaff: boolean
+	isClient: boolean
+	[key: string]: any
+}
+
+export default async function currentUserServer(): Promise<CurrentUserServer | null> {
+	const session = await getAuthSession()
+	if (!session?.user?.email) return null
+
+	const user = await prisma.user.findUnique({
+		where: { email: session.user.email },
+	})
+
+	if (!user) return null
+
+	const role: UserRole = normalizeRole(user.role)
+
+	return {
+		...user,
+		role,
+		isSuperAdmin: role === "SUPER_ADMIN",
+		isAdmin: role === "ADMIN",
+		isStaff: role === "STAFF",
+		isClient: role === "CLIENT",
+	}
+}

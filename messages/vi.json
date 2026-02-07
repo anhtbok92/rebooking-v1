@@ -1,0 +1,505 @@
+{
+    "Common": {
+        "roles": {
+            "SUPER_ADMIN": "Quản trị cấp cao",
+            "ADMIN": "Bản quản trị",
+            "STAFF": "Nhân viên",
+            "CLIENT": "Khách hàng"
+        },
+        "docs": "Tài liệu",
+        "dashboard": "Bảng điều khiển",
+        "signIn": "Đăng nhập",
+        "signUp": "Đăng ký",
+        "home": "Trang chủ",
+        "profile": "Hồ sơ",
+        "settings": "Cài đặt",
+        "signOut": "Đăng xuất",
+        "title": "Quản lý Spa Cao Cấp",
+        "startBooking": "Bắt đầu đặt lịch",
+        "testAccount": "Thử nghiệm với tài khoản Demo"
+    },
+    "Hero": {
+        "title": "Trải Nghiệm Spa Cao Cấp",
+        "subtitle": "Thư giãn cơ thể và tâm trí với các dịch vụ chuyên nghiệp của chúng tôi",
+        "cta": "Đặt Lịch Ngay",
+        "demoMode": "Chế độ Demo đang hoạt động",
+        "subTitle": "Cách tốt hơn để thư giãn",
+        "description": "Trải nghiệm các dịch vụ spa chuyên nghiệp với tính năng đặt lịch trực tuyến dễ dàng. Quản lý các cuộc hẹn của bạn một cách dễ dàng."
+    },
+    "Booking": {
+        "title": "Đặt Lịch Hẹn",
+        "description": "Chọn dịch vụ của bạn và chọn một khung thời gian thuận tiện",
+        "service": "Chọn Dịch Vụ",
+        "date": "Chọn Ngày",
+        "time": "Chọn Giờ",
+        "confirm": "Xác Nhận Đặt Lịch",
+        "success": "Đặt lịch thành công!",
+        "addedToCart": "Đã thêm vào giỏ hàng",
+        "addedDescription": "{service} đã được thêm vào giỏ hàng của bạn",
+        "step1": "Chọn Dịch Vụ",
+        "step2": "Chọn Ngày",
+        "step3": "Chọn Giờ",
+        "step4": "Thông Tin Thêm",
+        "allBooked": "Tất cả các khung giờ cho ngày này đã được đặt đầy. Vui lòng chọn ngày khác.",
+        "optional": "(tùy chọn)",
+        "cart": "Giỏ hàng đặt lịch của bạn"
+    },
+    "HowItWorks": {
+        "title": "Cách thức hoạt động",
+        "description": "Đặt lịch hẹn của bạn chỉ trong 5 bước đơn giản",
+        "step0": {
+            "title": "Khám phá",
+            "description": "Duyệt qua danh mục các dịch vụ spa cao cấp của chúng tôi"
+        },
+        "step1": {
+            "title": "Chọn dịch vụ",
+            "description": "Chọn liệu trình phù hợp nhất với nhu cầu của bạn"
+        },
+        "step2": {
+            "title": "Chọn Ngày",
+            "description": "Chọn một ngày từ lịch tương tác của chúng tôi"
+        },
+        "step3": {
+            "title": "Chọn Giờ",
+            "description": "Chọn một khung giờ thuận tiện cho buổi liệu trình của bạn"
+        },
+        "step4": {
+            "title": "Xác nhận",
+            "description": "Xem lại thông tin và xác nhận cuộc hẹn của bạn"
+        }
+    },
+    "Admin": {
+        "sidebar": {
+            "overview": "Tổng quan",
+            "analytics": "Phân tích",
+            "bookings": "Đặt lịch",
+            "calendar": "Lịch",
+            "services": "Dịch vụ",
+            "discounts": "Giảm giá",
+            "ratings": "Đánh giá",
+            "referrals": "Giới thiệu",
+            "staff": "Nhân viên",
+            "users": "Người dùng",
+            "copyright": "© {year} Reebooking. Bảo lưu mọi quyền."
+        },
+        "stats": {
+            "totalBookings": "Tổng số đặt lịch",
+            "totalBookingsDesc": "Tất cả các cuộc hẹn từ trước đến nay",
+            "pendingBookings": "Đang chờ xử lý",
+            "totalRevenue": "Tổng doanh thu",
+            "totalUsers": "Tổng người dùng",
+            "todayBookings": "Đặt lịch hôm nay",
+            "todayBookingsDesc": "Các cuộc hẹn đã lên lịch cho hôm nay",
+            "monthlyRevenue": "Doanh thu tháng",
+            "monthlyRevenueDesc": "Doanh thu từ {count} cuộc hẹn trong tháng này",
+            "pending": "Đang chờ",
+            "pendingDesc": "Chờ xác nhận",
+            "confirmed": "Đã xác nhận",
+            "completed": "Đã hoàn thành",
+            "completedDesc": "Các liệu trình đã xong",
+            "cancelled": "Đã hủy",
+            "cancelledDesc": "Khách hàng hoặc hệ thống đã hủy"
+        },
+        "charts": {
+            "revenue": "Doanh thu theo thời gian",
+            "popularity": "Dịch vụ phổ biến",
+            "popularTitle": "Dịch vụ phổ biến",
+            "popularDesc": "Các liệu trình được đặt nhiều nhất trong tháng này",
+            "noData": "Chưa có dữ liệu đặt lịch",
+            "bookingsCount": "{count} lượt đặt",
+            "totalRevenue": "Tổng doanh thu"
+        },
+        "activity": {
+            "title": "Hoạt động gần đây",
+            "description": "Các lượt đặt lịch và cập nhật trạng thái mới nhất",
+            "booking": "Đặt lịch mới cho {service}",
+            "user": "Người dùng mới đăng ký: {name}",
+            "noActivity": "Chưa ghi nhận hoạt động nào gần đây"
+        },
+        "users": {
+            "title": "Quản lý người dùng",
+            "description": "Tạo, chỉnh sửa và quản lý người dùng ứng dụng",
+            "create": "Tạo người dùng",
+            "name": "Tên",
+            "email": "Email",
+            "role": "Vai trò",
+            "status": "Trạng thái",
+            "actions": "Thao tác",
+            "edit": "Sửa",
+            "delete": "Xóa"
+        },
+        "services": {
+            "title": "Quản lý dịch vụ",
+            "description": "Thêm, sửa và quản lý các dịch vụ spa hiện có",
+            "add": "Thêm dịch vụ",
+            "name": "Tên dịch vụ",
+            "price": "Giá",
+            "duration": "Thời lượng (phút)",
+            "category": "Danh mục",
+            "status": "Trạng thái"
+        },
+        "bookings": {
+            "title": "Quản lý đặt lịch",
+            "description": "Xem và quản lý các cuộc hẹn của khách hàng",
+            "customer": "Khách hàng",
+            "service": "Dịch vụ",
+            "date": "Ngày",
+            "time": "Giờ",
+            "status": "Trạng thái",
+            "actions": "Thao tác",
+            "tabs": {
+                "new": "Mới",
+                "pending": "Đang chờ",
+                "completed": "Đã hoàn thành",
+                "all": "Tất cả đặt lịch"
+            },
+            "card": {
+                "noBookings": "Không tìm thấy lịch đặt nào trong danh mục này",
+                "created": "Đã tạo",
+                "confirm": "Xác nhận",
+                "receipt": "Hóa đơn",
+                "delete": "Xóa",
+                "deleteConfirmTitle": "Bạn có chắc chắn không?",
+                "deleteConfirmDescription": "Hành động này không thể hoàn tác. Lịch đặt này sẽ bị xóa vĩnh viễn khỏi máy chủ.",
+                "cancel": "Hủy"
+            },
+            "messages": {
+                "statusSuccess": "Cập nhật trạng thái đặt lịch thành công",
+                "statusError": "Không thể cập nhật trạng thái đặt lịch",
+                "deleteSuccess": "Đã xóa đặt lịch thành công",
+                "deleteError": "Không thể xóa đặt lịch",
+                "receiptSuccess": "Đã tải hóa đơn thành công",
+                "receiptError": "Không thể tạo hóa đơn"
+            }
+        },
+        "calendar": {
+            "title": "Lịch đặt chỗ",
+            "description": "Trực quan hóa các cuộc hẹn và quản lý lịch trình",
+            "loading": "Đang tải các lịch hẹn...",
+            "viewDetails": "Nhấn để xem chi tiết",
+            "available": "Sẵn sàng",
+            "filterLabel": "Lọc theo ngày",
+            "filterAll": "Tất cả cuộc hẹn",
+            "filterToday": "Cuộc hẹn hôm nay",
+            "filterTomorrow": "Cuộc hẹn ngày mai",
+            "months": {
+                "0": "Tháng 1",
+                "1": "Tháng 2",
+                "2": "Tháng 3",
+                "3": "Tháng 4",
+                "4": "Tháng 5",
+                "5": "Tháng 6",
+                "6": "Tháng 7",
+                "7": "Tháng 8",
+                "8": "Tháng 9",
+                "9": "Tháng 10",
+                "10": "Tháng 11",
+                "11": "Tháng 12"
+            },
+            "weekdays": {
+                "0": "CN",
+                "1": "T2",
+                "2": "T3",
+                "3": "T4",
+                "4": "T5",
+                "5": "T6",
+                "6": "T7"
+            }
+        },
+        "analytics": {
+            "title": "Phân tích toàn diện",
+            "description": "Các chỉ số hiệu suất kinh doanh chi tiết"
+        },
+        "referrals": {
+            "title": "Quản lý Giới thiệu & Tiếp thị liên kết",
+            "description": "Quản lý mã giới thiệu và theo dõi hiệu suất tiếp thị liên kết",
+            "stats": {
+                "total": "Tổng số lượt giới thiệu",
+                "active": "Giới thiệu đang hoạt động",
+                "points": "Điểm đã thưởng"
+            }
+        },
+        "staff": {
+            "title": "Quản lý nhân viên",
+            "description": "Quản lý kỹ thuật viên và phân công nhân viên"
+        },
+        "discounts": {
+            "title": "Quản lý Giảm giá & Khuyến mãi",
+            "description": "Tạo và quản lý các mã giảm giá cho dịch vụ",
+            "create": "Tạo giảm giá",
+            "code": "Mã",
+            "type": "Loại",
+            "value": "Giá trị",
+            "minSpend": "Chi tiêu tối thiểu",
+            "maxUses": "Lượt dùng tối đa",
+            "status": "Trạng thái",
+            "percentage": "Phần trăm",
+            "fixed": "Số tiền cố định",
+            "card": {
+                "active": "Hoạt động",
+                "inactive": "Ngừng hoạt động",
+                "expired": "Hết hạn",
+                "fullyUsed": "Đã dùng hết",
+                "off": "Giảm {value}{type}",
+                "min": "Tối thiểu: ${amount}",
+                "used": "Đã dùng: {used}/{max}",
+                "expires": "Hết hạn: {date}",
+                "created": "Ngày tạo: {date}",
+                "viewDetails": "Xem chi tiết",
+                "edit": "Sửa"
+            },
+            "usage": {
+                "title": "Chi tiết sử dụng mã giảm giá",
+                "desc": "Phân tích chi tiết và thống kê sử dụng cho mã giảm giá này",
+                "totalUses": "Tổng lượt dùng",
+                "uniqueUsers": "Người dùng duy nhất",
+                "totalDiscount": "Tổng tiền giảm",
+                "revenue": "Doanh thu",
+                "byUser": "Sử dụng theo người dùng",
+                "byUserDesc": "Xem người dùng nào đã sử dụng mã này và bao nhiêu lần",
+                "guest": "Khách",
+                "usedCount": "Đã dùng {count} lần",
+                "saved": "Tiết kiệm ${amount}",
+                "spent": "Đã chi ${amount}",
+                "last": "Lần cuối: {date}",
+                "history": "Lịch sử sử dụng gần đây",
+                "historyDesc": "Các lần sử dụng mới nhất của mã giảm giá này"
+            },
+            "messages": {
+                "loadError": "Không thể tải danh sách mã giảm giá",
+                "createSuccess": "Đã tạo mã giảm giá!",
+                "createDesc": "{code} – Giảm {value}{type}",
+                "createError": "Không thể tạo mã",
+                "fillRequired": "Vui lòng điền đầy đủ các thông tin bắt buộc",
+                "updateSuccess": "Đã cập nhật mã giảm giá thành công!",
+                "updateError": "Không thể cập nhật mã",
+                "activated": "Đã kích hoạt mã giảm giá",
+                "deactivated": "Đã hủy kích hoạt mã giảm giá",
+                "deleteTitle": "Xóa mã giảm giá \"{code}\"",
+                "deleteConfirm": "Bạn có chắc chắn muốn xóa mã giảm giá này không? Hành động này không thể hoàn tác.",
+                "delete": "Xóa",
+                "deleteSuccess": "Đã xóa mã giảm giá",
+                "deleteError": "Không thể xóa mã",
+                "usageLoadError": "Không thể tải chi tiết sử dụng"
+            }
+        },
+        "ratings": {
+            "title": "Quản lý đánh giá dịch vụ",
+            "description": "Xem xét và phê duyệt đánh giá dịch vụ từ khách hàng",
+            "filterPlaceholder": "Lọc theo trạng thái",
+            "status": {
+                "pending": "Đang chờ",
+                "approved": "Đã duyệt",
+                "rejected": "Đã từ chối",
+                "all": "Tất cả"
+            },
+            "loading": "Đang tải đánh giá...",
+            "noRatings": "Không tìm thấy đánh giá nào",
+            "by": "bởi {name}",
+            "approve": "Duyệt",
+            "reject": "Từ chối",
+            "delete": {
+                "title": "Xóa đánh giá",
+                "confirm": "Bạn có chắc chắn muốn xóa đánh giá này không? Hành động này không thể hoàn tác.",
+                "cancel": "Hủy",
+                "button": "Xóa"
+            },
+            "pagination": "Trang {page} / {pages} (tổng cộng {total})",
+            "prev": "Trước",
+            "next": "Sau",
+            "messages": {
+                "fetchError": "Không thể tải đánh giá",
+                "approveSuccess": "Đã duyệt đánh giá",
+                "approveError": "Không thể duyệt đánh giá",
+                "rejectSuccess": "Đã từ chối đánh giá",
+                "rejectError": "Không thể từ chối đánh giá",
+                "deleteSuccess": "Đã xóa đánh giá",
+                "deleteError": "Không thể xóa đánh giá"
+            }
+        }
+    },
+    "Staff": {
+        "dashboard": {
+            "title": "Bảng điều khiển nhân viên",
+            "desc": "Quản lý các cuộc hẹn và đặt lịch hôm nay",
+            "todayBookings": "Đặt lịch hôm nay",
+            "todayDesc": "Cuộc hẹn đã lên lịch",
+            "completed": "Đã hoàn thành",
+            "completedDesc": "Trong tuần này",
+            "pending": "Đang chờ",
+            "pendingDesc": "Chờ xác nhận",
+            "revenue": "Tổng doanh thu",
+            "revenueDesc": "Tất cả lịch đặt chỗ",
+            "tabs": {
+                "analytics": "Phân tích",
+                "calendar": "Lịch",
+                "today": "Lịch hôm nay",
+                "all": "Tất cả lịch đặt"
+            }
+        }
+    },
+    "Client": {
+        "dashboard": {
+            "welcome": "Chào mừng trở lại, {name}",
+            "desc": "Quản lý các cuộc hẹn spa của bạn và khám phá các đề xuất cá nhân hóa",
+            "bookButton": "Đặt lịch hẹn mới",
+            "tabs": {
+                "overview": "Tổng quan",
+                "calendar": "Lịch",
+                "analytics": "Phân tích"
+            },
+            "stats": {
+                "totalBookings": "Tổng số đặt lịch",
+                "totalDesc": "Tất cả lịch đặt chỗ",
+                "completed": "Đã hoàn thành",
+                "completedDesc": "Cuộc hẹn đã xong",
+                "totalSpent": "Tổng chi tiêu",
+                "spentDesc": "Chi tiêu trọn đời",
+                "upcoming": "Sắp tới",
+                "upcomingDesc": "Cuộc hẹn đã lên lịch"
+            },
+            "sections": {
+                "upcoming": "Cuộc hẹn sắp tới",
+                "past": "Cuộc hẹn đã qua"
+            },
+            "actions": {
+                "receipt": "Hóa đơn",
+                "cancel": "Hủy lịch",
+                "bookAgain": "Đặt lại lần nữa",
+                "rate": "Đánh giá"
+            },
+            "messages": {
+                "noUpcoming": "Không có cuộc hẹn nào sắp tới",
+                "noPast": "Không có cuộc hẹn nào đã qua",
+                "cancelSuccess": "Đã hủy lịch đặt chỗ thành công",
+                "cancelError": "Không thể hủy lịch đặt chỗ",
+                "receiptSuccess": "Đã tải hóa đơn thành công",
+                "receiptError": "Không thể tải hóa đơn"
+            },
+            "cancelDialog": {
+                "title": "Hủy lịch đặt chỗ",
+                "desc": "Bạn có chắc chắn muốn hủy lịch này không? Hành động này không thể hoàn tác.",
+                "keep": "Giữ lại lịch",
+                "confirm": "Xác nhận hủy"
+            }
+        }
+    },
+    "Search": {
+        "trigger": "Tìm kiếm...",
+        "placeholder": "Tìm kiếm đặt lịch, dịch vụ, người dùng...",
+        "empty": "Nhập ít nhất 2 ký tự để tìm kiếm",
+        "noResults": "Không tìm thấy kết quả cho \"{query}\"",
+        "loading": "Đang tìm kiếm...",
+        "navigate": "Sử dụng ↑↓ để di chuyển, Enter để chọn, Esc để đóng",
+        "resultsCount": "{count} kết quả",
+        "inactive": "Ngừng hoạt động",
+        "types": {
+            "booking": "Đặt lịch",
+            "service": "Dịch vụ",
+            "user": "Người dùng",
+            "discount": "Giảm giá",
+            "referral": "Giới thiệu",
+            "result": "Kết quả"
+        },
+        "sections": {
+            "bookings": "Lịch đặt chỗ",
+            "services": "Dịch vụ",
+            "users": "Người dùng",
+            "discountCodes": "Mã giảm giá",
+            "referralCodes": "Mã giới thiệu"
+        }
+    },
+    "Profile": {
+        "title": "Hồ sơ của tôi",
+        "picture": {
+            "title": "Ảnh đại diện",
+            "desc": "Tải lên và quản lý ảnh đại diện của bạn"
+        },
+        "personal": {
+            "title": "Thông tin cá nhân",
+            "desc": "Cập nhật chi tiết hồ sơ của bạn"
+        },
+        "fields": {
+            "email": "Địa chỉ Email",
+            "emailHint": "Email không thể thay đổi",
+            "role": "Vai trò",
+            "roleHint": "Liên hệ quản trị viên để thay đổi vai trò",
+            "name": "Họ và tên",
+            "namePlaceholder": "Nhập họ và tên của bạn",
+            "phone": "Số điện thoại",
+            "phonePlaceholder": "Nhập số điện thoại của bạn"
+        },
+        "account": {
+            "title": "Thông tin tài khoản",
+            "desc": "Xem chi tiết tài khoản của bạn",
+            "memberSince": "Thành viên từ",
+            "status": "Trạng thái tài khoản",
+            "active": "Đang hoạt động"
+        },
+        "referral": {
+            "title": "Chương trình giới thiệu",
+            "desc": "Chia sẻ mã giới thiệu của bạn và nhận điểm khi bạn bè hoàn thành thanh toán đầu tiên",
+            "points": "Tổng điểm",
+            "referrals": "Lượt giới thiệu",
+            "ptsPerRef": "Điểm/Lượt giới thiệu",
+            "codeLabel": "Mã giới thiệu của bạn",
+            "linkLabel": "Liên kết giới thiệu của bạn",
+            "shareHint": "Chia sẻ liên kết này với bạn bè. Khi họ đăng ký bằng mã của bạn và hoàn thành thanh toán đầu tiên, bạn sẽ nhận được {points} điểm!",
+            "social": "Chia sẻ trên mạng xã hội",
+            "howItWorks": "Cách thức hoạt động",
+            "step1": "1. Chia sẻ mã hoặc liên kết giới thiệu cho bạn bè",
+            "step2": "2. Khi họ đăng ký bằng mã của bạn và thanh toán lần đầu, bạn nhận {points} điểm",
+            "step3": "3. Sử dụng điểm của bạn để đổi giảm giá khi đặt lịch",
+            "step4": "4. Càng giới thiệu nhiều, bạn càng nhận được nhiều điểm!"
+        },
+        "messages": {
+            "updateSuccess": "Đã cập nhật hồ sơ thành công",
+            "updateError": "Không thể cập nhật hồ sơ",
+            "imgSuccess": "Đã cập nhật ảnh đại diện thành công",
+            "imgError": "Không thể cập nhật ảnh đại diện",
+            "copySuccess": "Đã sao chép {type} vào bộ nhớ tạm!",
+            "copyError": "Không thể sao chép vào bộ bộ nhớ tạm",
+            "loadError": "Không thể tải thông tin hồ sơ"
+        },
+        "saving": "Đang lưu...",
+        "save": "Lưu thay đổi"
+    },
+    "Settings": {
+        "title": "Cài đặt",
+        "tabs": {
+            "password": "Đổi mật khẩu",
+            "preferences": "Tùy chọn"
+        },
+        "password": {
+            "current": "Mật khẩu hiện tại",
+            "currentPlaceholder": "Nhập mật khẩu hiện tại",
+            "new": "Mật khẩu mới",
+            "newPlaceholder": "Nhập mật khẩu mới",
+            "confirm": "Xác nhận mật khẩu",
+            "confirmPlaceholder": "Xác nhận mật khẩu mới",
+            "button": "Cập nhật mật khẩu",
+            "updating": "Đang cập nhật..."
+        },
+        "preferences": {
+            "title": "Tùy chọn thông báo",
+            "desc": "Quản lý cách bạn nhận thông báo và liên lạc",
+            "email": "Thông báo qua Email",
+            "emailDesc": "Nhận cập nhật đặt lịch qua email",
+            "sms": "Thông báo qua SMS",
+            "smsDesc": "Nhận cập nhật đặt lịch qua SMS",
+            "reminders": "Nhắc nhở đặt lịch",
+            "remindersDesc": "Nhận nhắc nhở trước các cuộc hẹn của bạn",
+            "promotional": "Email quảng cáo",
+            "promotionalDesc": "Nhận các ưu đãi đặc biệt và khuyến mãi",
+            "save": "Lưu tùy chọn"
+        },
+        "messages": {
+            "matchError": "Mật khẩu không khớp",
+            "lengthError": "Mật khẩu phải có ít nhất 8 ký tự",
+            "updateSuccess": "Đã cập nhật mật khẩu thành công",
+            "updateError": "Không thể cập nhật mật khẩu",
+            "prefsSuccess": "Đã lưu tùy chọn thành công",
+            "prefsError": "Không thể lưu tùy chọn"
+        }
+    }
+}

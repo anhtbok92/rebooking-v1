@@ -1,0 +1,17 @@
+import { SuperAdminDashboard } from "@/components/admin/SuperAdminDashboard"
+import currentUserServer from "@/lib/currentUserServer"
+import { redirect } from "next/navigation"
+
+export default async function SuperAdminPage() {
+	// Fetch current user from server
+	const currentUser = await currentUserServer()
+	const { isSuperAdmin } = currentUser || {}
+
+	// Redirect if not logged in
+	if (!currentUser) redirect("/signin")
+
+	// Redirect if not SUPER_ADMIN
+	if (!isSuperAdmin) redirect("/dashboard")
+
+	return <SuperAdminDashboard />
+}
