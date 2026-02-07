@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { MobileSearch } from './MobileSearch'
 import { MobileBooking } from './MobileBooking'
+import { ClinicMapDialog } from './ClinicMapDialog'
 import { useServices, useUserBookings } from '@/lib/swr'
 import { useState, useMemo } from 'react'
 
@@ -50,6 +51,9 @@ export default function HomePage({
   // Booking dialog state
   const [bookingOpen, setBookingOpen] = useState(false)
   const [selectedServiceId, setSelectedServiceId] = useState<string | undefined>(undefined)
+  
+  // Map dialog state
+  const [mapOpen, setMapOpen] = useState(false)
   
   // Fake images for services (will be replaced later)
   const serviceImages = [
@@ -102,7 +106,10 @@ export default function HomePage({
           </div>
           
           <div className="flex gap-3">
-            <button className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-md">
+            <button 
+              onClick={() => setMapOpen(true)}
+              className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white backdrop-blur-md hover:bg-white/30 transition-colors"
+            >
               <MapPin className="w-5 h-5" />
             </button>
             <div className="relative">
@@ -331,6 +338,12 @@ export default function HomePage({
         open={bookingOpen}
         onOpenChange={setBookingOpen}
         initialServiceId={selectedServiceId}
+      />
+      
+      {/* Clinic Map Dialog */}
+      <ClinicMapDialog 
+        open={mapOpen}
+        onOpenChange={setMapOpen}
       />
     </>
   )

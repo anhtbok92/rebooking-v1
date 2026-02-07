@@ -27,7 +27,14 @@ export {
 export {
 	useUsers,
 	useStaff,
+	useDoctors,
 	type User,
 	type UsersResponse,
 } from "./hooks/users"
 
+// Export settings hooks
+export {
+	useClinicAddress,
+	updateClinicAddress,
+	type ClinicAddress,
+} from "./hooks/settings"

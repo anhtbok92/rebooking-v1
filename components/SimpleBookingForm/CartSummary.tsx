@@ -55,33 +55,39 @@ export function CartSummary({ onClose }: CartSummaryProps) {
 				{cart.map((item) => {
 					const ServiceIcon = getServiceIcon(item.serviceName)
 					return (
-						<div key={item.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg group">
-							<div className="flex items-center gap-3 flex-1 min-w-0">
-								<div className="flex-shrink-0 p-2 rounded-lg bg-primary/10 text-primary">
-									<ServiceIcon className="w-5 h-5" />
+						<div key={item.id} className="bg-muted/50 rounded-2xl border border-border overflow-hidden group">
+							<div className="p-3">
+								{/* Service Info */}
+								<div className="flex items-start gap-3 mb-3">
+									<div className="flex-shrink-0 p-2 rounded-xl bg-primary/10 text-primary">
+										<ServiceIcon className="w-5 h-5" />
+									</div>
+									<div className="flex-1 min-w-0">
+										<p className="font-semibold text-sm text-card-foreground mb-1 line-clamp-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+											{item.serviceName}
+										</p>
+										<p className="text-xs text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
+											{formatBookingDateTime(item.date, item.time)}
+										</p>
+									</div>
 								</div>
-								<div className="flex-1 min-w-0">
-									<p className="font-semibold text-card-foreground text-sm" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-										{item.serviceName}
-									</p>
-									<p className="text-xs text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
-										{formatBookingDateTime(item.date, item.time)}
-									</p>
-								</div>
-							</div>
-							<div className="flex items-center gap-2 flex-shrink-0">
-								<div className="flex items-center gap-1">
-									<span className="font-bold text-primary text-sm">{item.price.toLocaleString("vi-VN")}</span>
-									<span className="text-xs text-muted-foreground">đ</span>
-								</div>
-								<div className="flex items-center gap-1">
-									<EditCartItemDialog item={item} onUpdate={updateCartItem} />
-									<button
-										onClick={() => handleRemoveFromCart(item.id, item.serviceName)}
-										className="p-1 hover:bg-destructive/10 rounded transition-colors opacity-70 group-hover:opacity-100"
-									>
-										<Trash2 className="w-4 h-4 text-destructive" />
-									</button>
+								
+								{/* Price and Actions */}
+								<div className="flex items-center justify-between pt-3 border-t border-border/50">
+									<div className="flex items-baseline gap-1">
+										<span className="font-bold text-primary text-base">{item.price.toLocaleString("vi-VN")}</span>
+										<span className="text-xs text-muted-foreground">đ</span>
+									</div>
+									<div className="flex items-center gap-1">
+										<EditCartItemDialog item={item} onUpdate={updateCartItem} />
+										<button
+											onClick={() => handleRemoveFromCart(item.id, item.serviceName)}
+											className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
+											aria-label="Remove item"
+										>
+											<Trash2 className="w-4 h-4 text-destructive" />
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>

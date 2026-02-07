@@ -54,20 +54,20 @@ export default function CartPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-background py-8 px-4 sm:px-6 lg:px-8">
+		<div className="min-h-screen bg-background py-4 sm:py-8 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-5xl mx-auto">
 				{/* Header */}
-				<div className="mb-8">
-					<Link href="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-4 transition-colors">
+				<div className="mb-6 sm:mb-8">
+					<Link href="/" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 mb-3 sm:mb-4 transition-colors text-sm">
 						<ArrowLeft className="w-4 h-4" />
 						<span style={{ fontFamily: "var(--font-dm-sans)" }}>Back to Booking</span>
 					</Link>
-					<div className="flex items-center justify-between">
+					<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 						<div>
-							<h1 className="text-4xl font-bold text-card-foreground mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+							<h1 className="text-2xl sm:text-4xl font-bold text-card-foreground mb-1 sm:mb-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
 								Your Cart
 							</h1>
-							<p className="text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
+							<p className="text-sm sm:text-base text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
 								{cart.length} {cart.length === 1 ? "item" : "items"} in your cart
 							</p>
 						</div>
@@ -91,7 +91,7 @@ export default function CartPage() {
 										},
 									})
 								}}
-								className="text-destructive hover:text-destructive hover:bg-destructive/10"
+								className="text-destructive hover:text-destructive hover:bg-destructive/10 w-full sm:w-auto"
 							>
 								<Trash2 className="w-4 h-4 mr-2" />
 								Clear All
@@ -100,62 +100,66 @@ export default function CartPage() {
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
 					{/* LEFT: Cart Items */}
-					<div className="lg:col-span-2 space-y-4">
+					<div className="lg:col-span-2 space-y-3 sm:space-y-4">
 						<Card>
-							<CardHeader>
-								<CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-									<ShoppingCart className="w-5 h-5" />
+							<CardHeader className="pb-3 sm:pb-6">
+								<CardTitle className="flex items-center gap-2 text-base sm:text-lg" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+									<ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
 									Booking Items
 								</CardTitle>
 							</CardHeader>
-							<CardContent className="space-y-4">
+							<CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6">
 								{cart.map((item, index) => {
 									const ServiceIcon = getServiceIcon(item.serviceName)
 									return (
 										<div key={item.id}>
-											<div className="flex justify-between items-start gap-4 p-4 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
-												<div className="flex items-start gap-3 flex-1 min-w-0">
-													<div className="flex-shrink-0 p-2.5 rounded-lg bg-primary/10 text-primary">
-														<ServiceIcon className="w-6 h-6" />
-													</div>
-													<div className="flex-1 min-w-0">
-														<div className="flex items-start justify-between gap-2 mb-2">
-															<div className="flex-1 min-w-0">
-																<p className="font-semibold text-card-foreground text-lg" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-																	{item.serviceName}
-																</p>
-																<p className="text-sm text-muted-foreground mt-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
-																	{formatBookingDateTime(item.date, item.time)}
-																</p>
-															</div>
-															<p className="font-bold text-primary text-xl whitespace-nowrap ml-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-																${item.price.toLocaleString()}
-															</p>
+											{/* Mobile: Vertical Layout */}
+											<div className="bg-muted/30 rounded-xl sm:rounded-lg overflow-hidden hover:bg-muted/50 transition-colors">
+												<div className="p-3 sm:p-4">
+													{/* Service Info */}
+													<div className="flex items-start gap-3 mb-3">
+														<div className="flex-shrink-0 p-2 sm:p-2.5 rounded-lg bg-primary/10 text-primary">
+															<ServiceIcon className="w-5 h-5 sm:w-6 sm:h-6" />
 														</div>
-														{item.photos && item.photos.length > 0 && (
-															<div className="flex items-center gap-1 mt-2">
-																<span className="text-xs text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
-																	{item.photos.length} {item.photos.length === 1 ? "photo" : "photos"} attached
-																</span>
-															</div>
-														)}
+														<div className="flex-1 min-w-0">
+															<p className="font-semibold text-card-foreground text-sm sm:text-lg line-clamp-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+																{item.serviceName}
+															</p>
+															<p className="text-xs sm:text-sm text-muted-foreground mt-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+																{formatBookingDateTime(item.date, item.time)}
+															</p>
+															{item.photos && item.photos.length > 0 && (
+																<div className="flex items-center gap-1 mt-2">
+																	<span className="text-xs text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
+																		{item.photos.length} {item.photos.length === 1 ? "photo" : "photos"} attached
+																	</span>
+																</div>
+															)}
+														</div>
 													</div>
-												</div>
-												<div className="flex items-center gap-2 flex-shrink-0">
-													<EditCartItemDialog item={item} onUpdate={updateCartItem} />
-													<button
-														onClick={() => handleRemoveItem(item.id, item.serviceName)}
-														className="p-2 hover:bg-destructive/10 rounded transition-colors opacity-70 hover:opacity-100"
-														title="Remove item"
-														aria-label={`Remove ${item.serviceName} from cart`}
-													>
-														<Trash2 className="w-4 h-4 text-destructive" />
-													</button>
+													
+													{/* Price and Actions */}
+													<div className="flex items-center justify-between pt-3 border-t border-border/50">
+														<p className="font-bold text-primary text-base sm:text-xl" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+															${item.price.toLocaleString()}
+														</p>
+														<div className="flex items-center gap-1">
+															<EditCartItemDialog item={item} onUpdate={updateCartItem} />
+															<button
+																onClick={() => handleRemoveItem(item.id, item.serviceName)}
+																className="p-2 hover:bg-destructive/10 rounded-lg transition-colors"
+																title="Remove item"
+																aria-label={`Remove ${item.serviceName} from cart`}
+															>
+																<Trash2 className="w-4 h-4 text-destructive" />
+															</button>
+														</div>
+													</div>
 												</div>
 											</div>
-											{index < cart.length - 1 && <Separator className="mt-4" />}
+											{index < cart.length - 1 && <Separator className="my-3 sm:my-4" />}
 										</div>
 									)
 								})}
@@ -165,14 +169,14 @@ export default function CartPage() {
 
 					{/* RIGHT: Order Summary */}
 					<div className="lg:col-span-1">
-						<Card className="sticky top-4">
-							<CardHeader>
-								<CardTitle className="flex items-center gap-2" style={{ fontFamily: "var(--font-space-grotesk)" }}>
-									<ShoppingCart className="w-5 h-5" />
+						<Card className="lg:sticky lg:top-4">
+							<CardHeader className="pb-3 sm:pb-6">
+								<CardTitle className="flex items-center gap-2 text-base sm:text-lg" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+									<ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
 									Order Summary
 								</CardTitle>
 							</CardHeader>
-							<CardContent className="space-y-4">
+							<CardContent className="space-y-4 p-3 sm:p-6">
 								<div className="space-y-3">
 									{cart.map((item) => {
 										const ServiceIcon = getServiceIcon(item.serviceName)
@@ -183,7 +187,7 @@ export default function CartPage() {
 														<ServiceIcon className="w-4 h-4" />
 													</div>
 													<div className="flex-1 min-w-0">
-														<p className="font-medium text-card-foreground truncate" style={{ fontFamily: "var(--font-dm-sans)" }}>
+														<p className="font-medium text-card-foreground line-clamp-1 text-xs sm:text-sm" style={{ fontFamily: "var(--font-dm-sans)" }}>
 															{item.serviceName}
 														</p>
 														<p className="text-xs text-muted-foreground mt-0.5" style={{ fontFamily: "var(--font-dm-sans)" }}>
@@ -191,7 +195,7 @@ export default function CartPage() {
 														</p>
 													</div>
 												</div>
-												<p className="font-semibold whitespace-nowrap flex-shrink-0" style={{ fontFamily: "var(--font-dm-sans)" }}>
+												<p className="font-semibold whitespace-nowrap flex-shrink-0 text-xs sm:text-sm" style={{ fontFamily: "var(--font-dm-sans)" }}>
 													${item.price.toLocaleString()}
 												</p>
 											</div>
@@ -202,14 +206,14 @@ export default function CartPage() {
 								<Separator />
 
 								<div className="space-y-2">
-									<div className="flex justify-between">
+									<div className="flex justify-between text-sm">
 										<span className="text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
 											Subtotal
 										</span>
 										<span style={{ fontFamily: "var(--font-dm-sans)" }}>${cartTotal.toLocaleString()}</span>
 									</div>
 									<Separator />
-									<div className="flex justify-between text-lg font-bold pt-2">
+									<div className="flex justify-between text-base sm:text-lg font-bold pt-2">
 										<span style={{ fontFamily: "var(--font-space-grotesk)" }}>Total</span>
 										<span className="text-primary" style={{ fontFamily: "var(--font-space-grotesk)" }}>
 											${cartTotal.toLocaleString()}
