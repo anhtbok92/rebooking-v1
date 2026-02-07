@@ -4,7 +4,8 @@
             "SUPER_ADMIN": "Super Admin",
             "ADMIN": "Admin",
             "STAFF": "Staff",
-            "CLIENT": "Client"
+            "CLIENT": "Client",
+            "undefined": "Unknown Role"
         },
         "docs": "Documentation",
         "dashboard": "Dashboard",
@@ -81,6 +82,7 @@
         "sidebar": {
             "overview": "Overview",
             "analytics": "Analytics",
+            "customers": "Customers",
             "bookings": "Bookings",
             "calendar": "Calendar",
             "services": "Services",
@@ -544,6 +546,25 @@
                 "deleteSuccess": "Rating deleted",
                 "deleteError": "Failed to delete rating"
             }
+        },
+        "customers": {
+            "title": "Customer Management",
+            "description": "Manage and track customers who have made bookings",
+            "customerList": "Customer List",
+            "totalCustomers": "{count} customers",
+            "totalBookings": "{count} bookings",
+            "searchPlaceholder": "Search by name, email or phone",
+            "noCustomers": "No customers found",
+            "name": "Customer Name",
+            "contact": "Contact",
+            "bookings": "Bookings",
+            "bookingsCount": "bookings",
+            "totalSpent": "Total Spent",
+            "lastBooking": "Last Booking",
+            "status": "Status",
+            "loyal": "Loyal",
+            "returning": "Returning",
+            "new": "New"
         }
     },
     "Staff": {

@@ -9,6 +9,7 @@ import LayoutAdmin from "../layout/admin"
 import { BookingsManagement } from "./BookingsManagement"
 import { ComprehensiveAnalytics } from "./ComprehensiveAnalytics"
 import { CustomerAnalytics } from "./CustomerAnalytics"
+import { CustomersManagement } from "./CustomersManagement"
 import { DiscountManagement } from "./DiscountManagement"
 import { PopularServices } from "./PopularServices"
 import { RatingsManagement } from "./RatingsManagement"
@@ -30,6 +31,11 @@ const SIDEBAR_NAV = [
 	{
 		key: "analytics",
 		icon: <BarChart3 className="w-4 h-4" />,
+		forSuperAdmin: false,
+	},
+	{
+		key: "customers",
+		icon: <Users className="w-4 h-4" />,
 		forSuperAdmin: false,
 	},
 	{
@@ -79,7 +85,7 @@ export function AdminDashboard() {
 	const currentUser = currentUserClient()
 	const { isSuperAdmin } = currentUser || {}
 	const [activeTab, setActiveTab] = useState<string>("overview")
-
+	
 	const navItems = SIDEBAR_NAV.filter(
 		(item) => !item.forSuperAdmin || isSuperAdmin
 	)
@@ -125,6 +131,7 @@ export function AdminDashboard() {
 						</>
 					)}
 					{activeTab === "analytics" && <ComprehensiveAnalytics />}
+					{activeTab === "customers" && <CustomersManagement />}
 					{activeTab === "bookings" && <BookingsManagement />}
 					{activeTab === "calendar" && <BookingCalendar />}
 					{activeTab === "services" && <ServicesManagement />}

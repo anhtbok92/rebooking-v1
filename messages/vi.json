@@ -4,7 +4,8 @@
             "SUPER_ADMIN": "Quản trị cấp cao",
             "ADMIN": "Bản quản trị",
             "STAFF": "Nhân viên",
-            "CLIENT": "Khách hàng"
+            "CLIENT": "Khách hàng",
+            "undefined": "Vai trò không xác định"
         },
         "docs": "Tài liệu",
         "dashboard": "Bảng điều khiển",
@@ -81,6 +82,7 @@
         "sidebar": {
             "overview": "Tổng quan",
             "analytics": "Phân tích",
+            "customers": "Khách hàng",
             "bookings": "Đặt lịch",
             "calendar": "Lịch",
             "services": "Dịch vụ",
@@ -544,6 +546,25 @@
                 "deleteSuccess": "Đã xóa đánh giá",
                 "deleteError": "Không thể xóa đánh giá"
             }
+        },
+        "customers": {
+            "title": "Quản lý Khách hàng",
+            "description": "Quản lý và theo dõi danh sách khách hàng đã đặt lịch",
+            "customerList": "Danh sách Khách hàng",
+            "totalCustomers": "{count} khách hàng",
+            "totalBookings": "{count} đặt lịch",
+            "searchPlaceholder": "Tìm kiếm theo tên, email hoặc số điện thoại",
+            "noCustomers": "Không tìm thấy khách hàng",
+            "name": "Tên khách hàng",
+            "contact": "Liên hệ",
+            "bookings": "Số lần đặt",
+            "bookingsCount": "lần",
+            "totalSpent": "Tổng chi tiêu",
+            "lastBooking": "Đặt gần nhất",
+            "status": "Trạng thái",
+            "loyal": "Thân thiết",
+            "returning": "Quay lại",
+            "new": "Mới"
         }
     },
     "Staff": {
