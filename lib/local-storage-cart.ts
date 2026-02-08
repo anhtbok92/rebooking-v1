@@ -10,6 +10,7 @@ export type LocalStorageCartItem = {
 	date: string
 	time: string
 	photos: string[] // Changed from File[] to string[] to match CartItem type
+	doctorId?: string // Optional doctor ID
 }
 
 /**

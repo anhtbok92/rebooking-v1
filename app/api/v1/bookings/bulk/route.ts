@@ -179,6 +179,7 @@ async function handleBulkBooking(req: NextRequest) {
 						phone,
 						email: finalEmail,
 						userId: finalUserId,
+						doctorId: item.doctorId || null,
 						photos: {
 							create: item.photos?.map((photo: string) => ({ url: photo })) || [],
 						},
@@ -186,6 +187,14 @@ async function handleBulkBooking(req: NextRequest) {
 					include: {
 						service: true,
 						photos: true,
+						doctor: {
+							select: {
+								id: true,
+								name: true,
+								email: true,
+								phone: true,
+							},
+						},
 					},
 				}),
 			),

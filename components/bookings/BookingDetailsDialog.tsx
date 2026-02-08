@@ -13,7 +13,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Calendar, Clock, DollarSign, Download, Mail, Phone, User, Stethoscope, CreditCard, Hash } from "lucide-react"
 import { useTranslations, useLocale } from "next-intl"
 import { useSystemSettings } from "@/lib/swr/system-settings"
-import { useState, useEffect } from "react"
 
 interface Booking {
 	id: string
@@ -35,6 +34,12 @@ interface Booking {
 		email: string
 		phone: string | null
 	} | null
+	doctor?: {
+		id: string
+		name: string
+		email: string
+		phone: string | null
+	} | null
 	photos?: Array<{ url: string }>
 	createdAt?: string
 }
@@ -52,31 +57,6 @@ export function BookingDetailsDialog({ booking, open, onOpenChange, userRole }: 
 	const tPayment = useTranslations("Admin.bookings.payment")
 	const locale = useLocale()
 	const { currency } = useSystemSettings()
-	const [doctorInfo, setDoctorInfo] = useState<{ name: string; email: string; phone?: string } | null>(null)
-	const [isLoadingDoctor, setIsLoadingDoctor] = useState(false)
-
-	// Fetch doctor info if booking has doctorId
-	useEffect(() => {
-		const fetchDoctorInfo = async () => {
-			// Check if booking has doctor info in user field or we need to fetch
-			// For now, we'll check if there's a doctor assigned
-			// This would need backend support to include doctor info in booking
-			setIsLoadingDoctor(true)
-			try {
-				// Placeholder - would need API endpoint to get doctor info
-				// For now, show "Chưa chỉ định" if no doctor info
-				setDoctorInfo(null)
-			} catch (error) {
-				console.error("Failed to fetch doctor info:", error)
-			} finally {
-				setIsLoadingDoctor(false)
-			}
-		}
-
-		if (open) {
-			fetchDoctorInfo()
-		}
-	}, [open, booking.id])
 
 	const getStatusBadge = (status: string) => {
 		switch (status) {
@@ -246,14 +226,12 @@ export function BookingDetailsDialog({ booking, open, onOpenChange, userRole }: 
 									<Stethoscope className="w-5 h-5 text-muted-foreground mt-0.5" />
 									<div className="flex-1">
 										<p className="text-sm text-muted-foreground">Bác sĩ phụ trách</p>
-										{isLoadingDoctor ? (
-											<p className="font-medium text-muted-foreground">Đang tải...</p>
-										) : doctorInfo ? (
+										{booking.doctor ? (
 											<div className="mt-1">
-												<p className="font-medium">{doctorInfo.name}</p>
-												<p className="text-sm text-muted-foreground">{doctorInfo.email}</p>
-												{doctorInfo.phone && (
-													<p className="text-sm text-muted-foreground">{doctorInfo.phone}</p>
+												<p className="font-medium">BS. {booking.doctor.name}</p>
+												<p className="text-sm text-muted-foreground">{booking.doctor.email}</p>
+												{booking.doctor.phone && (
+													<p className="text-sm text-muted-foreground">{booking.doctor.phone}</p>
 												)}
 											</div>
 										) : (

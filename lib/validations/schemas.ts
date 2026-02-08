@@ -42,6 +42,7 @@ export const cartItemSchema = z.object({
 	time: z.string().min(1),
 	price: z.number().positive(),
 	photos: z.array(z.string().url()).optional(),
+	doctorId: z.string().uuid().optional(),
 })
 
 export const checkoutSchema = z.object({

@@ -13,6 +13,23 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 			include: {
 				service: true,
 				photos: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+						role: true,
+					},
+				},
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+					},
+				},
 			},
 		})
 
@@ -35,7 +52,26 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 		// Get old status before update
 		const oldBooking = await prisma.booking.findUnique({
 			where: { id },
-			include: { service: true },
+			include: { 
+				service: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+						role: true,
+					},
+				},
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+					},
+				},
+			},
 		})
 
 		if (!oldBooking) {
@@ -52,6 +88,23 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 			include: {
 				service: true,
 				photos: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+						role: true,
+					},
+				},
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+					},
+				},
 			},
 		})
 
@@ -134,6 +187,23 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 			include: {
 				service: true,
 				photos: true,
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+						role: true,
+					},
+				},
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						phone: true,
+					},
+				},
 			},
 		})
 
