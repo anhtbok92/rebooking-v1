@@ -159,6 +159,7 @@ async function handleCheckout(req: NextRequest) {
 						phone,
 						email: finalEmail || null,
 						userId: finalUserId || null,
+						doctorId: item.doctorId || null,
 						status: "PENDING", // Will be updated to CONFIRMED when payment succeeds
 						photos: {
 							create: item.photos?.map((photo: any) => ({ url: photo })) || [],

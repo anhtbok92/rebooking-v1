@@ -54,9 +54,15 @@ export default function HomePage({
     if (!bookingsData?.bookings) return []
     
     const now = new Date()
+    // Set to start of today to include bookings later today
+    now.setHours(0, 0, 0, 0)
+    
     return bookingsData.bookings
       .filter(booking => {
         const bookingDate = new Date(booking.date)
+        bookingDate.setHours(0, 0, 0, 0)
+        
+        // Include bookings from today onwards with CONFIRMED or PENDING status
         return bookingDate >= now && (booking.status === 'CONFIRMED' || booking.status === 'PENDING')
       })
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
@@ -247,6 +253,9 @@ export default function HomePage({
               <div className="space-y-1.5">
                 <InfoRow icon="schedule" text={nextBooking.time} />
                 <InfoRow icon="payments" text={formatPrice(nextBooking.service.price)} />
+                {(nextBooking as any).doctor && (
+                  <InfoRow icon="person" text={`BS. ${(nextBooking as any).doctor.name}`} />
+                )}
               </div>
             </div>
           </div>

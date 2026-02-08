@@ -77,6 +77,14 @@ async function handleGetBookings(req: NextRequest) {
 							role: true,
 						},
 					},
+					doctor: {
+						select: {
+							id: true,
+							name: true,
+							email: true,
+							phone: true,
+						},
+					},
 				},
 				orderBy,
 				skip,

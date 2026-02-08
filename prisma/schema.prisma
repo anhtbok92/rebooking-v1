@@ -51,7 +51,9 @@ model User {
     accounts            Account[]
     sessions            Session[]
     bookings            Booking[]
+    doctorBookings      Booking[]             @relation("DoctorBookings")
     carts               Cart[]
+    doctorCarts         Cart[]                @relation("DoctorCarts")
     favorites           Favorite[]
     ratings             Rating[]
     referralCode        String?               @unique
@@ -95,6 +97,8 @@ model Booking {
     service        Service  @relation(fields: [serviceId], references: [id])
     userId         String?
     user           User?    @relation(fields: [userId], references: [id])
+    doctorId       String?
+    doctor         User?    @relation("DoctorBookings", fields: [doctorId], references: [id])
     date           DateTime
     time           String
     paymentMethod  String
@@ -122,6 +126,8 @@ model Cart {
     user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
     serviceId String
     service   Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    doctorId  String?
+    doctor    User?    @relation("DoctorCarts", fields: [doctorId], references: [id])
     date      DateTime
     time      String
     quantity  Int      @default(1)

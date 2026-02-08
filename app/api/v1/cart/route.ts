@@ -21,7 +21,16 @@ export async function GET(req: NextRequest) {
 
 		const cartItems = await prisma.cart.findMany({
 			where: { userId: user.id },
-			include: { service: true },
+			include: { 
+				service: true,
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+					},
+				},
+			},
 			orderBy: { createdAt: "desc" },
 		})
 
@@ -76,7 +85,7 @@ export async function POST(req: NextRequest) {
 	try {
 		const session = await getServerSession(authOptions)
 		const body = await req.json()
-		const { serviceId, date, time } = body
+		const { serviceId, date, time, doctorId } = body
 
 		if (!serviceId || !date || !time) {
 			return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
@@ -132,8 +141,18 @@ export async function POST(req: NextRequest) {
 				serviceId,
 				date: new Date(date),
 				time,
+				doctorId: doctorId || null,
 			},
-			include: { service: true },
+			include: { 
+				service: true,
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+					},
+				},
+			},
 		})
 
 		return NextResponse.json(cartItem, { status: 201 })
@@ -149,7 +168,7 @@ export async function PUT(req: NextRequest) {
 		const { searchParams } = new URL(req.url)
 		const cartItemId = searchParams.get("id")
 		const body = await req.json()
-		const { serviceId, date, time } = body
+		const { serviceId, date, time, doctorId } = body
 
 		if (!cartItemId) {
 			return NextResponse.json({ error: "Cart item ID required" }, { status: 400 })
@@ -219,8 +238,18 @@ export async function PUT(req: NextRequest) {
 				...(serviceId && { serviceId }),
 				...(date && { date: new Date(date) }),
 				...(time && { time }),
+				...(doctorId !== undefined && { doctorId: doctorId || null }),
 			},
-			include: { service: true },
+			include: { 
+				service: true,
+				doctor: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+					},
+				},
+			},
 		})
 
 		return NextResponse.json(updatedCartItem)

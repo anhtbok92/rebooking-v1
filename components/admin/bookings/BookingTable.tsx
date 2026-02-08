@@ -103,6 +103,7 @@ export function BookingTable({
 							<TableHead className="sticky left-0 z-10 bg-background">Khách hàng</TableHead>
 							<TableHead className="sticky left-[180px] z-10 bg-background">Liên hệ</TableHead>
 							<TableHead>Dịch vụ</TableHead>
+							<TableHead>Bác sĩ</TableHead>
 							<TableHead>Ngày</TableHead>
 							<TableHead>Giờ</TableHead>
 							<TableHead>Giá</TableHead>
@@ -115,13 +116,14 @@ export function BookingTable({
 					<TableBody>
 						{bookings.length === 0 ? (
 							<TableRow>
-								<TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
+								<TableCell colSpan={11} className="text-center py-8 text-muted-foreground">
 									{t("noBookings")}
 								</TableCell>
 							</TableRow>
 						) : (
 							bookings.map((booking) => {
 								const userEmail = booking.user?.email || booking.email || null
+								const doctorName = (booking as any).doctor?.name
 								return (
 									<TableRow key={booking.id}>
 										<TableCell className="sticky left-0 z-10 bg-background">
@@ -134,6 +136,9 @@ export function BookingTable({
 										</TableCell>
 										<TableCell className="sticky left-[180px] z-10 bg-background whitespace-nowrap min-w-[120px]">{booking.phone}</TableCell>
 										<TableCell className="font-medium whitespace-nowrap">{booking.service.name}</TableCell>
+										<TableCell className="whitespace-nowrap">
+											{doctorName ? `BS. ${doctorName}` : <span className="text-muted-foreground text-xs">Chưa chỉ định</span>}
+										</TableCell>
 										<TableCell className="whitespace-nowrap">{new Date(booking.date).toLocaleDateString('vi-VN')}</TableCell>
 										<TableCell className="whitespace-nowrap">{booking.time}</TableCell>
 										<TableCell className="font-semibold whitespace-nowrap">{formatCurrency(booking.service.price)}</TableCell>

@@ -95,6 +95,7 @@ export function useCart() {
 							date: item.date,
 							time: item.time,
 							photos: [],
+							doctorId: item.doctorId,
 						}))
 						dispatch(initializeCart(formattedCart))
 					} else {
@@ -164,6 +165,7 @@ export function useCart() {
 							serviceId: item.serviceId,
 							date: item.date,
 							time: item.time,
+							doctorId: item.doctorId,
 						}),
 					})
 					if (response.ok) {
@@ -177,6 +179,7 @@ export function useCart() {
 								date: newItem.date,
 								time: newItem.time,
 								photos: [],
+								doctorId: newItem.doctorId,
 							}),
 						)
 					} else if (response.status === 409) {
@@ -192,6 +195,7 @@ export function useCart() {
 								date: item.date,
 								time: item.time,
 								photos: [],
+								doctorId: item.doctorId,
 							}))
 							dispatch(initializeCart(formattedCart))
 						}
@@ -258,11 +262,12 @@ export function useCart() {
 		async (id: string, updates: Partial<CartItem>) => {
 			if (session?.user?.email) {
 				try {
-					// Only send fields that the API expects (serviceId, date, time)
-					const apiUpdates: { serviceId?: string; date?: string; time?: string } = {}
+					// Only send fields that the API expects (serviceId, date, time, doctorId)
+					const apiUpdates: { serviceId?: string; date?: string; time?: string; doctorId?: string } = {}
 					if (updates.serviceId) apiUpdates.serviceId = updates.serviceId
 					if (updates.date) apiUpdates.date = updates.date
 					if (updates.time) apiUpdates.time = updates.time
+					if (updates.doctorId !== undefined) apiUpdates.doctorId = updates.doctorId
 
 					const response = await fetch(`/api/v1/cart?id=${id}`, {
 						method: "PUT",
@@ -286,6 +291,7 @@ export function useCart() {
 									date: formattedDate,
 									time: updatedItem.time,
 									photos: updates.photos || [],
+									doctorId: updatedItem.doctorId,
 								},
 							}),
 						)

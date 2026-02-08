@@ -16,8 +16,12 @@ export default function AppointmentsPage() {
   
   // Filter bookings
   const now = new Date()
+  // Set to start of today to include bookings later today
+  now.setHours(0, 0, 0, 0)
+  
   const upcomingBookings = bookingsData?.bookings.filter(booking => {
     const bookingDate = new Date(booking.date)
+    bookingDate.setHours(0, 0, 0, 0)
     return bookingDate >= now && (booking.status === 'CONFIRMED' || booking.status === 'PENDING')
   }).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) || []
   
@@ -167,6 +171,12 @@ export default function AppointmentsPage() {
                         <span className={`material-icons-round text-[18px] ${iconColor}`}>payments</span>
                         <span className="text-xs font-medium">{formatPrice(booking.service.price)}</span>
                       </div>
+                      {(booking as any).doctor && (
+                        <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                          <span className={`material-icons-round text-[18px] ${iconColor}`}>person</span>
+                          <span className="text-xs font-medium">BS. {(booking as any).doctor.name}</span>
+                        </div>
+                      )}
                     </div>
                     
                     {isUpcoming && (
