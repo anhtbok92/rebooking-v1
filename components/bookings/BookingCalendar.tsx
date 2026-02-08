@@ -181,14 +181,15 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 	const getStatusColor = (status: string) => {
 		switch (status) {
 			case "CONFIRMED":
+				return "bg-green-600"
 			case "COMPLETED":
-				return "bg-green-500"
+				return "bg-blue-600"
 			case "PENDING":
-				return "bg-yellow-500"
+				return "bg-amber-600"
 			case "CANCELLED":
-				return "bg-red-500"
+				return "bg-red-600"
 			default:
-				return "bg-gray-500"
+				return "bg-gray-600"
 		}
 	}
 
@@ -217,6 +218,33 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 
 	return (
 		<div className="space-y-4">
+			{/* Legend - Status Guide */}
+			<div className="bg-card rounded-lg p-4 border border-border">
+				<h3 className="text-sm font-semibold mb-3 text-card-foreground">Chú thích trạng thái</h3>
+				<div className="flex flex-wrap gap-4">
+					<div className="flex items-center gap-2">
+						<div className="w-4 h-4 rounded bg-green-600"></div>
+						<span className="text-sm text-muted-foreground">{tStats("confirmed")}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<div className="w-4 h-4 rounded bg-blue-600"></div>
+						<span className="text-sm text-muted-foreground">{tStats("completed")}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<div className="w-4 h-4 rounded bg-amber-600"></div>
+						<span className="text-sm text-muted-foreground">{tStats("pending")}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<div className="w-4 h-4 rounded bg-red-600"></div>
+						<span className="text-sm text-muted-foreground">{tStats("cancelled")}</span>
+					</div>
+					<div className="flex items-center gap-2">
+						<div className="w-4 h-4 rounded border-2 border-dashed border-slate-500 bg-slate-50 dark:bg-slate-900"></div>
+						<span className="text-sm text-muted-foreground">Trống</span>
+					</div>
+				</div>
+			</div>
+
 			{/* Filters */}
 			<div className="flex items-center justify-between flex-wrap gap-4">
 				<div className="flex items-center gap-4">
@@ -291,17 +319,29 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 												if (booking) {
 													const statusColor = getStatusColor(booking.status)
 													const statusBgColor =
-														booking.status === "CONFIRMED" || booking.status === "COMPLETED"
-															? "bg-green-50 dark:bg-green-950/20"
-															: booking.status === "PENDING"
-																? "bg-yellow-50 dark:bg-yellow-950/20"
-																: "bg-red-50 dark:bg-red-950/20"
+														booking.status === "CONFIRMED"
+															? "bg-green-100 dark:bg-green-950/30"
+															: booking.status === "COMPLETED"
+																? "bg-blue-100 dark:bg-blue-950/30"
+																: booking.status === "PENDING"
+																	? "bg-amber-100 dark:bg-amber-950/30"
+																	: "bg-red-100 dark:bg-red-950/30"
 													const statusTextColor =
-														booking.status === "CONFIRMED" || booking.status === "COMPLETED"
-															? "text-green-700 dark:text-green-400"
-															: booking.status === "PENDING"
-																? "text-yellow-700 dark:text-yellow-400"
-																: "text-red-700 dark:text-red-400"
+														booking.status === "CONFIRMED"
+															? "text-green-800 dark:text-green-300"
+															: booking.status === "COMPLETED"
+																? "text-blue-800 dark:text-blue-300"
+																: booking.status === "PENDING"
+																	? "text-amber-800 dark:text-amber-300"
+																	: "text-red-800 dark:text-red-300"
+													const statusBorderColor =
+														booking.status === "CONFIRMED"
+															? "#16a34a"
+															: booking.status === "COMPLETED"
+																? "#2563eb"
+																: booking.status === "PENDING"
+																	? "#d97706"
+																	: "#dc2626"
 
 													let displayStatus = booking.status
 													if (booking.status === "PENDING") displayStatus = tStats("pending")
@@ -313,14 +353,14 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 														<button
 															key={`${day}-${timeSlot}`}
 															onClick={() => handleBookingClick(booking)}
-															className={`w-full text-left p-2 rounded-md text-xs cursor-pointer border-l-4 ${statusBgColor} border`}
+															className={`w-full text-left p-2 rounded-md text-xs cursor-pointer border-l-4 ${statusBgColor} border hover:shadow-md transition-shadow`}
 															style={{
-																borderLeftColor: statusColor,
-																borderColor: statusColor + "40"
+																borderLeftColor: statusBorderColor,
+																borderColor: statusBorderColor + "40"
 															}}
 															title={t("viewDetails")}
 														>
-															<div className="font-bold text-[11px] mb-0.5" style={{ fontFamily: "var(--font-space-grotesk)", color: statusColor }}>
+															<div className="font-bold text-[11px] mb-0.5" style={{ fontFamily: "var(--font-space-grotesk)", color: statusBorderColor }}>
 																{booking.time}
 															</div>
 															<div className={`font-semibold text-[11px] mb-0.5 truncate ${statusTextColor}`} style={{ fontFamily: "var(--font-dm-sans)" }}>
@@ -329,7 +369,7 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 															<div className="text-[10px] truncate text-muted-foreground" style={{ fontFamily: "var(--font-dm-sans)" }}>
 																{booking.userName}
 															</div>
-															<div className="text-[9px] mt-0.5 font-medium" style={{ fontFamily: "var(--font-dm-sans)", color: statusColor }}>
+															<div className="text-[9px] mt-0.5 font-bold" style={{ fontFamily: "var(--font-dm-sans)", color: statusBorderColor }}>
 																{displayStatus}
 															</div>
 														</button>
@@ -338,14 +378,14 @@ export function BookingCalendar({ userId }: BookingCalendarProps) {
 													return (
 														<div
 															key={`${day}-${timeSlot}`}
-															className="w-full p-2 rounded-md text-xs border-2 border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30"
+															className="w-full p-2 rounded-md text-xs border-2 border-dashed border-slate-400 dark:border-slate-600 bg-slate-50 dark:bg-slate-900"
 														>
-															<div className="font-medium text-[11px] text-gray-600 dark:text-gray-400" style={{ fontFamily: "var(--font-space-grotesk)" }}>
+															<div className="font-medium text-[11px] text-slate-700 dark:text-slate-300" style={{ fontFamily: "var(--font-space-grotesk)" }}>
 																{timeSlot}
 															</div>
-															<div className="text-[10px] text-green-600 dark:text-green-400 font-semibold mt-0.5 flex items-center gap-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
-																<span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-																{t("available")}
+															<div className="text-[10px] text-slate-600 dark:text-slate-400 font-bold mt-0.5 flex items-center gap-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+																<span className="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+																Trống
 															</div>
 														</div>
 													)
