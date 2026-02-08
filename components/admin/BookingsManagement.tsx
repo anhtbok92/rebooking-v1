@@ -24,7 +24,6 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 	const [completedPage, setCompletedPage] = useState(1)
 	const [allPage, setAllPage] = useState(1)
 	const [sortBy, setSortBy] = useState<"date-desc" | "date-asc" | "price-desc" | "price-asc">("date-desc")
-	const [viewMode, setViewMode] = useState<"list" | "grid">("grid")
 
 	const ITEMS_PER_PAGE = 12
 
@@ -168,7 +167,6 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 		setCompletedPage(1)
 		setAllPage(1)
 		setSortBy("date-desc")
-		setViewMode("grid")
 	}
 
 	// Handle sort change
@@ -181,7 +179,7 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 	}
 
 	return (
-		<div className="space-y-6">
+		<div className="space-y-6 max-w-full overflow-hidden">
 			{/* Statistics Cards */}
 			<BookingStatsCards
 				newBookingsCount={newBookingsCount}
@@ -202,9 +200,7 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 						</div>
 						<BookingFilters
 							sortBy={sortBy}
-							viewMode={viewMode}
 							onSortChange={handleSortChange}
-							onViewModeChange={setViewMode}
 							onReset={handleReset}
 						/>
 					</div>
@@ -212,7 +208,6 @@ export function BookingsManagement({ filterByToday = false }: BookingsManagement
 				<CardContent>
 					<BookingTabs
 						activeTab={activeTab}
-						viewMode={viewMode}
 						newBookings={newBookings}
 						pendingBookings={pendingBookings}
 						completedBookings={completedBookings}

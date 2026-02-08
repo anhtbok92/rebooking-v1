@@ -14,12 +14,14 @@ export default function HomePage({
   onNavigateToAppointments,
   onNavigateToDoctors,
   onNavigateToNews,
-  onNavigateToNewsDetail
+  onNavigateToNewsDetail,
+  onNavigateToCart
 }: { 
   onNavigateToAppointments?: () => void
   onNavigateToDoctors?: () => void
   onNavigateToNews?: () => void
   onNavigateToNewsDetail?: (newsId: string) => void
+  onNavigateToCart?: () => void
 }) {
   const { data: session, status } = useSession()
   const isLoading = status === 'loading'
@@ -405,6 +407,7 @@ export default function HomePage({
         open={bookingOpen}
         onOpenChange={setBookingOpen}
         initialServiceId={selectedServiceId}
+        onNavigateToCart={onNavigateToCart}
       />
       
       {/* Clinic Map Dialog */}

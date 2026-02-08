@@ -139,7 +139,7 @@ export function SuperAdminDashboard() {
 				</aside>
 
 				{/* Content */}
-				<div className="flex-1 space-y-5">
+				<div className="flex-1 space-y-5 overflow-hidden">
 					{activeTab === "overview" && (
 						<>
 							<StatsOverview />

@@ -9,6 +9,7 @@ export type CartItem = {
   date: string
   time: string
   photos: string[] // Cloudinary URLs
+  doctorId?: string // Optional doctor ID
 }
 
 interface CartState {

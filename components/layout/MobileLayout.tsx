@@ -39,6 +39,7 @@ export default function MobileLayout() {
             onNavigateToDoctors={() => setActiveTab('doctors')}
             onNavigateToNews={() => setActiveTab('news')}
             onNavigateToNewsDetail={handleNewsClick}
+            onNavigateToCart={() => setActiveTab('cart')}
           />
         )
       case 'messages':

@@ -5,10 +5,10 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { Button } from '@/components/ui/button'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useBookingForm } from '@/components/SimpleBookingForm/useBookingForm'
-import { ServiceSelection } from '@/components/SimpleBookingForm/ServiceSelection'
+import { MobileServiceSelection } from '@/components/home/MobileServiceSelection'
+import { MobileDoctorSelection } from '@/components/home/MobileDoctorSelection'
 import { CalendarCard } from '@/components/SimpleBookingForm/CalendarCard'
 import { TimeSelection } from '@/components/SimpleBookingForm/TimeSelection'
-import { PhotoUpload } from '@/components/SimpleBookingForm/PhotoUpload'
 import { useCart } from '@/hooks/use-redux-cart'
 import { toast } from 'sonner'
 
@@ -16,10 +16,12 @@ interface MobileBookingProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   initialServiceId?: string
+  onNavigateToCart?: () => void
 }
 
-export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBookingProps) {
+export function MobileBooking({ open, onOpenChange, initialServiceId, onNavigateToCart }: MobileBookingProps) {
   const [step, setStep] = useState(1)
+  const [selectedDoctor, setSelectedDoctor] = useState<string>('')
   
   const form = useBookingForm(initialServiceId)
   const {
@@ -46,46 +48,13 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
     isLoadingServices,
   } = form
 
-  const { addToCart, cartCount } = useCart()
-  const [prevCartCount, setPrevCartCount] = useState<number | null>(null)
-  const [isInit, setIsInit] = useState(true)
-
-  // Initialize
-  useEffect(() => {
-    if (isInit) {
-      setPrevCartCount(cartCount)
-      setIsInit(false)
-    }
-  }, [cartCount, isInit])
-
-  // Auto add to cart when all selected
-  useEffect(() => {
-    if (selectedService && selectedDate && selectedTime) {
-      addToCart({
-        id: `${selectedService}-${selectedDate}-${selectedTime}-${Date.now()}`,
-        serviceId: selectedService,
-        serviceName: selectedServiceData?.name || '',
-        price: totalPrice,
-        date: `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(selectedDate).padStart(2, '0')}`,
-        time: selectedTime,
-        photos,
-      })
-      toast.success('Đã thêm vào giỏ hàng', {
-        description: `${selectedServiceData?.name || ''} đã được thêm vào giỏ hàng`,
-      })
-      // Reset selections
-      setSelectedService('')
-      setSelectedDate(null)
-      setSelectedTime('')
-      setPhotos([])
-      setStep(1)
-    }
-  }, [selectedService, selectedDate, selectedTime, selectedServiceData, totalPrice, currentYear, currentMonth, photos, addToCart, setSelectedService, setSelectedDate, setSelectedTime, setPhotos])
+  const { addToCart } = useCart()
 
   // Reset when dialog closes
   useEffect(() => {
     if (!open) {
       setStep(1)
+      setSelectedDoctor('')
     }
   }, [open])
 
@@ -95,6 +64,7 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
     if (step === 1 && selectedService) setStep(2)
     else if (step === 2 && selectedDate) setStep(3)
     else if (step === 3 && selectedTime) setStep(4)
+    else if (step === 4 && selectedDoctor) setStep(5)
   }
 
   const handleBack = () => {
@@ -105,7 +75,45 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
     if (step === 1) return !!selectedService
     if (step === 2) return !!selectedDate && !allSlotsBooked
     if (step === 3) return !!selectedTime
+    if (step === 4) return !!selectedDoctor
     return false
+  }
+
+  const handleConfirmBooking = () => {
+    if (!selectedService || !selectedDate || !selectedTime || !selectedDoctor) {
+      toast.error('Vui lòng hoàn tất tất cả các bước')
+      return
+    }
+
+    // Add to cart
+    addToCart({
+      id: `${selectedService}-${selectedDate}-${selectedTime}-${selectedDoctor}-${Date.now()}`,
+      serviceId: selectedService,
+      serviceName: selectedServiceData?.name || '',
+      price: totalPrice,
+      date: `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(selectedDate).padStart(2, '0')}`,
+      time: selectedTime,
+      photos,
+      doctorId: selectedDoctor,
+    })
+
+    toast.success('Đã thêm vào giỏ hàng', {
+      description: `${selectedServiceData?.name || ''} đã được thêm vào giỏ hàng`,
+    })
+
+    // Reset selections
+    setSelectedService('')
+    setSelectedDate(null)
+    setSelectedTime('')
+    setSelectedDoctor('')
+    setPhotos([])
+    setStep(1)
+
+    // Close modal and navigate to cart
+    onOpenChange(false)
+    if (onNavigateToCart) {
+      onNavigateToCart()
+    }
   }
 
   return (
@@ -131,7 +139,13 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
               <div>
                 <h2 className="text-lg font-bold text-slate-900">Đặt Lịch Hẹn</h2>
                 <p className="text-xs text-slate-700">
-                  Bước {step}/4: {step === 1 ? 'Chọn dịch vụ' : step === 2 ? 'Chọn ngày' : step === 3 ? 'Chọn giờ' : 'Tải ảnh (tùy chọn)'}
+                  Bước {step}/5: {
+                    step === 1 ? 'Chọn dịch vụ' : 
+                    step === 2 ? 'Chọn ngày' : 
+                    step === 3 ? 'Chọn giờ' : 
+                    step === 4 ? 'Chọn bác sĩ' : 
+                    'Xác nhận'
+                  }
                 </p>
               </div>
             </div>
@@ -145,7 +159,7 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
 
           {/* Progress Bar */}
           <div className="flex gap-1 px-4 pt-4">
-            {[1, 2, 3, 4].map((s) => (
+            {[1, 2, 3, 4, 5].map((s) => (
               <div
                 key={s}
                 className={`h-1 flex-1 rounded-full transition-colors ${
@@ -158,7 +172,7 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
           {/* Content */}
           <div className="flex-1 overflow-y-auto p-4">
             {step === 1 && (
-              <ServiceSelection
+              <MobileServiceSelection
                 services={services}
                 selectedService={selectedService}
                 setSelectedService={setSelectedService}
@@ -210,33 +224,95 @@ export function MobileBooking({ open, onOpenChange, initialServiceId }: MobileBo
             {step === 4 && (
               <div>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                  Tải lên ảnh liên quan (tùy chọn)
+                  Chọn bác sĩ cho lịch hẹn của bạn
                 </p>
-                <PhotoUpload photos={photos} setPhotos={setPhotos} />
+                <MobileDoctorSelection
+                  selectedDoctor={selectedDoctor}
+                  setSelectedDoctor={setSelectedDoctor}
+                />
+              </div>
+            )}
+
+            {step === 5 && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  Xác nhận thông tin
+                </h3>
+                
+                <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-start gap-3">
+                    <span className="material-icons-round text-primary text-xl">medical_services</span>
+                    <div className="flex-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Dịch vụ</p>
+                      <p className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                        {selectedServiceData?.name}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <span className="material-icons-round text-primary text-xl">calendar_today</span>
+                    <div className="flex-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Ngày</p>
+                      <p className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                        {selectedDate}/{currentMonth}/{currentYear}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <span className="material-icons-round text-primary text-xl">schedule</span>
+                    <div className="flex-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Giờ</p>
+                      <p className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                        {selectedTime}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <span className="material-icons-round text-primary text-xl">person</span>
+                    <div className="flex-1">
+                      <p className="text-xs text-slate-500 dark:text-slate-400">Bác sĩ</p>
+                      <p className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                        {selectedDoctor ? 'Đã chọn' : 'Chưa chọn'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-200 dark:border-slate-700">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-600 dark:text-slate-400">Tổng tiền</span>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xl font-bold text-primary">
+                          {totalPrice.toLocaleString('vi-VN')}
+                        </span>
+                        <span className="text-sm text-slate-500">đ</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </div>
 
           {/* Footer */}
           <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
-            {step < 4 ? (
+            {step < 5 ? (
               <Button
                 onClick={handleNext}
                 disabled={!canGoNext()}
                 className="w-full rounded-2xl py-6 bg-primary hover:bg-primary/90 text-slate-900 font-bold"
               >
-                {step === 3 ? 'Tiếp tục' : 'Tiếp theo'}
+                Tiếp theo
                 <ChevronRight className="w-5 h-5 ml-2" />
               </Button>
             ) : (
               <Button
-                onClick={() => {
-                  // Photos are optional, just close and let auto-add handle it
-                  onOpenChange(false)
-                }}
+                onClick={handleConfirmBooking}
                 className="w-full rounded-2xl py-6 bg-primary hover:bg-primary/90 text-slate-900 font-bold"
               >
-                Hoàn tất
+                Đặt lịch
               </Button>
             )}
           </div>

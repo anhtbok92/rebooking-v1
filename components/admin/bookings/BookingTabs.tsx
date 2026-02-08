@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AlertCircle, CheckCircle2, Sparkles, XCircle } from "lucide-react"
-import { BookingCard } from "./BookingCard"
+import { BookingTable } from "./BookingTable"
 import { BookingPagination } from "./BookingPagination"
 
 interface Booking {
@@ -23,7 +23,6 @@ interface Booking {
 
 interface BookingTabsProps {
 	activeTab: "new" | "pending" | "completed" | "all"
-	viewMode: "list" | "grid"
 	newBookings: Booking[]
 	pendingBookings: Booking[]
 	completedBookings: Booking[]
@@ -48,7 +47,6 @@ import { useTranslations } from "next-intl"
 
 export function BookingTabs({
 	activeTab,
-	viewMode,
 	newBookings,
 	pendingBookings,
 	completedBookings,
@@ -82,20 +80,14 @@ export function BookingTabs({
 		}
 
 		return (
-			<div className={viewMode === "grid" ? "grid gap-4 md:grid-cols-2 lg:grid-cols-3" : "grid gap-4"}>
-				{bookings.map((booking) => (
-					<BookingCard
-						key={booking.id}
-						booking={booking}
-						viewMode={viewMode}
-						onStatusChange={onStatusChange}
-						onDownloadReceipt={onDownloadReceipt}
-						onDelete={onDelete}
-						showConfirmButton={showConfirmButton}
-						currency={currency}
-					/>
-				))}
-			</div>
+			<BookingTable
+				bookings={bookings}
+				onStatusChange={onStatusChange}
+				onDownloadReceipt={onDownloadReceipt}
+				onDelete={onDelete}
+				showConfirmButton={showConfirmButton}
+				currency={currency}
+			/>
 		)
 	}
 
