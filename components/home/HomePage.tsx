@@ -281,26 +281,22 @@ export default function HomePage({
         {isLoadingServices ? (
           <div className="px-6 grid grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="relative rounded-[24px] overflow-hidden aspect-[1/0.8] bg-slate-200 dark:bg-slate-700 animate-pulse" />
+              <div key={i} className="relative rounded-[24px] overflow-hidden bg-slate-200 dark:bg-slate-700 animate-pulse" style={{ aspectRatio: '1/0.8' }} />
             ))}
           </div>
         ) : services.length > 0 ? (
-          <div className="overflow-x-auto no-scrollbar">
-            <div className="flex gap-4 px-6 pb-2">
+          <div className="px-6">
+            <div className="grid grid-cols-2 gap-4">
               {services.map((service, index) => (
-                <div 
-                  key={service.id} 
-                  className="flex-shrink-0 w-[45%] min-w-[180px]"
-                >
-                  <ServiceCard 
-                    image={serviceImages[index % serviceImages.length]}
-                    title={service.name}
-                    subtitle={formatPrice(service.price)}
-                    rating={service.rating}
-                    ratingsCount={service.ratingsCount}
-                    onClick={() => handleBookService(service.id)}
-                  />
-                </div>
+                <ServiceCard 
+                  key={service.id}
+                  image={serviceImages[index % serviceImages.length]}
+                  title={service.name}
+                  subtitle={formatPrice(service.price)}
+                  rating={service.rating}
+                  ratingsCount={service.ratingsCount}
+                  onClick={() => handleBookService(service.id)}
+                />
               ))}
             </div>
           </div>
@@ -311,8 +307,8 @@ export default function HomePage({
         )}
       </section>
 
-      {/* CTV Promotion Banner */}
-      <section className="mt-8 px-6">
+      {/* CTV Promotion Banner - TODO: Implement later */}
+      {/* <section className="mt-8 px-6">
         <div className="relative w-full aspect-[2/1] rounded-[32px] overflow-hidden shadow-xl">
           <Image 
             alt="Promotion" 
@@ -343,7 +339,7 @@ export default function HomePage({
             <span className="w-1.5 h-1.5 bg-white/40 rounded-full"></span>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Partner Vouchers - TODO: Implement later */}
       {/* <section className="mt-8 px-6">

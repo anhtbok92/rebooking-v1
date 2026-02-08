@@ -90,13 +90,13 @@ export const apiRateLimit = rateLimit({
 
 export const authRateLimit = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	maxRequests: 5, // 5 login attempts per 15 minutes
+	maxRequests: process.env.NODE_ENV === 'development' ? 50 : 5, // 50 for dev, 5 for production
 	message: "Too many authentication attempts, please try again later",
 })
 
 export const checkoutRateLimit = rateLimit({
 	windowMs: 60 * 60 * 1000, // 1 hour
-	maxRequests: 10, // 10 checkout attempts per hour
+	maxRequests: process.env.NODE_ENV === 'development' ? 50 : 10, // 50 for dev, 10 for production
 	message: "Too many checkout attempts, please try again later",
 })
 
@@ -108,7 +108,7 @@ export const bookingRateLimit = rateLimit({
 
 export const ratingRateLimit = rateLimit({
 	windowMs: 60 * 60 * 1000, // 1 hour
-	maxRequests: 10, // 10 rating submissions per hour
+	maxRequests: process.env.NODE_ENV === 'development' ? 50 : 10, // 50 for dev, 10 for production
 	message: "Too many rating submissions, please try again later",
 })
 
