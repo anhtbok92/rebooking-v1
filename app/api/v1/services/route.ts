@@ -55,6 +55,7 @@ export async function GET(req: NextRequest) {
 				id: service.id,
 				name: service.name,
 				price: service.price,
+				imageUrl: service.imageUrl,
 				stripePriceId: service.stripePriceId,
 				createdAt: service.createdAt,
 				updatedAt: service.updatedAt,
@@ -121,6 +122,7 @@ export async function POST(req: NextRequest) {
 		}
 		
 		const { name, price } = validation.data
+		const { imageUrl } = body // Get imageUrl from body (not validated by schema)
 
 		let stripePriceId: string | undefined
 
@@ -146,6 +148,7 @@ export async function POST(req: NextRequest) {
 			data: {
 				name,
 				price,
+				imageUrl: imageUrl || null,
 				stripePriceId,
 			},
 		})

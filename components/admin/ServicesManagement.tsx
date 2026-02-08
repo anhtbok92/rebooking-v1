@@ -48,10 +48,12 @@ export function ServicesManagement() {
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [newServiceName, setNewServiceName] = useState("")
   const [newServicePrice, setNewServicePrice] = useState("")
+  const [newServiceImageUrl, setNewServiceImageUrl] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [editingService, setEditingService] = useState<Service | null>(null)
   const [editName, setEditName] = useState("")
   const [editPrice, setEditPrice] = useState("")
+  const [editImageUrl, setEditImageUrl] = useState("")
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [serviceToDelete, setServiceToDelete] = useState<string | null>(null)
 
@@ -86,6 +88,7 @@ export function ServicesManagement() {
         body: JSON.stringify({
           name: newServiceName,
           price: parsePrice(newServicePrice),
+          imageUrl: newServiceImageUrl || null,
         }),
       })
 
@@ -94,6 +97,7 @@ export function ServicesManagement() {
         setIsOpen(false)
         setNewServiceName("")
         setNewServicePrice("")
+        setNewServiceImageUrl("")
         toast.success(t("addSuccess"))
       } else {
         const error = await response.json()
@@ -124,6 +128,7 @@ export function ServicesManagement() {
         body: JSON.stringify({
           name: editName,
           price: parsePrice(editPrice),
+          imageUrl: editImageUrl || null,
         }),
       })
 
@@ -133,6 +138,7 @@ export function ServicesManagement() {
         setEditingService(null)
         setEditName("")
         setEditPrice("")
+        setEditImageUrl("")
         toast.success(t("updateSuccess"))
       } else {
         const error = await response.json()
@@ -153,6 +159,7 @@ export function ServicesManagement() {
     setEditingService(service)
     setEditName(service.name)
     setEditPrice(new Intl.NumberFormat("vi-VN").format(service.price))
+    setEditImageUrl(service.imageUrl || "")
     setIsEditOpen(true)
   }
 
@@ -239,6 +246,28 @@ export function ServicesManagement() {
                     required
                   />
                 </div>
+                <div className="space-y-2">
+                  <Label htmlFor="serviceImageUrl">Ảnh Banner (URL)</Label>
+                  <Input
+                    id="serviceImageUrl"
+                    type="url"
+                    placeholder="https://example.com/image.jpg"
+                    value={newServiceImageUrl}
+                    onChange={(e) => setNewServiceImageUrl(e.target.value)}
+                  />
+                  {newServiceImageUrl && (
+                    <div className="mt-2">
+                      <img 
+                        src={newServiceImageUrl} 
+                        alt="Preview" 
+                        className="w-full max-w-xs h-auto rounded-lg border"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? t("adding") : t("addService")}
                 </Button>
@@ -275,6 +304,28 @@ export function ServicesManagement() {
                 onChange={(e) => handlePriceChange(e, setEditPrice)}
                 required
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="editServiceImageUrl">Ảnh Banner (URL)</Label>
+              <Input
+                id="editServiceImageUrl"
+                type="url"
+                placeholder="https://example.com/image.jpg"
+                value={editImageUrl}
+                onChange={(e) => setEditImageUrl(e.target.value)}
+              />
+              {editImageUrl && (
+                <div className="mt-2">
+                  <img 
+                    src={editImageUrl} 
+                    alt="Preview" 
+                    className="w-full max-w-xs h-auto rounded-lg border"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                </div>
+              )}
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? t("saving") : t("saveChanges")}

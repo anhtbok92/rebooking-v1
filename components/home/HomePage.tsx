@@ -34,6 +34,9 @@ export default function HomePage({
   const { data: servicesData, isLoading: isLoadingServices } = useServices({ limit: 100 })
   const services = servicesData?.services || []
   
+  // Default fallback image
+  const defaultServiceImage = 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_90PHSxS095lP6_7HlW9dFxxkujV-L90MtHrBnWEzNDByqkN75f60cxRlHD6GkEoe7MDQw_ANcKqzgpsWezm8IVuZZXJaJmndr1YvSTtlbnHKJum_PKbBfMJ3_XzVlKDEtOhsUGb1-nFtpcrRXCxcVsxGqBnoc2dRJCVJna0IjjNT-aNbpRCc4TDYS6M4P0wfKV5n5kql_bdw4wW8Om1d928VN0R3p46HGhQoqA1ELjm1s_usYJWQVGDXgKXtv72Zm0DOPjrItchp'
+  
   // Fetch user bookings
   const { data: bookingsData, isLoading: isLoadingBookings } = useUserBookings(userId)
   
@@ -66,14 +69,6 @@ export default function HomePage({
   
   // Map dialog state
   const [mapOpen, setMapOpen] = useState(false)
-  
-  // Fake images for services (will be replaced later)
-  const serviceImages = [
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuC_90PHSxS095lP6_7HlW9dFxxkujV-L90MtHrBnWEzNDByqkN75f60cxRlHD6GkEoe7MDQw_ANcKqzgpsWezm8IVuZZXJaJmndr1YvSTtlbnHKJum_PKbBfMJ3_XzVlKDEtOhsUGb1-nFtpcrRXCxcVsxGqBnoc2dRJCVJna0IjjNT-aNbpRCc4TDYS6M4P0wfKV5n5kql_bdw4wW8Om1d928VN0R3p46HGhQoqA1ELjm1s_usYJWQVGDXgKXtv72Zm0DOPjrItchp',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDCa6tHVpbxa2kV8ZRgeU9rXZHcfU3tCoc7HpvZPVRqUsCEZxv61rDs7VFiF9I8TGWi0DKNNwwtJx5ReFU641EN2Dn0PJ5ad29jnNA7NGyG2Md79a9GYQTJJjO3wpvayjNkI4NtKht_dGm9btDV5xwMgIHx0BL8L2HLVsHp5nN25Jo7MkJcngJSlZxllUzlgN9PbtYjvokoYQ9q9t9uH_pwMulS2wmJAjBdszn-US9XZ0XtluC07Ld-0DwdQt352DfzLC837_l9Bz5U',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuAsZ8iS5lBLA0YBCA-fC-3zo9eu2Oi_Myi4UYkthJuDYv70eQ7MkiC0Q_9jJ2G9J2uR9Ey0ey93EoHt7CLjoGHsXsiXgxFDJhUBCvc9nO3GSENsbiFUXL-vXJKArqT_uFUSp50038YQHQMAfIRymZh3GWFRwqYZmqNDBqTs4_ENQXK6OHJYxTVit4KqV8mDtkDsEl8jTSUFdTkb_bbk7nyNo01Pw7FuHtYrGASx_SjAY7hNYidBYUfRKE0dWf1KBc7FStv8WrEWGDfl',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuBkJ3EgXUzftivkqby7KCw_71wmdS8EmeF6BGD6TCiNpcRNvszVCxrDxmPVI0xRac91dCOBAj6xU5XCAx5G0V8M9vuZ3hU5wTEq1jIZJFbp8qNpZprwgG-5a7uEAsI3fU0bpHXqXz4p5YIm2Ynsh5MRliraHahed9foP-s7ZPECI8kC_Bgru3iXRAynnt6pqbe1BRHKf7GjSu64wdq-BFJyGhAzhRXvraMYU8Cywo0DHcuFsT1axJZPLoF9mim26psiO4MvZ0RBjTYb',
-  ]
   
   // Format price to VND
   const formatPrice = (price: number) => {
@@ -287,10 +282,10 @@ export default function HomePage({
         ) : services.length > 0 ? (
           <div className="px-6">
             <div className="grid grid-cols-2 gap-4">
-              {services.map((service, index) => (
+              {services.map((service) => (
                 <ServiceCard 
                   key={service.id}
-                  image={serviceImages[index % serviceImages.length]}
+                  image={service.imageUrl || defaultServiceImage}
                   title={service.name}
                   subtitle={formatPrice(service.price)}
                   rating={service.rating}

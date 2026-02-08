@@ -7,6 +7,7 @@ export interface Service {
 	id: string
 	name: string
 	price: number
+	imageUrl?: string | null
 	rating?: number
 	ratingsCount?: number
 }

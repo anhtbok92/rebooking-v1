@@ -30,7 +30,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     const { id } = await params
     const body = await req.json()
-    const { name, price } = body
+    const { name, price, imageUrl } = body
 
     // Check if user has permission to update (only ADMIN and SUPER_ADMIN)
     const userRole = (session.user as any).role
@@ -44,6 +44,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       data: {
         name,
         price,
+        imageUrl,
       },
     })
 
