@@ -6,15 +6,20 @@ import { useSession } from 'next-auth/react'
 import { MobileSearch } from './MobileSearch'
 import { MobileBooking } from './MobileBooking'
 import { ClinicMapDialog } from './ClinicMapDialog'
-import { useServices, useUserBookings } from '@/lib/swr'
+import { useServices, useUserBookings, useNews } from '@/lib/swr'
 import { useState, useMemo } from 'react'
+import { format } from 'date-fns'
 
 export default function HomePage({ 
   onNavigateToAppointments,
-  onNavigateToDoctors
+  onNavigateToDoctors,
+  onNavigateToNews,
+  onNavigateToNewsDetail
 }: { 
   onNavigateToAppointments?: () => void
   onNavigateToDoctors?: () => void
+  onNavigateToNews?: () => void
+  onNavigateToNewsDetail?: (newsId: string) => void
 }) {
   const { data: session, status } = useSession()
   const isLoading = status === 'loading'
@@ -25,12 +30,19 @@ export default function HomePage({
   const userImage = session?.user?.image
   const userId = (session?.user as any)?.id
   
-  // Fetch services - limit to 4 for featured section
-  const { data: servicesData, isLoading: isLoadingServices } = useServices({ limit: 4 })
+  // Fetch services - load all services
+  const { data: servicesData, isLoading: isLoadingServices } = useServices({ limit: 100 })
   const services = servicesData?.services || []
   
   // Fetch user bookings
   const { data: bookingsData, isLoading: isLoadingBookings } = useUserBookings(userId)
+  
+  // Fetch news - get latest 3 published news
+  const { data: newsData, isLoading: isLoadingNews } = useNews({ 
+    limit: 3, 
+    published: true 
+  })
+  const news = newsData?.news || []
   
   // Get upcoming bookings (future dates, confirmed or pending)
   const upcomingBookings = useMemo(() => {
@@ -74,6 +86,34 @@ export default function HomePage({
   const handleBookService = (serviceId?: string) => {
     setSelectedServiceId(serviceId)
     setBookingOpen(true)
+  }
+  
+  // Helper function to get category color
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case 'NEWS':
+        return 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+      case 'PROMOTION':
+        return 'text-primary bg-yellow-50 dark:bg-yellow-900/20'
+      case 'EVENT':
+        return 'text-green-500 bg-green-50 dark:bg-green-900/20'
+      default:
+        return 'text-gray-500 bg-gray-50 dark:bg-gray-900/20'
+    }
+  }
+  
+  // Helper function to get category label
+  const getCategoryLabel = (category: string) => {
+    switch (category) {
+      case 'NEWS':
+        return 'TIN TỨC'
+      case 'PROMOTION':
+        return 'ƯU ĐÃI'
+      case 'EVENT':
+        return 'SỰ KIỆN'
+      default:
+        return category
+    }
   }
   
   return (
@@ -141,7 +181,13 @@ export default function HomePage({
             shadowColor="shadow-purple-500/30"
             onClick={onNavigateToDoctors}
           />
-          <QuickAction icon={Newspaper} label="Tin tức" color="bg-pink-500" shadowColor="shadow-pink-500/30" />
+          <QuickAction 
+            icon={Newspaper} 
+            label="Tin tức" 
+            color="bg-pink-500" 
+            shadowColor="shadow-pink-500/30"
+            onClick={onNavigateToNews}
+          />
           <QuickAction icon={FolderOpen} label="Hồ sơ" color="bg-emerald-500" shadowColor="shadow-emerald-500/30" />
           <QuickAction icon={Wallet} label="Ví tiền" color="bg-orange-500" shadowColor="shadow-orange-500/30" />
         </div>
@@ -224,34 +270,42 @@ export default function HomePage({
       </section>
 
       {/* Featured Services */}
-      <section className="mt-8 px-6">
-        <SectionHeader 
-          title="Dịch Vụ Nổi Bật" 
-          subtitle="Chọn dịch vụ phù hợp với bạn" 
-        />
+      <section className="mt-8">
+        <div className="px-6">
+          <SectionHeader 
+            title="Dịch Vụ Nổi Bật" 
+            subtitle="Chọn dịch vụ phù hợp với bạn" 
+          />
+        </div>
         
         {isLoadingServices ? (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="px-6 grid grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="relative rounded-[24px] overflow-hidden aspect-[1/0.8] bg-slate-200 dark:bg-slate-700 animate-pulse" />
             ))}
           </div>
         ) : services.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4">
-            {services.map((service, index) => (
-              <ServiceCard 
-                key={service.id}
-                image={serviceImages[index % serviceImages.length]}
-                title={service.name}
-                subtitle={formatPrice(service.price)}
-                rating={service.rating}
-                ratingsCount={service.ratingsCount}
-                onClick={() => handleBookService(service.id)}
-              />
-            ))}
+          <div className="overflow-x-auto no-scrollbar">
+            <div className="flex gap-4 px-6 pb-2">
+              {services.map((service, index) => (
+                <div 
+                  key={service.id} 
+                  className="flex-shrink-0 w-[45%] min-w-[180px]"
+                >
+                  <ServiceCard 
+                    image={serviceImages[index % serviceImages.length]}
+                    title={service.name}
+                    subtitle={formatPrice(service.price)}
+                    rating={service.rating}
+                    ratingsCount={service.ratingsCount}
+                    onClick={() => handleBookService(service.id)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
-          <div className="text-center py-8 text-slate-500 dark:text-slate-400">
+          <div className="px-6 text-center py-8 text-slate-500 dark:text-slate-400">
             Chưa có dịch vụ nào
           </div>
         )}
@@ -291,8 +345,8 @@ export default function HomePage({
         </div>
       </section>
 
-      {/* Partner Vouchers */}
-      <section className="mt-8 px-6">
+      {/* Partner Vouchers - TODO: Implement later */}
+      {/* <section className="mt-8 px-6">
         <SectionHeader 
           title="WinSmile Đề Xuất" 
           subtitle="Đổi tác voucher ưu đãi" 
@@ -304,33 +358,55 @@ export default function HomePage({
           <PartnerCard name="Grab" color="bg-emerald-600" />
           <PartnerCard name="Shopee" color="bg-orange-600" />
         </div>
-      </section>
+      </section> */}
 
       {/* News & Promotions */}
       <section className="mt-8 px-6 mb-8">
         <SectionHeader 
           title="Tin Tức & Ưu Đãi" 
-          subtitle="Cập nhật tin tức mới nhất" 
+          subtitle="Cập nhật tin tức mới nhất"
+          onViewAll={onNavigateToNews}
         />
         
-        <div className="space-y-4">
-          <NewsCard 
-            image="https://lh3.googleusercontent.com/aida-public/AB6AXuClsngqiYZNLCYNPo9kQ_YCoPUIZQYi2dlm-QVdTNwMc43joksy13aJ2hwy8Grjhl_6-CMA36NJV-hYLZRw0zi6cFQJ1SQ7EDe4P4t3-KRhZnNm__4fHV2yeCUYw0izKVnN9D7N_FUMDYO0YqqdUEr-dnw7vDXbugXoAJXs_x0ia_P1xL5XnSoTbV8sx4GozcwbmaMkqjVL7GWmkI8vKEOj8Sg2QRrju6znmGPz2fKyClnD-QiTHdjCkgnYaLccWK1Shy_NkHivPfDn"
-            tag="SỰ KIỆN"
-            tagColor="text-primary bg-yellow-50 dark:bg-yellow-900/20"
-            date="24/12/2025"
-            title="Khai Trương Chi Nhánh WinSmile Đà Nẵng"
-            description="Chào mừng chi nhánh mới tại trung tâm Đà Nẵng với đầy đủ trang thiết bị hiện đại"
-          />
-          <NewsCard 
-            image="https://lh3.googleusercontent.com/aida-public/AB6AXuCS9I8wDsuvvVQz0SER-5LgbU_bOIJNpXHIV8VrIE5wYzksBAL2CT5KN5WEEYDkOfKFoLk7iw4bvdZiMcWTSHzF2nMy2vicYsV5D_gxjyV2zSBDk7kBP74wOy_WhKuZt-bO-iIZ_ng6zS6OLEsL1K3tj1Ioz-LKhGiGXE2lJiFqkTpjQ8-iAMYRzsdvAx4ugdCn_J92TsXUAceFxKHsYkjvDnLaZ4UdJuX9qdeJOyU1LAeTEXCt7M_WcxtYVmep5Cp--aobxg1YhEBO"
-            tag="CÔNG NGHỆ"
-            tagColor="text-blue-500 bg-blue-50 dark:bg-blue-900/20"
-            date="22/12/2025"
-            title="Công Nghệ Niềng Răng Invisalign Mới Nhất"
-            description="Giải pháp chỉnh nha trong suốt, thẩm mỹ và hiệu quả cao"
-          />
-        </div>
+        {isLoadingNews ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white dark:bg-slate-800 p-3 rounded-3xl shadow-sm flex gap-4 border border-slate-100 dark:border-slate-700 animate-pulse">
+                <div className="w-24 h-24 rounded-2xl bg-slate-200 dark:bg-slate-700 flex-shrink-0" />
+                <div className="flex-1 py-1 space-y-2">
+                  <div className="flex gap-2">
+                    <div className="bg-slate-200 dark:bg-slate-700 h-4 w-16 rounded-full" />
+                    <div className="bg-slate-200 dark:bg-slate-700 h-4 w-20 rounded" />
+                  </div>
+                  <div className="bg-slate-200 dark:bg-slate-700 h-4 w-full rounded" />
+                  <div className="bg-slate-200 dark:bg-slate-700 h-3 w-3/4 rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : news.length > 0 ? (
+          <div className="space-y-4">
+            {news.map((item) => (
+              <NewsCard 
+                key={item.id}
+                image={item.coverImage || 'https://lh3.googleusercontent.com/aida-public/AB6AXuClsngqiYZNLCYNPo9kQ_YCoPUIZQYi2dlm-QVdTNwMc43joksy13aJ2hwy8Grjhl_6-CMA36NJV-hYLZRw0zi6cFQJ1SQ7EDe4P4t3-KRhZnNm__4fHV2yeCUYw0izKVnN9D7N_FUMDYO0YqqdUEr-dnw7vDXbugXoAJXs_x0ia_P1xL5XnSoTbV8sx4GozcwbmaMkqjVL7GWmkI8vKEOj8Sg2QRrju6znmGPz2fKyClnD-QiTHdjCkgnYaLccWK1Shy_NkHivPfDn'}
+                tag={getCategoryLabel(item.category)}
+                tagColor={getCategoryColor(item.category)}
+                date={item.publishedAt ? format(new Date(item.publishedAt), 'dd/MM/yyyy') : ''}
+                title={item.title}
+                description={item.excerpt || item.content.substring(0, 100) + '...'}
+                onClick={() => onNavigateToNewsDetail?.(item.id)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 text-center">
+            <Newspaper className="w-12 h-12 text-slate-300 dark:text-slate-600 mx-auto mb-3" />
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
+              Chưa có tin tức nào
+            </p>
+          </div>
+        )}
       </section>
       
       {/* Mobile Booking Dialog */}
@@ -407,7 +483,8 @@ function ServiceCard({
   return (
     <button 
       onClick={onClick}
-      className="relative rounded-[24px] overflow-hidden aspect-[1/0.8] group cursor-pointer text-left"
+      className="relative rounded-[24px] overflow-hidden group cursor-pointer text-left w-full"
+      style={{ aspectRatio: '1/0.8' }}
     >
       <Image 
         alt={title} 
@@ -443,9 +520,19 @@ function PartnerCard({ name, color }: { name: string; color: string }) {
   )
 }
 
-function NewsCard({ image, tag, tagColor, date, title, description }: any) {
+function NewsCard({ image, tag, tagColor, date, title, description, onClick }: any) {
+  // Strip HTML tags from description for display
+  const stripHtml = (html: string) => {
+    const tmp = document.createElement('div')
+    tmp.innerHTML = html
+    return tmp.textContent || tmp.innerText || ''
+  }
+  
   return (
-    <div className="bg-white dark:bg-slate-800 p-3 rounded-3xl shadow-sm flex gap-4 border border-slate-100 dark:border-slate-700 cursor-pointer hover:shadow-md transition-shadow">
+    <div 
+      onClick={onClick}
+      className="bg-white dark:bg-slate-800 p-3 rounded-3xl shadow-sm flex gap-4 border border-slate-100 dark:border-slate-700 cursor-pointer hover:shadow-md transition-shadow"
+    >
       <div className="relative w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
         <Image 
           alt={title} 
@@ -461,7 +548,9 @@ function NewsCard({ image, tag, tagColor, date, title, description }: any) {
           <span className="text-[8px] text-slate-400 font-medium">{date}</span>
         </div>
         <h3 className="text-xs font-bold leading-snug line-clamp-2 mb-1">{title}</h3>
-        <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">{description}</p>
+        <p className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2">
+          {stripHtml(description)}
+        </p>
       </div>
     </div>
   )

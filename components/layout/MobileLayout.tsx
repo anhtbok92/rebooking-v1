@@ -8,10 +8,13 @@ import AppointmentsPage from '@/components/home/AppointmentsPage'
 import CartPage from '@/components/home/CartPage'
 import ProfilePage from '@/components/home/ProfilePage'
 import DoctorsPage from '@/components/home/DoctorsPage'
+import NewsPage from '@/components/home/NewsPage'
+import NewsDetailPage from '@/components/home/NewsDetailPage'
 import { useCart } from '@/hooks/use-redux-cart'
 
 export default function MobileLayout() {
   const [activeTab, setActiveTab] = useState('home')
+  const [selectedNewsId, setSelectedNewsId] = useState<string | null>(null)
   const { cartCount } = useCart()
 
   const tabs = [
@@ -22,6 +25,11 @@ export default function MobileLayout() {
     { id: 'profile', label: 'Cá nhân', icon: User },
   ]
 
+  const handleNewsClick = (newsId: string) => {
+    setSelectedNewsId(newsId)
+    setActiveTab('newsDetail')
+  }
+
   const renderContent = () => {
     switch (activeTab) {
       case 'home':
@@ -29,6 +37,8 @@ export default function MobileLayout() {
           <HomePage 
             onNavigateToAppointments={() => setActiveTab('appointments')}
             onNavigateToDoctors={() => setActiveTab('doctors')}
+            onNavigateToNews={() => setActiveTab('news')}
+            onNavigateToNewsDetail={handleNewsClick}
           />
         )
       case 'messages':
@@ -41,11 +51,22 @@ export default function MobileLayout() {
         return <ProfilePage />
       case 'doctors':
         return <DoctorsPage onBack={() => setActiveTab('home')} />
+      case 'news':
+        return <NewsPage onBack={() => setActiveTab('home')} onNewsClick={handleNewsClick} />
+      case 'newsDetail':
+        return selectedNewsId ? (
+          <NewsDetailPage 
+            newsId={selectedNewsId} 
+            onBack={() => setActiveTab('news')} 
+          />
+        ) : null
       default:
         return (
           <HomePage 
             onNavigateToAppointments={() => setActiveTab('appointments')}
             onNavigateToDoctors={() => setActiveTab('doctors')}
+            onNavigateToNews={() => setActiveTab('news')}
+            onNavigateToNewsDetail={handleNewsClick}
           />
         )
     }

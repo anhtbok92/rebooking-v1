@@ -38,3 +38,14 @@ export {
 	updateClinicAddress,
 	type ClinicAddress,
 } from "./hooks/settings"
+
+// Export news hooks
+export {
+	useNews,
+	useNewsItem,
+	createNews,
+	updateNews,
+	deleteNews,
+	type News,
+	type NewsResponse,
+} from "./hooks/news"

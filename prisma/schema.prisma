@@ -41,7 +41,7 @@ model User {
     email               String                @unique
     emailVerified       DateTime?
     password            String? // Optional for OAuth users
-    role                String                @default("CLIENT") // SUPER_ADMIN, ADMIN, STAFF, or CLIENT
+    role                String                @default("CLIENT") // SUPER_ADMIN, ADMIN, STAFF, DOCTOR, or CLIENT
     phone               String?
     image               String?
     resetToken          String?
@@ -61,10 +61,10 @@ model User {
     referralPoints      Int                   @default(0)
     ReferralCode        ReferralCode[]
     ReferralReward      ReferralReward[]
-    // ReferralReward      ReferralReward[]
     PromotionSubscriber PromotionSubscriber[]
     PointsRedemption    PointsRedemption[]
     discountUsages      DiscountUsage[]
+    news                News[]
 }
 
 model VerificationToken {
@@ -280,4 +280,27 @@ model SystemSettings {
     value     String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model News {
+    id          String   @id @default(uuid())
+    title       String
+    slug        String   @unique
+    excerpt     String?
+    content     String
+    coverImage  String?
+    category    String   @default("NEWS") // NEWS, PROMOTION, EVENT
+    tags        String[] // Array of tags
+    published   Boolean  @default(false)
+    publishedAt DateTime?
+    authorId    String
+    author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+    viewCount   Int      @default(0)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@index([authorId])
+    @@index([category])
+    @@index([published])
+    @@index([publishedAt])
 }

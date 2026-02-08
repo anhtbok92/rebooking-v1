@@ -101,6 +101,7 @@
             "staff": "Staff",
             "users": "Users",
             "timeSlots": "Time Slots",
+            "news": "News",
             "settings": "Settings",
             "copyright": "© {year} Reebooking. All rights reserved."
         },
