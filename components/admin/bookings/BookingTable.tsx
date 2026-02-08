@@ -49,6 +49,7 @@ export function BookingTable({
 }: BookingTableProps) {
 	const t = useTranslations("Admin.bookings.card")
 	const tStats = useTranslations("Admin.stats")
+	const tPayment = useTranslations("Admin.bookings.payment")
 
 	const getStatusBadge = (status: string) => {
 		switch (status) {
@@ -90,7 +91,6 @@ export function BookingTable({
 
 	const getPaymentMethodLabel = (method: string | null | undefined) => {
 		if (!method) return "N/A"
-		const tPayment = useTranslations("Admin.bookings.payment")
 		return method === "cash" ? tPayment("cash") : tPayment("card")
 	}
 
