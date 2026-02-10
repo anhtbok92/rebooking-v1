@@ -1,8 +1,13 @@
 import { SuperAdminDashboard } from "@/components/admin/SuperAdminDashboard"
 import currentUserServer from "@/lib/currentUserServer"
 import { redirect } from "next/navigation"
+import type { Metadata } from "next"
 
-export default async function SuperAdminPage() {
+export const metadata: Metadata = {
+	title: "Super Admin Dashboard",
+}
+
+export default async function Page() {
 	// Fetch current user from server
 	const currentUser = await currentUserServer()
 	const { isSuperAdmin } = currentUser || {}

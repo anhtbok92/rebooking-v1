@@ -1,11 +1,15 @@
-import { StaffDashboard } from "@/components/staff/StaffDashboard"
 import currentUserServer from "@/lib/currentUserServer"
 import { redirect } from "next/navigation"
+import type { Metadata } from "next"
 
-export default async function StaffPage() {
+export const metadata: Metadata = {
+	title: "Staff Dashboard",
+}
+
+export default async function Page() {
 	// Fetch current user from server
 	const currentUser = await currentUserServer()
-	const { isStaff, isSuperAdmin, isAdmin } = currentUser || {}
+	const { isStaff, isDoctor, isSuperAdmin, isAdmin } = currentUser || {}
 
 	// Redirect if not logged in
 	if (!currentUser) redirect("/signin")
@@ -13,8 +17,10 @@ export default async function StaffPage() {
 	// Redirect based on role
 	if (isSuperAdmin) redirect("/admin/super")
 	if (isAdmin) redirect("/admin")
-	if (!isStaff) redirect("/dashboard") // Not staff
+	
+	// STAFF or DOCTOR - redirect to main dashboard
+	if (isStaff || isDoctor) redirect("/dashboard")
 
-	// STAFF role - show staff dashboard
-	return <StaffDashboard />
+	// Not staff/doctor - redirect to main dashboard
+	redirect("/dashboard")
 }

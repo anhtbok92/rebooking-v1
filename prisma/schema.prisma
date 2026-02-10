@@ -67,6 +67,9 @@ model User {
     PointsRedemption    PointsRedemption[]
     discountUsages      DiscountUsage[]
     news                News[]
+    employeeSalary      EmployeeSalary?       @relation("EmployeeSalary")
+    attendance          Attendance[]          @relation("EmployeeAttendance")
+    payrolls            Payroll[]             @relation("EmployeePayroll")
 }
 
 model VerificationToken {
@@ -310,4 +313,67 @@ model News {
     @@index([category])
     @@index([published])
     @@index([publishedAt])
+}
+
+// Salary Management Models
+model EmployeeSalary {
+    id                String   @id @default(uuid())
+    userId            String   @unique
+    user              User     @relation("EmployeeSalary", fields: [userId], references: [id], onDelete: Cascade)
+    baseSalary        Int      // Lương cứng (VND/tháng)
+    allowance         Int      @default(0) // Trợ cấp cố định (VND/tháng)
+    commissionRate    Float    @default(0) // % hoa hồng theo doanh thu (0-100)
+    workingDaysPerMonth Int    @default(26) // Số ngày công chuẩn/tháng
+    active            Boolean  @default(true)
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    payrolls          Payroll[]
+
+    @@index([userId])
+}
+
+model Attendance {
+    id          String   @id @default(uuid())
+    userId      String
+    user        User     @relation("EmployeeAttendance", fields: [userId], references: [id], onDelete: Cascade)
+    date        DateTime
+    status      String   // PRESENT, ABSENT, HALF_DAY, LEAVE
+    checkIn     DateTime?
+    checkOut    DateTime?
+    notes       String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    @@unique([userId, date])
+    @@index([userId])
+    @@index([date])
+}
+
+model Payroll {
+    id                String         @id @default(uuid())
+    userId            String
+    user              User           @relation("EmployeePayroll", fields: [userId], references: [id], onDelete: Cascade)
+    salaryId          String
+    salary            EmployeeSalary @relation(fields: [salaryId], references: [id])
+    month             Int            // 1-12
+    year              Int
+    workingDays       Int            // Số ngày công thực tế
+    baseSalaryAmount  Int            // Lương cứng đã tính
+    allowanceAmount   Int            // Trợ cấp đã tính
+    commissionAmount  Int            // Hoa hồng đã tính
+    totalRevenue      Int            // Tổng doanh thu trong tháng
+    totalAmount       Int            // Tổng lương
+    bonus             Int            @default(0) // Thưởng thêm
+    deduction         Int            @default(0) // Khấu trừ
+    finalAmount       Int            // Số tiền thực nhận
+    status            String         @default("PENDING") // PENDING, APPROVED, PAID
+    notes             String?
+    paidAt            DateTime?
+    createdAt         DateTime       @default(now())
+    updatedAt         DateTime       @updatedAt
+
+    @@unique([userId, month, year])
+    @@index([userId])
+    @@index([status])
+    @@index([month, year])
 }

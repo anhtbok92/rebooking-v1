@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Calendar, Clock, Newspaper, Settings, Shield, Star, Ticket, TrendingUp, UserPlus, Users } from "lucide-react"
+import { BarChart3, Calendar, Clock, Newspaper, Settings, Shield, Star, Ticket, TrendingUp, UserPlus, Users, DollarSign } from "lucide-react"
 import { useState } from "react"
 import LayoutAdmin from "../layout/admin"
 
@@ -20,6 +20,7 @@ import { UserManagement } from "./UserManagement"
 import { TimeSlotManagement } from "./TimeSlotManagement"
 import { SettingsManagement } from "./SettingsManagement"
 import { NewsManagement } from "./NewsManagement"
+import { SalaryManagement } from "./SalaryManagement"
 
 const SIDEBAR_TABS = [
 	{
@@ -71,6 +72,11 @@ const SIDEBAR_TABS = [
 		key: "referrals",
 		label: "Referrals",
 		icon: UserPlus,
+	},
+	{
+		key: "salary",
+		label: "Salary",
+		icon: DollarSign,
 	},
 	{
 		key: "news",
@@ -160,6 +166,7 @@ export function SuperAdminDashboard() {
 					{activeTab === "discounts" && <DiscountManagement />}
 					{activeTab === "ratings" && <RatingsManagement />}
 					{activeTab === "referrals" && <ReferralManagement />}
+					{activeTab === "salary" && <SalaryManagement />}
 					{activeTab === "news" && <NewsManagement />}
 					{activeTab === "analytics" && <ComprehensiveAnalytics />}
 					{activeTab === "settings" && <SettingsManagement />}

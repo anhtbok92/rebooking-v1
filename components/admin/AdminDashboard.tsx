@@ -1,7 +1,7 @@
 "use client"
 
 import currentUserClient from "@/lib/currentUserClient"
-import { BarChart3, Calendar, Settings, Star, Ticket, TrendingUp, UserPlus, Users } from "lucide-react"
+import { BarChart3, Calendar, Settings, Star, Ticket, TrendingUp, UserPlus, Users, DollarSign } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
 import LayoutAdmin from "../layout/admin"
@@ -21,6 +21,7 @@ import { ServicesManagement } from "./ServicesManagement"
 import { StaffManagement } from "./StaffManagement"
 import { StatsOverview } from "./StatsOverview"
 import { UserManagement } from "./UserManagement"
+import { SalaryManagement } from "./SalaryManagement"
 
 const SIDEBAR_NAV = [
 	{
@@ -67,6 +68,11 @@ const SIDEBAR_NAV = [
 		key: "referrals",
 		icon: <UserPlus className="w-4 h-4" />,
 		forSuperAdmin: false,
+	},
+	{
+		key: "salary",
+		icon: <DollarSign className="w-4 h-4" />,
+		forSuperAdmin: true,
 	},
 	{
 		key: "staff",
@@ -135,6 +141,7 @@ export function AdminDashboard() {
 					{activeTab === "discounts" && <DiscountManagement />}
 					{activeTab === "ratings" && <RatingsManagement />}
 					{activeTab === "referrals" && <ReferralManagement />}
+					{isSuperAdmin && activeTab === "salary" && <SalaryManagement />}
 					{isSuperAdmin && activeTab === "staff" && <StaffManagement />}
 					{isSuperAdmin && activeTab === "users" && <UserManagement />}
 				</main>

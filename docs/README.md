@@ -46,6 +46,13 @@ Thư mục này chứa tất cả tài liệu kỹ thuật và hướng dẫn c�
 - [DOCTORS_PAGE_README.md](./DOCTORS_PAGE_README.md) - Trang danh sách bác sĩ
 - [SERVICES_README.md](./SERVICES_README.md) - Services
 
+### 💰 Salary Management
+- [SALARY_MANAGEMENT_SYSTEM.md](./SALARY_MANAGEMENT_SYSTEM.md) - Hệ thống quản lý lương thưởng
+- [ATTENDANCE_MANAGEMENT.md](./ATTENDANCE_MANAGEMENT.md) - Quản lý chấm công (Admin)
+- [SELF_ATTENDANCE.md](./SELF_ATTENDANCE.md) - Chấm công tự động (Staff/Doctor)
+- [ATTENDANCE_QUICK_START.md](./ATTENDANCE_QUICK_START.md) - Quick start chấm công
+- [SALARY_TROUBLESHOOTING.md](./SALARY_TROUBLESHOOTING.md) - Troubleshooting
+
 ### 🗺️ Other Features
 - [CLINIC_MAP_README.md](./CLINIC_MAP_README.md) - Bản đồ phòng khám
 - [MOBILE_LAYOUT_README.md](./MOBILE_LAYOUT_README.md) - Mobile layout

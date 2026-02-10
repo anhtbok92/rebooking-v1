@@ -1,113 +1,122 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useBookings, useBookingStats } from "@/lib/swr"
-import { AlertCircle, BarChart3, Calendar, CheckCircle2, Clock, DollarSign } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { useState } from "react"
-import { BookingsManagement } from "../admin/BookingsManagement"
-import { BookingCalendar } from "@/components/bookings/BookingCalendar"
-import LayoutAdmin from "../layout/admin"
-import { StaffAnalytics } from "./StaffAnalytics"
+import { BarChart3, CalendarDays, Clock, Calendar, User, ClipboardList } from "lucide-react"
 import { useTranslations } from "next-intl"
+import LayoutAdmin from "@/components/layout/admin"
+import { SelfAttendance } from "./SelfAttendance"
+import { StaffAnalytics } from "./StaffAnalytics"
+import { BookingCalendar } from "@/components/bookings/BookingCalendar"
+import { BookingsManagement } from "@/components/admin/BookingsManagement"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+const SIDEBAR_NAV = [
+	{
+		key: "overview",
+		icon: <BarChart3 className="w-4 h-4" />,
+		label: "Tổng Quan",
+	},
+	{
+		key: "bookings",
+		icon: <ClipboardList className="w-4 h-4" />,
+		label: "Đặt Lịch",
+	},
+	{
+		key: "calendar",
+		icon: <CalendarDays className="w-4 h-4" />,
+		label: "Lịch",
+	},
+	{
+		key: "attendance",
+		icon: <Clock className="w-4 h-4" />,
+		label: "Chấm Công",
+	},
+	{
+		key: "schedule",
+		icon: <Calendar className="w-4 h-4" />,
+		label: "Lịch Làm Việc",
+	},
+	{
+		key: "profile",
+		icon: <User className="w-4 h-4" />,
+		label: "Thông Tin",
+	},
+]
 
 export function StaffDashboard() {
-	const t = useTranslations("Staff.dashboard")
-	const { data: session } = useSession()
-	const { data: stats } = useBookingStats()
-	const { data: response } = useBookings({ limit: 1000 })
+	const [activeTab, setActiveTab] = useState<string>("overview")
 
-	const bookings = response?.bookings || []
-	const [activeTab, setActiveTab] = useState("today")
-
-	const todayBookings =
-		bookings?.filter((b) => {
-			const bookingDate = new Date(b.date)
-			return bookingDate.toDateString() === new Date().toDateString()
-		}) || []
-
-	const completedBookings = bookings?.filter((b) => b.status === "COMPLETED") || []
-	const totalRevenue = bookings?.reduce((sum, b) => sum + b.service.price, 0) || 0
+	const renderContent = () => {
+		switch (activeTab) {
+			case "overview":
+				return <StaffAnalytics />
+			case "bookings":
+				return <BookingsManagement />
+			case "calendar":
+				return <BookingCalendar userId={null} />
+			case "attendance":
+				return <SelfAttendance />
+			case "schedule":
+				return (
+					<Card>
+						<CardHeader>
+							<CardTitle>Lịch Làm Việc</CardTitle>
+							<CardDescription>Xem lịch làm việc của bạn</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="text-center py-12 text-muted-foreground">
+								Tính năng đang phát triển
+							</div>
+						</CardContent>
+					</Card>
+				)
+			case "profile":
+				return (
+					<Card>
+						<CardHeader>
+							<CardTitle>Thông Tin Cá Nhân</CardTitle>
+							<CardDescription>Quản lý thông tin tài khoản của bạn</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<div className="text-center py-12 text-muted-foreground">
+								Tính năng đang phát triển
+							</div>
+						</CardContent>
+					</Card>
+				)
+			default:
+				return <StaffAnalytics />
+		}
+	}
 
 	return (
 		<LayoutAdmin>
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				<div className="mb-8">
-					<h1 className="text-4xl font-bold text-foreground mb-2">{t("title")}</h1>
-					<p className="text-muted-foreground">{t("desc")}</p>
-				</div>
+			<div className="flex h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 gap-6">
+				{/* Sidebar */}
+				<aside className="w-64 flex-shrink-0">
+					<div className="sticky top-8 space-y-1">
+						<h2 className="text-lg font-semibold mb-4">Dashboard Nhân Viên</h2>
+						{SIDEBAR_NAV.map((item) => (
+							<button
+								key={item.key}
+								onClick={() => setActiveTab(item.key)}
+								className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+									activeTab === item.key
+										? "bg-primary text-primary-foreground"
+										: "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+								}`}
+							>
+								{item.icon}
+								<span>{item.label}</span>
+							</button>
+						))}
+					</div>
+				</aside>
 
-				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">{t("todayBookings")}</CardTitle>
-							<Clock className="h-4 w-4 text-muted-foreground" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">{stats?.today || todayBookings.length}</div>
-							<p className="text-xs text-muted-foreground">{t("todayDesc")}</p>
-						</CardContent>
-					</Card>
-
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">{t("completed")}</CardTitle>
-							<CheckCircle2 className="h-4 w-4 text-green-600" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">{stats?.completed || completedBookings.length}</div>
-							<p className="text-xs text-muted-foreground">{t("completedDesc")}</p>
-						</CardContent>
-					</Card>
-
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">{t("pending")}</CardTitle>
-							<AlertCircle className="h-4 w-4 text-orange-600" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">{stats?.pending || 0}</div>
-							<p className="text-xs text-muted-foreground">{t("pendingDesc")}</p>
-						</CardContent>
-					</Card>
-
-					<Card>
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="text-sm font-medium">{t("revenue")}</CardTitle>
-							<DollarSign className="h-4 w-4 text-muted-foreground" />
-						</CardHeader>
-						<CardContent>
-							<div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
-							<p className="text-xs text-muted-foreground">{t("revenueDesc")}</p>
-						</CardContent>
-					</Card>
-				</div>
-
-				<Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-					<TabsList className="grid w-full grid-cols-4">
-						<TabsTrigger value="analytics">{t("tabs.analytics")}</TabsTrigger>
-						<TabsTrigger value="calendar">{t("tabs.calendar")}</TabsTrigger>
-						<TabsTrigger value="today">{t("tabs.today")}</TabsTrigger>
-						<TabsTrigger value="all">{t("tabs.all")}</TabsTrigger>
-					</TabsList>
-
-					<TabsContent value="analytics" className="space-y-6">
-						<StaffAnalytics />
-					</TabsContent>
-
-					<TabsContent value="calendar" className="space-y-6">
-						<BookingCalendar />
-					</TabsContent>
-
-					<TabsContent value="today" className="space-y-6">
-						<BookingsManagement filterByToday={true} />
-					</TabsContent>
-
-					<TabsContent value="all" className="space-y-6">
-						<BookingsManagement />
-					</TabsContent>
-				</Tabs>
+				{/* Main Content */}
+				<main className="flex-1 min-w-0">
+					{renderContent()}
+				</main>
 			</div>
 		</LayoutAdmin>
 	)

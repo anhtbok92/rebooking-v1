@@ -235,3 +235,57 @@ export const guestSignupSchema = z.object({
 	phone: z.string().regex(phoneRegex, "Invalid phone number format").max(20).optional(),
 })
 
+
+
+// Salary Management schemas
+export const createEmployeeSalarySchema = z.object({
+	userId: z.string().uuid("Invalid user ID"),
+	baseSalary: z.number().int().positive("Base salary must be positive"),
+	allowance: z.number().int().nonnegative("Allowance must be non-negative").default(0),
+	commissionRate: z.number().min(0).max(100, "Commission rate must be between 0 and 100").default(0),
+	workingDaysPerMonth: z.number().int().positive().default(26),
+})
+
+export const updateEmployeeSalarySchema = createEmployeeSalarySchema.partial().omit({ userId: true })
+
+export const createAttendanceSchema = z.object({
+	userId: z.string().uuid("Invalid user ID"),
+	date: z.string().regex(dateRegex, "Date must be in YYYY-MM-DD format"),
+	status: z.enum(["PRESENT", "ABSENT", "HALF_DAY", "LEAVE"]),
+	checkIn: z.string().datetime().optional(),
+	checkOut: z.string().datetime().optional(),
+	notes: z.string().max(500).optional(),
+})
+
+export const getAttendanceQuerySchema = z.object({
+	userId: z.string().uuid().optional(),
+	startDate: z.string().regex(dateRegex).optional(),
+	endDate: z.string().regex(dateRegex).optional(),
+	month: z.coerce.number().int().min(1).max(12).optional(),
+	year: z.coerce.number().int().min(2020).optional(),
+	page: z.coerce.number().int().positive().default(1),
+	limit: z.coerce.number().int().positive().max(100).default(31),
+})
+
+export const generatePayrollSchema = z.object({
+	userId: z.string().uuid("Invalid user ID"),
+	month: z.number().int().min(1).max(12),
+	year: z.number().int().min(2020),
+	bonus: z.number().int().nonnegative().default(0),
+	deduction: z.number().int().nonnegative().default(0),
+	notes: z.string().max(1000).optional(),
+})
+
+export const getPayrollQuerySchema = z.object({
+	userId: z.string().uuid().optional(),
+	month: z.coerce.number().int().min(1).max(12).optional(),
+	year: z.coerce.number().int().min(2020).optional(),
+	status: z.enum(["PENDING", "APPROVED", "PAID", "ALL"]).default("ALL"),
+	page: z.coerce.number().int().positive().default(1),
+	limit: z.coerce.number().int().positive().max(100).default(10),
+})
+
+export const updatePayrollStatusSchema = z.object({
+	status: z.enum(["PENDING", "APPROVED", "PAID"]),
+	paidAt: z.string().datetime().optional(),
+})
