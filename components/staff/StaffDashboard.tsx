@@ -1,14 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { BarChart3, CalendarDays, Clock, Calendar, User, ClipboardList } from "lucide-react"
-import { useTranslations } from "next-intl"
+import { BarChart3, CalendarDays, Clock, ClipboardList } from "lucide-react"
 import LayoutAdmin from "@/components/layout/admin"
 import { SelfAttendance } from "./SelfAttendance"
 import { StaffAnalytics } from "./StaffAnalytics"
 import { BookingCalendar } from "@/components/bookings/BookingCalendar"
 import { BookingsManagement } from "@/components/admin/BookingsManagement"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 const SIDEBAR_NAV = [
 	{
@@ -31,16 +29,6 @@ const SIDEBAR_NAV = [
 		icon: <Clock className="w-4 h-4" />,
 		label: "Chấm Công",
 	},
-	{
-		key: "schedule",
-		icon: <Calendar className="w-4 h-4" />,
-		label: "Lịch Làm Việc",
-	},
-	{
-		key: "profile",
-		icon: <User className="w-4 h-4" />,
-		label: "Thông Tin",
-	},
 ]
 
 export function StaffDashboard() {
@@ -56,34 +44,6 @@ export function StaffDashboard() {
 				return <BookingCalendar userId={null} />
 			case "attendance":
 				return <SelfAttendance />
-			case "schedule":
-				return (
-					<Card>
-						<CardHeader>
-							<CardTitle>Lịch Làm Việc</CardTitle>
-							<CardDescription>Xem lịch làm việc của bạn</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<div className="text-center py-12 text-muted-foreground">
-								Tính năng đang phát triển
-							</div>
-						</CardContent>
-					</Card>
-				)
-			case "profile":
-				return (
-					<Card>
-						<CardHeader>
-							<CardTitle>Thông Tin Cá Nhân</CardTitle>
-							<CardDescription>Quản lý thông tin tài khoản của bạn</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<div className="text-center py-12 text-muted-foreground">
-								Tính năng đang phát triển
-							</div>
-						</CardContent>
-					</Card>
-				)
 			default:
 				return <StaffAnalytics />
 		}

@@ -594,6 +594,22 @@
                 "today": "Lịch hôm nay",
                 "all": "Tất cả lịch đặt"
             }
+        },
+        "analytics": {
+            "todayBookings": "Đặt Lịch Hôm Nay",
+            "thisWeek": "Tuần Này",
+            "thisMonth": "Tháng Này",
+            "monthRevenue": "Doanh Thu Tháng",
+            "completedText": "đã hoàn thành",
+            "fromCompleted": "Từ các đặt lịch đã hoàn thành",
+            "weeklyPerformance": "Hiệu Suất Tuần",
+            "weeklyDesc": "Tổng quan 4 tuần gần đây",
+            "dailyPerformance": "Hiệu Suất Ngày",
+            "dailyDesc": "7 ngày gần đây",
+            "topServices": "Dịch Vụ Hàng Đầu",
+            "topServicesDesc": "Các dịch vụ được đặt nhiều nhất",
+            "totalBookings": "Tổng Đặt Lịch",
+            "week": "Tuần"
         }
     },
     "Client": {

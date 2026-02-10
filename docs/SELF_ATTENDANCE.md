@@ -126,11 +126,9 @@ Dashboard cho STAFF và DOCTOR với layout giống Admin
 
 **Sidebar Menu:**
 1. **Tổng Quan** (StaffAnalytics) - Dashboard analytics với charts và KPIs
-2. **Đặt Lịch** (BookingsManagement) - Quản lý bookings với stats và table ⭐ MỚI
+2. **Đặt Lịch** (BookingsManagement) - Quản lý bookings với stats và table
 3. **Lịch** (BookingCalendar) - Xem calendar với tất cả bookings
 4. **Chấm Công** (SelfAttendance) - Self check-in/check-out
-5. **Lịch Làm Việc** (Coming soon) - Lịch làm việc cá nhân
-6. **Thông Tin** (Coming soon) - Thông tin cá nhân
 
 **Default View:** Tổng Quan (overview)
 

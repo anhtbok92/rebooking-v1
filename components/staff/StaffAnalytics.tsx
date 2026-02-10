@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { useBookings, useBookingStats } from "@/lib/swr"
+import { useSystemSettings } from "@/lib/swr/system-settings"
 import {
 	Bar,
 	BarChart,
@@ -15,6 +16,7 @@ import {
 	YAxis,
 } from "recharts"
 import { Calendar, CheckCircle2, Clock, DollarSign, TrendingUp } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 const COLORS = {
 	primary: "#6366f1",
@@ -23,8 +25,10 @@ const COLORS = {
 }
 
 export function StaffAnalytics() {
+	const t = useTranslations("Staff.analytics")
 	const { data: response } = useBookings({ limit: 1000 })
 	const { data: stats } = useBookingStats()
+	const { currency } = useSystemSettings()
 
 	const bookings = response?.bookings || []
 
@@ -97,7 +101,7 @@ export function StaffAnalytics() {
 			.reduce((sum, b) => sum + b.service.price, 0)
 
 		return {
-			week: `Week ${4 - i}`,
+			week: `${t("week")} ${4 - i}`,
 			bookings: weekBookings.length,
 			completed,
 			revenue,
@@ -108,7 +112,7 @@ export function StaffAnalytics() {
 	const dailyPerformance = Array.from({ length: 7 }, (_, i) => {
 		const date = new Date(today)
 		date.setDate(today.getDate() - (6 - i))
-		const dayName = date.toLocaleDateString("en-US", { weekday: "short" })
+		const dayName = date.toLocaleDateString("vi-VN", { weekday: "short" })
 
 		const dayBookings = bookings?.filter((b) => {
 			const bookingDate = new Date(b.date)
@@ -151,7 +155,7 @@ export function StaffAnalytics() {
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">Today's Bookings</CardTitle>
+						<CardTitle className="text-sm font-medium">{t("todayBookings")}</CardTitle>
 						<Calendar className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -159,7 +163,7 @@ export function StaffAnalytics() {
 						<div className="mt-2">
 							<Progress value={todayCompletionRate} className="h-2" />
 							<p className="text-xs text-muted-foreground mt-1">
-								{todayCompleted} completed ({todayCompletionRate.toFixed(0)}%)
+								{todayCompleted} {t("completedText")} ({todayCompletionRate.toFixed(0)}%)
 							</p>
 						</div>
 					</CardContent>
@@ -167,7 +171,7 @@ export function StaffAnalytics() {
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">This Week</CardTitle>
+						<CardTitle className="text-sm font-medium">{t("thisWeek")}</CardTitle>
 						<Clock className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -175,7 +179,7 @@ export function StaffAnalytics() {
 						<div className="mt-2">
 							<Progress value={weekCompletionRate} className="h-2" />
 							<p className="text-xs text-muted-foreground mt-1">
-								{weekCompleted} completed ({weekCompletionRate.toFixed(0)}%)
+								{weekCompleted} {t("completedText")} ({weekCompletionRate.toFixed(0)}%)
 							</p>
 						</div>
 					</CardContent>
@@ -183,7 +187,7 @@ export function StaffAnalytics() {
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">This Month</CardTitle>
+						<CardTitle className="text-sm font-medium">{t("thisMonth")}</CardTitle>
 						<TrendingUp className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
@@ -191,7 +195,7 @@ export function StaffAnalytics() {
 						<div className="mt-2">
 							<Progress value={monthCompletionRate} className="h-2" />
 							<p className="text-xs text-muted-foreground mt-1">
-								{monthCompleted} completed ({monthCompletionRate.toFixed(0)}%)
+								{monthCompleted} {t("completedText")} ({monthCompletionRate.toFixed(0)}%)
 							</p>
 						</div>
 					</CardContent>
@@ -199,12 +203,12 @@ export function StaffAnalytics() {
 
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">Month Revenue</CardTitle>
+						<CardTitle className="text-sm font-medium">{t("monthRevenue")}</CardTitle>
 						<DollarSign className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold">${monthRevenue.toLocaleString()}</div>
-						<p className="text-xs text-muted-foreground mt-1">From completed bookings</p>
+						<div className="text-2xl font-bold">{currency}{monthRevenue.toLocaleString()}</div>
+						<p className="text-xs text-muted-foreground mt-1">{t("fromCompleted")}</p>
 					</CardContent>
 				</Card>
 			</div>
@@ -214,8 +218,8 @@ export function StaffAnalytics() {
 				{/* Weekly Performance */}
 				<Card>
 					<CardHeader>
-						<CardTitle>Weekly Performance</CardTitle>
-						<CardDescription>Last 4 weeks overview</CardDescription>
+						<CardTitle>{t("weeklyPerformance")}</CardTitle>
+						<CardDescription>{t("weeklyDesc")}</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div className="w-full h-[300px]">
@@ -231,8 +235,8 @@ export function StaffAnalytics() {
 											borderRadius: "8px",
 										}}
 									/>
-									<Bar dataKey="bookings" fill={COLORS.primary} name="Total Bookings" radius={[4, 4, 0, 0]} />
-									<Bar dataKey="completed" fill={COLORS.success} name="Completed" radius={[4, 4, 0, 0]} />
+									<Bar dataKey="bookings" fill={COLORS.primary} name={t("totalBookings")} radius={[4, 4, 0, 0]} />
+									<Bar dataKey="completed" fill={COLORS.success} name={t("completedText")} radius={[4, 4, 0, 0]} />
 								</BarChart>
 							</ResponsiveContainer>
 						</div>
@@ -242,8 +246,8 @@ export function StaffAnalytics() {
 				{/* Daily Performance */}
 				<Card>
 					<CardHeader>
-						<CardTitle>Daily Performance</CardTitle>
-						<CardDescription>Last 7 days</CardDescription>
+						<CardTitle>{t("dailyPerformance")}</CardTitle>
+						<CardDescription>{t("dailyDesc")}</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div className="w-full h-[300px]">
@@ -264,7 +268,7 @@ export function StaffAnalytics() {
 										dataKey="bookings"
 										stroke={COLORS.primary}
 										strokeWidth={2}
-										name="Total Bookings"
+										name={t("totalBookings")}
 										dot={{ fill: COLORS.primary, r: 4 }}
 									/>
 									<Line
@@ -272,7 +276,7 @@ export function StaffAnalytics() {
 										dataKey="completed"
 										stroke={COLORS.success}
 										strokeWidth={2}
-										name="Completed"
+										name={t("completedText")}
 										dot={{ fill: COLORS.success, r: 4 }}
 									/>
 								</LineChart>
@@ -285,8 +289,8 @@ export function StaffAnalytics() {
 			{/* Top Services */}
 			<Card>
 				<CardHeader>
-					<CardTitle>Top Services Handled</CardTitle>
-					<CardDescription>Most frequently booked services</CardDescription>
+					<CardTitle>{t("topServices")}</CardTitle>
+					<CardDescription>{t("topServicesDesc")}</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div className="w-full h-[300px]">
